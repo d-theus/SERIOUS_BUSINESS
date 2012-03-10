@@ -1,0 +1,20 @@
+C:\Users\Slowness\documents\visual studio 2010\Projects\SERIOUS_BUSINESS\SERIOUS_BUSINESS\bin\Debug\SERIOUS_BUSINESS.exe
+C:\Users\Slowness\documents\visual studio 2010\Projects\SERIOUS_BUSINESS\SERIOUS_BUSINESS\bin\Debug\SERIOUS_BUSINESS.pdb
+C:\Users\Slowness\documents\visual studio 2010\Projects\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Slowness\documents\visual studio 2010\Projects\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.FormLogin.resources
+C:\Users\Slowness\documents\visual studio 2010\Projects\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.Properties.Resources.resources
+C:\Users\Slowness\documents\visual studio 2010\Projects\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\Slowness\documents\visual studio 2010\Projects\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\Slowness\documents\visual studio 2010\Projects\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.exe
+C:\Users\Slowness\documents\visual studio 2010\Projects\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.pdb
+C:\Users\Slowness\documents\visual studio 2010\Projects\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.FormMain.resources
+E:\DB\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.exe
+E:\DB\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.pdb
+E:\DB\SERIOUS_BUSINESS\SERIOUS_BUSINESS\bin\Debug\SERIOUS_BUSINESS.exe
+E:\DB\SERIOUS_BUSINESS\SERIOUS_BUSINESS\bin\Debug\SERIOUS_BUSINESS.pdb
+E:\DB\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\ResolveAssemblyReference.cache
+E:\DB\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.FormLogin.resources
+E:\DB\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.FormMain.resources
+E:\DB\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.Properties.Resources.resources
+E:\DB\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\GenerateResource.read.1.tlog
+E:\DB\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\GenerateResource.write.1.tlog
