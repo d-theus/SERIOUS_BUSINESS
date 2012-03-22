@@ -8,13 +8,16 @@ C:\Users\Slowness\documents\visual studio 2010\Projects\SERIOUS_BUSINESS\SERIOUS
 C:\Users\Slowness\documents\visual studio 2010\Projects\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.exe
 C:\Users\Slowness\documents\visual studio 2010\Projects\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.pdb
 C:\Users\Slowness\documents\visual studio 2010\Projects\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.FormMain.resources
-E:\DB\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.exe
-E:\DB\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.pdb
-E:\DB\SERIOUS_BUSINESS\SERIOUS_BUSINESS\bin\Debug\SERIOUS_BUSINESS.exe
-E:\DB\SERIOUS_BUSINESS\SERIOUS_BUSINESS\bin\Debug\SERIOUS_BUSINESS.pdb
-E:\DB\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\ResolveAssemblyReference.cache
-E:\DB\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.FormLogin.resources
-E:\DB\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.FormMain.resources
-E:\DB\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.Properties.Resources.resources
-E:\DB\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\GenerateResource.read.1.tlog
-E:\DB\SERIOUS_BUSINESS\SERIOUS_BUSINESS\obj\x86\Debug\GenerateResource.write.1.tlog
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\bin\Debug\SERIOUS_BUSINESS.exe.config
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.exe
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.pdb
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\bin\Debug\Database1.mdf
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\bin\Debug\Database1_log.ldf
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\bin\Debug\SERIOUS_BUSINESS.exe
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\bin\Debug\SERIOUS_BUSINESS.pdb
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\obj\x86\Debug\ResolveAssemblyReference.cache
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.FormLogin.resources
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.FormMain.resources
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.Properties.Resources.resources
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\obj\x86\Debug\GenerateResource.read.1.tlog
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\obj\x86\Debug\GenerateResource.write.1.tlog

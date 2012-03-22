@@ -26,7 +26,7 @@ namespace SERIOUS_BUSINESS
                     this.Enabled = true;
                     break;
                 default:
-                    MessageBox.Show("Окно идентификации было закрыто");
+                    MessageBox.Show("Окно авторизации было закрыто");
                     break;
             }
         }
