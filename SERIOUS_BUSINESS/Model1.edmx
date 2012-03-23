@@ -4,11 +4,200 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl" Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
-        <EntityContainer Name="Model1TargetContainer" >
-        </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+    <Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="Model1StoreContainer">
+    <EntitySet Name="OrderSet" EntityType="Model1.Store.OrderSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="EmployeeSet" EntityType="Model1.Store.EmployeeSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ConsumerSet" EntityType="Model1.Store.ConsumerSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ItemCategorySet" EntityType="Model1.Store.ItemCategorySet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ItemSet" EntityType="Model1.Store.ItemSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="CheckupOrRepairSet" EntityType="Model1.Store.CheckupOrRepairSet" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PrintingSet" EntityType="Model1.Store.PrintingSet" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="OrderEmployee" Association="Model1.Store.OrderEmployee">
+      <End Role="Order" EntitySet="OrderSet" />
+      <End Role="Employee" EntitySet="EmployeeSet" />
+    </AssociationSet>
+    <AssociationSet Name="StoreItem" Association="Model1.Store.StoreItem">
+      <End Role="Store" EntitySet="ItemCategorySet" />
+      <End Role="Item" EntitySet="ItemSet" />
+    </AssociationSet>
+    <AssociationSet Name="CheckupOrRepairItem" Association="Model1.Store.CheckupOrRepairItem">
+      <End Role="CheckupOrRepair" EntitySet="CheckupOrRepairSet" />
+      <End Role="Item" EntitySet="ItemSet" />
+    </AssociationSet>
+    <AssociationSet Name="OrderItem" Association="Model1.Store.OrderItem">
+      <End Role="Order" EntitySet="OrderSet" />
+      <End Role="Item" EntitySet="ItemSet" />
+    </AssociationSet>
+    <AssociationSet Name="OrderCheckupOrRepair" Association="Model1.Store.OrderCheckupOrRepair">
+      <End Role="Order" EntitySet="OrderSet" />
+      <End Role="CheckupOrRepair" EntitySet="CheckupOrRepairSet" />
+    </AssociationSet>
+    <AssociationSet Name="OrderPrinting" Association="Model1.Store.OrderPrinting">
+      <End Role="Order" EntitySet="OrderSet" />
+      <End Role="Printing" EntitySet="PrintingSet" />
+    </AssociationSet>
+    <AssociationSet Name="ConsumerOrder" Association="Model1.Store.ConsumerOrder">
+      <End Role="Consumer" EntitySet="ConsumerSet" />
+      <End Role="Order" EntitySet="OrderSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="OrderSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="date" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="status" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Consumer_name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Consumer_phone" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EmployeeSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="apptment" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="login" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="password" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ConsumerSet">
+    <Key>
+      <PropertyRef Name="name" />
+      <PropertyRef Name="phone" />
+    </Key>
+    <Property Name="name" Type="nvarchar(max)" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="phone" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="email" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ItemCategorySet">
+    <Key>
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ItemSet">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="designation" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="purchasePrice" Type="float" Nullable="false" />
+    <Property Name="salePrice" Type="float" Nullable="false" />
+    <Property Name="storeResidue" Type="int" Nullable="false" />
+    <Property Name="demand" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Store_Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="CheckupOrRepair_orderID" Type="int" Nullable="false" />
+    <Property Name="Order_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="CheckupOrRepairSet">
+    <Key>
+      <PropertyRef Name="orderID" />
+    </Key>
+    <Property Name="orderID" Type="int" Nullable="false" />
+    <Property Name="isCheckupNeeded" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="isRepairNeeded" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="servicePrice" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Order_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PrintingSet">
+    <Key>
+      <PropertyRef Name="orderID" />
+    </Key>
+    <Property Name="orderID" Type="int" Nullable="false" />
+    <Property Name="count" Type="int" Nullable="false" />
+    <Property Name="format" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="isEditNeeded" Type="bit" Nullable="false" />
+    <Property Name="Order_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="OrderEmployee">
+    <End Role="Order" Type="Model1.Store.OrderSet" Multiplicity="1" />
+    <End Role="Employee" Type="Model1.Store.EmployeeSet" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="StoreItem">
+    <End Role="Store" Type="Model1.Store.ItemCategorySet" Multiplicity="1" />
+    <End Role="Item" Type="Model1.Store.ItemSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Store">
+        <PropertyRef Name="Name" />
+      </Principal>
+      <Dependent Role="Item">
+        <PropertyRef Name="Store_Name" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CheckupOrRepairItem">
+    <End Role="CheckupOrRepair" Type="Model1.Store.CheckupOrRepairSet" Multiplicity="1" />
+    <End Role="Item" Type="Model1.Store.ItemSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="CheckupOrRepair">
+        <PropertyRef Name="orderID" />
+      </Principal>
+      <Dependent Role="Item">
+        <PropertyRef Name="CheckupOrRepair_orderID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="OrderItem">
+    <End Role="Order" Type="Model1.Store.OrderSet" Multiplicity="1" />
+    <End Role="Item" Type="Model1.Store.ItemSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Item">
+        <PropertyRef Name="Order_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="OrderCheckupOrRepair">
+    <End Role="Order" Type="Model1.Store.OrderSet" Multiplicity="1" />
+    <End Role="CheckupOrRepair" Type="Model1.Store.CheckupOrRepairSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CheckupOrRepair">
+        <PropertyRef Name="Order_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="OrderPrinting">
+    <End Role="Order" Type="Model1.Store.OrderSet" Multiplicity="1" />
+    <End Role="Printing" Type="Model1.Store.PrintingSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Printing">
+        <PropertyRef Name="Order_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ConsumerOrder">
+    <End Role="Consumer" Type="Model1.Store.ConsumerSet" Multiplicity="1" />
+    <End Role="Order" Type="Model1.Store.OrderSet" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Consumer">
+        <PropertyRef Name="name" />
+        <PropertyRef Name="phone" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="Consumer_name" />
+        <PropertyRef Name="Consumer_phone" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
@@ -75,7 +264,15 @@
         </EntityType>
         <Association Name="OrderEmployee">
           <End Type="Model1.Order" Role="Order" Multiplicity="1" />
-          <End Type="Model1.Employee" Role="Employee" Multiplicity="*" />
+          <End Type="Model1.Employee" Role="Employee" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <EntityType Name="Consumer">
           <Key>
@@ -157,13 +354,127 @@
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
-      <Mapping xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs" Space="C-S">
-        <Alias Key="Model" Value="Model1" />
-        <Alias Key="Target" Value="Model1.Store" />
-        <EntityContainerMapping CdmEntityContainer="Model1Container" StorageEntityContainer="Model1TargetContainer">
-        </EntityContainerMapping>
-      </Mapping>
-    </edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="Model1StoreContainer" CdmEntityContainer="Model1Container">
+    <EntitySetMapping Name="OrderSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Order)">
+        <MappingFragment StoreEntitySet="OrderSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="status" ColumnName="status" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="EmployeeSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Employee)">
+        <MappingFragment StoreEntitySet="EmployeeSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="apptment" ColumnName="apptment" />
+          <ScalarProperty Name="login" ColumnName="login" />
+          <ScalarProperty Name="password" ColumnName="password" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ConsumerSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Consumer)">
+        <MappingFragment StoreEntitySet="ConsumerSet">
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="phone" ColumnName="phone" />
+          <ScalarProperty Name="email" ColumnName="email" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ItemCategorySet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.ItemCategory)">
+        <MappingFragment StoreEntitySet="ItemCategorySet">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ItemSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Item)">
+        <MappingFragment StoreEntitySet="ItemSet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="designation" ColumnName="designation" />
+          <ScalarProperty Name="purchasePrice" ColumnName="purchasePrice" />
+          <ScalarProperty Name="salePrice" ColumnName="salePrice" />
+          <ScalarProperty Name="storeResidue" ColumnName="storeResidue" />
+          <ScalarProperty Name="demand" ColumnName="demand" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CheckupOrRepairSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.CheckupOrRepair)">
+        <MappingFragment StoreEntitySet="CheckupOrRepairSet">
+          <ScalarProperty Name="orderID" ColumnName="orderID" />
+          <ScalarProperty Name="isCheckupNeeded" ColumnName="isCheckupNeeded" />
+          <ScalarProperty Name="isRepairNeeded" ColumnName="isRepairNeeded" />
+          <ScalarProperty Name="servicePrice" ColumnName="servicePrice" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PrintingSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.Printing)">
+        <MappingFragment StoreEntitySet="PrintingSet">
+          <ScalarProperty Name="orderID" ColumnName="orderID" />
+          <ScalarProperty Name="count" ColumnName="count" />
+          <ScalarProperty Name="format" ColumnName="format" />
+          <ScalarProperty Name="isEditNeeded" ColumnName="isEditNeeded" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="StoreItem" TypeName="Model1.StoreItem" StoreEntitySet="ItemSet">
+      <EndProperty Name="Store">
+        <ScalarProperty Name="Name" ColumnName="Store_Name" />
+      </EndProperty>
+      <EndProperty Name="Item">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="CheckupOrRepairItem" TypeName="Model1.CheckupOrRepairItem" StoreEntitySet="ItemSet">
+      <EndProperty Name="CheckupOrRepair">
+        <ScalarProperty Name="orderID" ColumnName="CheckupOrRepair_orderID" />
+      </EndProperty>
+      <EndProperty Name="Item">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="OrderItem" TypeName="Model1.OrderItem" StoreEntitySet="ItemSet">
+      <EndProperty Name="Order">
+        <ScalarProperty Name="Id" ColumnName="Order_Id" />
+      </EndProperty>
+      <EndProperty Name="Item">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="OrderCheckupOrRepair" TypeName="Model1.OrderCheckupOrRepair" StoreEntitySet="CheckupOrRepairSet">
+      <EndProperty Name="Order">
+        <ScalarProperty Name="Id" ColumnName="Order_Id" />
+      </EndProperty>
+      <EndProperty Name="CheckupOrRepair">
+        <ScalarProperty Name="orderID" ColumnName="orderID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="OrderPrinting" TypeName="Model1.OrderPrinting" StoreEntitySet="PrintingSet">
+      <EndProperty Name="Order">
+        <ScalarProperty Name="Id" ColumnName="Order_Id" />
+      </EndProperty>
+      <EndProperty Name="Printing">
+        <ScalarProperty Name="orderID" ColumnName="orderID" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ConsumerOrder" TypeName="Model1.ConsumerOrder" StoreEntitySet="OrderSet">
+      <EndProperty Name="Consumer">
+        <ScalarProperty Name="name" ColumnName="Consumer_name" />
+        <ScalarProperty Name="phone" ColumnName="Consumer_phone" />
+      </EndProperty>
+      <EndProperty Name="Order">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
@@ -213,8 +524,8 @@
           <ConnectorPoint PointX="6.375" PointY="6.4035953776041659" />
         </AssociationConnector>
         <AssociationConnector Association="Model1.ConsumerOrder">
-          <ConnectorPoint PointX="2" PointY="4.3939925130208337" />
-          <ConnectorPoint PointX="3" PointY="4.3939925130208337" />
+          <ConnectorPoint PointX="2" PointY="4.3939925130208328" />
+          <ConnectorPoint PointX="3" PointY="4.3939925130208328" />
         </AssociationConnector>
       </Diagram>
     </edmx:Diagrams>

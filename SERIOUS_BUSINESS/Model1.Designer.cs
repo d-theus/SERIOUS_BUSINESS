@@ -18,7 +18,7 @@ using System.Runtime.Serialization;
 [assembly: EdmSchemaAttribute()]
 #region EDM Relationship Metadata
 
-[assembly: EdmRelationshipAttribute("Model1", "OrderEmployee", "Order", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.Order), "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.Employee))]
+[assembly: EdmRelationshipAttribute("Model1", "OrderEmployee", "Order", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.Order), "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.Employee), true)]
 [assembly: EdmRelationshipAttribute("Model1", "StoreItem", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.ItemCategory), "Item", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.Item))]
 [assembly: EdmRelationshipAttribute("Model1", "CheckupOrRepairItem", "CheckupOrRepair", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.CheckupOrRepair), "Item", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.Item))]
 [assembly: EdmRelationshipAttribute("Model1", "OrderItem", "Order", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.Order), "Item", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.Item))]
@@ -1282,17 +1282,33 @@ namespace SERIOUS_BUSINESS
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("Model1", "OrderEmployee", "Employee")]
-        public EntityCollection<Employee> Employee
+        public Employee Employee
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Employee>("Model1.OrderEmployee", "Employee");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Employee>("Model1.OrderEmployee", "Employee").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Employee>("Model1.OrderEmployee", "Employee").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Employee> EmployeeReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Employee>("Model1.OrderEmployee", "Employee");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Employee>("Model1.OrderEmployee", "Employee", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Employee>("Model1.OrderEmployee", "Employee", value);
                 }
             }
         }
