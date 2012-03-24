@@ -21,8 +21,9 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("Model1", "StoreItem", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.ItemCategory), "Item", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.Item), true)]
 [assembly: EdmRelationshipAttribute("Model1", "ConsumerOrder", "Consumer", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.Consumer), "Order", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.Order), true)]
 [assembly: EdmRelationshipAttribute("Model1", "EmployeeOrder", "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.Employee), "Order", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.Order), true)]
-[assembly: EdmRelationshipAttribute("Model1", "OrderService", "Order", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.Order), "Service", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.Service), true)]
-[assembly: EdmRelationshipAttribute("Model1", "ItemSale", "Item", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.Item), "Sale", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.Sale), true)]
+[assembly: EdmRelationshipAttribute("Model1", "OrderService", "Order", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.Order), "Service", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.Position), true)]
+[assembly: EdmRelationshipAttribute("Model1", "AppointmentEmployee", "Appointment", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.Appointment), "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.Employee), true)]
+[assembly: EdmRelationshipAttribute("Model1", "ServiceItem", "Service", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.Position), "Item", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.Item), true)]
 
 #endregion
 
@@ -157,18 +158,34 @@ namespace SERIOUS_BUSINESS
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<Service> ServiceSet
+        public ObjectSet<Position> PositionSet
         {
             get
             {
-                if ((_ServiceSet == null))
+                if ((_PositionSet == null))
                 {
-                    _ServiceSet = base.CreateObjectSet<Service>("ServiceSet");
+                    _PositionSet = base.CreateObjectSet<Position>("PositionSet");
                 }
-                return _ServiceSet;
+                return _PositionSet;
             }
         }
-        private ObjectSet<Service> _ServiceSet;
+        private ObjectSet<Position> _PositionSet;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Appointment> AppointmentSet
+        {
+            get
+            {
+                if ((_AppointmentSet == null))
+                {
+                    _AppointmentSet = base.CreateObjectSet<Appointment>("AppointmentSet");
+                }
+                return _AppointmentSet;
+            }
+        }
+        private ObjectSet<Appointment> _AppointmentSet;
 
         #endregion
         #region AddTo Methods
@@ -214,11 +231,19 @@ namespace SERIOUS_BUSINESS
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the ServiceSet EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the PositionSet EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToServiceSet(Service service)
+        public void AddToPositionSet(Position position)
         {
-            base.AddObject("ServiceSet", service);
+            base.AddObject("PositionSet", position);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the AppointmentSet EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToAppointmentSet(Appointment appointment)
+        {
+            base.AddObject("AppointmentSet", appointment);
         }
 
         #endregion
@@ -232,30 +257,24 @@ namespace SERIOUS_BUSINESS
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="Model1", Name="CheckupOrRepair")]
+    [EdmEntityTypeAttribute(NamespaceName="Model1", Name="Appointment")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class CheckupOrRepair : Service
+    public partial class Appointment : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new CheckupOrRepair object.
+        /// Create a new Appointment object.
         /// </summary>
-        /// <param name="orderID">Initial value of the orderID property.</param>
-        /// <param name="price">Initial value of the Price property.</param>
         /// <param name="id">Initial value of the id property.</param>
-        /// <param name="isCheckupNeeded">Initial value of the isCheckupNeeded property.</param>
-        /// <param name="isRepairNeeded">Initial value of the isRepairNeeded property.</param>
-        public static CheckupOrRepair CreateCheckupOrRepair(global::System.Int32 orderID, global::System.String price, global::System.Int32 id, global::System.String isCheckupNeeded, global::System.String isRepairNeeded)
+        /// <param name="accessModifier">Initial value of the accessModifier property.</param>
+        public static Appointment CreateAppointment(global::System.Int32 id, global::System.Int16 accessModifier)
         {
-            CheckupOrRepair checkupOrRepair = new CheckupOrRepair();
-            checkupOrRepair.orderID = orderID;
-            checkupOrRepair.Price = price;
-            checkupOrRepair.id = id;
-            checkupOrRepair.isCheckupNeeded = isCheckupNeeded;
-            checkupOrRepair.isRepairNeeded = isRepairNeeded;
-            return checkupOrRepair;
+            Appointment appointment = new Appointment();
+            appointment.id = id;
+            appointment.accessModifier = accessModifier;
+            return appointment;
         }
 
         #endregion
@@ -264,53 +283,81 @@ namespace SERIOUS_BUSINESS
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String isCheckupNeeded
+        public global::System.Int32 id
         {
             get
             {
-                return _isCheckupNeeded;
+                return _id;
             }
             set
             {
-                OnisCheckupNeededChanging(value);
-                ReportPropertyChanging("isCheckupNeeded");
-                _isCheckupNeeded = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("isCheckupNeeded");
-                OnisCheckupNeededChanged();
+                if (_id != value)
+                {
+                    OnidChanging(value);
+                    ReportPropertyChanging("id");
+                    _id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("id");
+                    OnidChanged();
+                }
             }
         }
-        private global::System.String _isCheckupNeeded;
-        partial void OnisCheckupNeededChanging(global::System.String value);
-        partial void OnisCheckupNeededChanged();
+        private global::System.Int32 _id;
+        partial void OnidChanging(global::System.Int32 value);
+        partial void OnidChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String isRepairNeeded
+        public global::System.Int16 accessModifier
         {
             get
             {
-                return _isRepairNeeded;
+                return _accessModifier;
             }
             set
             {
-                OnisRepairNeededChanging(value);
-                ReportPropertyChanging("isRepairNeeded");
-                _isRepairNeeded = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("isRepairNeeded");
-                OnisRepairNeededChanged();
+                OnaccessModifierChanging(value);
+                ReportPropertyChanging("accessModifier");
+                _accessModifier = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("accessModifier");
+                OnaccessModifierChanged();
             }
         }
-        private global::System.String _isRepairNeeded;
-        partial void OnisRepairNeededChanging(global::System.String value);
-        partial void OnisRepairNeededChanged();
+        private global::System.Int16 _accessModifier;
+        partial void OnaccessModifierChanging(global::System.Int16 value);
+        partial void OnaccessModifierChanged();
 
         #endregion
     
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Model1", "AppointmentEmployee", "Employee")]
+        public EntityCollection<Employee> Employee
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Employee>("Model1.AppointmentEmployee", "Employee");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Employee>("Model1.AppointmentEmployee", "Employee", value);
+                }
+            }
+        }
+
+        #endregion
     }
     
     /// <summary>
@@ -486,17 +533,17 @@ namespace SERIOUS_BUSINESS
         /// </summary>
         /// <param name="id">Initial value of the id property.</param>
         /// <param name="name">Initial value of the name property.</param>
-        /// <param name="apptment">Initial value of the apptment property.</param>
         /// <param name="login">Initial value of the login property.</param>
         /// <param name="password">Initial value of the password property.</param>
-        public static Employee CreateEmployee(global::System.Int32 id, global::System.String name, global::System.String apptment, global::System.String login, global::System.String password)
+        /// <param name="aptID">Initial value of the aptID property.</param>
+        public static Employee CreateEmployee(global::System.Int32 id, global::System.String name, global::System.String login, global::System.String password, global::System.Int32 aptID)
         {
             Employee employee = new Employee();
             employee.id = id;
             employee.name = name;
-            employee.apptment = apptment;
             employee.login = login;
             employee.password = password;
+            employee.aptID = aptID;
             return employee;
         }
 
@@ -559,30 +606,6 @@ namespace SERIOUS_BUSINESS
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String apptment
-        {
-            get
-            {
-                return _apptment;
-            }
-            set
-            {
-                OnapptmentChanging(value);
-                ReportPropertyChanging("apptment");
-                _apptment = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("apptment");
-                OnapptmentChanged();
-            }
-        }
-        private global::System.String _apptment;
-        partial void OnapptmentChanging(global::System.String value);
-        partial void OnapptmentChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
         public global::System.String login
         {
             get
@@ -625,6 +648,30 @@ namespace SERIOUS_BUSINESS
         private global::System.String _password;
         partial void OnpasswordChanging(global::System.String value);
         partial void OnpasswordChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 aptID
+        {
+            get
+            {
+                return _aptID;
+            }
+            set
+            {
+                OnaptIDChanging(value);
+                ReportPropertyChanging("aptID");
+                _aptID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("aptID");
+                OnaptIDChanged();
+            }
+        }
+        private global::System.Int32 _aptID;
+        partial void OnaptIDChanging(global::System.Int32 value);
+        partial void OnaptIDChanged();
 
         #endregion
     
@@ -648,6 +695,44 @@ namespace SERIOUS_BUSINESS
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Order>("Model1.EmployeeOrder", "Order", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Model1", "AppointmentEmployee", "Appointment")]
+        public Appointment Appointment
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Appointment>("Model1.AppointmentEmployee", "Appointment").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Appointment>("Model1.AppointmentEmployee", "Appointment").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Appointment> AppointmentReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Appointment>("Model1.AppointmentEmployee", "Appointment");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Appointment>("Model1.AppointmentEmployee", "Appointment", value);
                 }
             }
         }
@@ -910,18 +995,18 @@ namespace SERIOUS_BUSINESS
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Model1", "ItemSale", "Sale")]
-        public EntityCollection<Sale> Sale
+        [EdmRelationshipNavigationPropertyAttribute("Model1", "ServiceItem", "Service")]
+        public EntityCollection<Position> Service
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Sale>("Model1.ItemSale", "Sale");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Position>("Model1.ServiceItem", "Service");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Sale>("Model1.ItemSale", "Sale", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Position>("Model1.ServiceItem", "Service", value);
                 }
             }
         }
@@ -942,12 +1027,12 @@ namespace SERIOUS_BUSINESS
         /// <summary>
         /// Create a new ItemCategory object.
         /// </summary>
-        /// <param name="name">Initial value of the Name property.</param>
+        /// <param name="name">Initial value of the name property.</param>
         /// <param name="id">Initial value of the id property.</param>
         public static ItemCategory CreateItemCategory(global::System.String name, global::System.Int32 id)
         {
             ItemCategory itemCategory = new ItemCategory();
-            itemCategory.Name = name;
+            itemCategory.name = name;
             itemCategory.id = id;
             return itemCategory;
         }
@@ -960,24 +1045,24 @@ namespace SERIOUS_BUSINESS
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String Name
+        public global::System.String name
         {
             get
             {
-                return _Name;
+                return _name;
             }
             set
             {
-                OnNameChanging(value);
-                ReportPropertyChanging("Name");
-                _Name = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("Name");
-                OnNameChanged();
+                OnnameChanging(value);
+                ReportPropertyChanging("name");
+                _name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("name");
+                OnnameChanged();
             }
         }
-        private global::System.String _Name;
-        partial void OnNameChanging(global::System.String value);
-        partial void OnNameChanged();
+        private global::System.String _name;
+        partial void OnnameChanging(global::System.String value);
+        partial void OnnameChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1277,17 +1362,17 @@ namespace SERIOUS_BUSINESS
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("Model1", "OrderService", "Service")]
-        public EntityCollection<Service> Service
+        public EntityCollection<Position> Service
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Service>("Model1.OrderService", "Service");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Position>("Model1.OrderService", "Service");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Service>("Model1.OrderService", "Service", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Position>("Model1.OrderService", "Service", value);
                 }
             }
         }
@@ -1298,34 +1383,28 @@ namespace SERIOUS_BUSINESS
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="Model1", Name="Printing")]
+    [EdmEntityTypeAttribute(NamespaceName="Model1", Name="Position")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class Printing : Sale
+    public partial class Position : EntityObject
     {
         #region Factory Method
     
         /// <summary>
-        /// Create a new Printing object.
+        /// Create a new Position object.
         /// </summary>
         /// <param name="orderID">Initial value of the orderID property.</param>
-        /// <param name="price">Initial value of the Price property.</param>
         /// <param name="id">Initial value of the id property.</param>
         /// <param name="count">Initial value of the count property.</param>
         /// <param name="itemID">Initial value of the itemID property.</param>
-        /// <param name="isEditNeeded">Initial value of the isEditNeeded property.</param>
-        /// <param name="format">Initial value of the format property.</param>
-        public static Printing CreatePrinting(global::System.Int32 orderID, global::System.String price, global::System.Int32 id, global::System.Int32 count, global::System.Int32 itemID, global::System.Boolean isEditNeeded, global::System.String format)
+        public static Position CreatePosition(global::System.Int32 orderID, global::System.Int32 id, global::System.Int32 count, global::System.Int32 itemID)
         {
-            Printing printing = new Printing();
-            printing.orderID = orderID;
-            printing.Price = price;
-            printing.id = id;
-            printing.count = count;
-            printing.itemID = itemID;
-            printing.isEditNeeded = isEditNeeded;
-            printing.format = format;
-            return printing;
+            Position position = new Position();
+            position.orderID = orderID;
+            position.id = id;
+            position.count = count;
+            position.itemID = itemID;
+            return position;
         }
 
         #endregion
@@ -1336,85 +1415,51 @@ namespace SERIOUS_BUSINESS
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Boolean isEditNeeded
+        public global::System.Int32 orderID
         {
             get
             {
-                return _isEditNeeded;
+                return _orderID;
             }
             set
             {
-                OnisEditNeededChanging(value);
-                ReportPropertyChanging("isEditNeeded");
-                _isEditNeeded = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("isEditNeeded");
-                OnisEditNeededChanged();
+                OnorderIDChanging(value);
+                ReportPropertyChanging("orderID");
+                _orderID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("orderID");
+                OnorderIDChanged();
             }
         }
-        private global::System.Boolean _isEditNeeded;
-        partial void OnisEditNeededChanging(global::System.Boolean value);
-        partial void OnisEditNeededChanged();
+        private global::System.Int32 _orderID;
+        partial void OnorderIDChanging(global::System.Int32 value);
+        partial void OnorderIDChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String format
+        public global::System.Int32 id
         {
             get
             {
-                return _format;
+                return _id;
             }
             set
             {
-                OnformatChanging(value);
-                ReportPropertyChanging("format");
-                _format = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("format");
-                OnformatChanged();
+                if (_id != value)
+                {
+                    OnidChanging(value);
+                    ReportPropertyChanging("id");
+                    _id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("id");
+                    OnidChanged();
+                }
             }
         }
-        private global::System.String _format;
-        partial void OnformatChanging(global::System.String value);
-        partial void OnformatChanged();
-
-        #endregion
-    
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="Model1", Name="Sale")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    [KnownTypeAttribute(typeof(Printing))]
-    public partial class Sale : Service
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new Sale object.
-        /// </summary>
-        /// <param name="orderID">Initial value of the orderID property.</param>
-        /// <param name="price">Initial value of the Price property.</param>
-        /// <param name="id">Initial value of the id property.</param>
-        /// <param name="count">Initial value of the count property.</param>
-        /// <param name="itemID">Initial value of the itemID property.</param>
-        public static Sale CreateSale(global::System.Int32 orderID, global::System.String price, global::System.Int32 id, global::System.Int32 count, global::System.Int32 itemID)
-        {
-            Sale sale = new Sale();
-            sale.orderID = orderID;
-            sale.Price = price;
-            sale.id = id;
-            sale.count = count;
-            sale.itemID = itemID;
-            return sale;
-        }
-
-        #endregion
-        #region Primitive Properties
+        private global::System.Int32 _id;
+        partial void OnidChanging(global::System.Int32 value);
+        partial void OnidChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1474,156 +1519,6 @@ namespace SERIOUS_BUSINESS
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Model1", "ItemSale", "Item")]
-        public Item Item
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("Model1.ItemSale", "Item").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("Model1.ItemSale", "Item").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Item> ItemReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("Model1.ItemSale", "Item");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Item>("Model1.ItemSale", "Item", value);
-                }
-            }
-        }
-
-        #endregion
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="Model1", Name="Service")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    [KnownTypeAttribute(typeof(Sale))]
-    [KnownTypeAttribute(typeof(CheckupOrRepair))]
-    public partial class Service : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new Service object.
-        /// </summary>
-        /// <param name="orderID">Initial value of the orderID property.</param>
-        /// <param name="price">Initial value of the Price property.</param>
-        /// <param name="id">Initial value of the id property.</param>
-        public static Service CreateService(global::System.Int32 orderID, global::System.String price, global::System.Int32 id)
-        {
-            Service service = new Service();
-            service.orderID = orderID;
-            service.Price = price;
-            service.id = id;
-            return service;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 orderID
-        {
-            get
-            {
-                return _orderID;
-            }
-            set
-            {
-                OnorderIDChanging(value);
-                ReportPropertyChanging("orderID");
-                _orderID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("orderID");
-                OnorderIDChanged();
-            }
-        }
-        private global::System.Int32 _orderID;
-        partial void OnorderIDChanging(global::System.Int32 value);
-        partial void OnorderIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Price
-        {
-            get
-            {
-                return _Price;
-            }
-            set
-            {
-                OnPriceChanging(value);
-                ReportPropertyChanging("Price");
-                _Price = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("Price");
-                OnPriceChanged();
-            }
-        }
-        private global::System.String _Price;
-        partial void OnPriceChanging(global::System.String value);
-        partial void OnPriceChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 id
-        {
-            get
-            {
-                return _id;
-            }
-            set
-            {
-                if (_id != value)
-                {
-                    OnidChanging(value);
-                    ReportPropertyChanging("id");
-                    _id = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("id");
-                    OnidChanged();
-                }
-            }
-        }
-        private global::System.Int32 _id;
-        partial void OnidChanging(global::System.Int32 value);
-        partial void OnidChanged();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("Model1", "OrderService", "Order")]
         public Order Order
         {
@@ -1652,6 +1547,44 @@ namespace SERIOUS_BUSINESS
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Order>("Model1.OrderService", "Order", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Model1", "ServiceItem", "Item")]
+        public Item Item
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("Model1.ServiceItem", "Item").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("Model1.ServiceItem", "Item").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Item> ItemReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("Model1.ServiceItem", "Item");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Item>("Model1.ServiceItem", "Item", value);
                 }
             }
         }
