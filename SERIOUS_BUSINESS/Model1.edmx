@@ -204,10 +204,6 @@
         <EntityContainer Name="Model1Container" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="OrderSet" EntityType="Model1.Order" />
           <EntitySet Name="EmployeeSet" EntityType="Model1.Employee" />
-          <AssociationSet Name="OrderEmployee" Association="Model1.OrderEmployee">
-            <End Role="Order" EntitySet="OrderSet" />
-            <End Role="Employee" EntitySet="EmployeeSet" />
-          </AssociationSet>
           <EntitySet Name="ConsumerSet" EntityType="Model1.Consumer" />
           <EntitySet Name="ItemCategorySet" EntityType="Model1.ItemCategory" />
           <EntitySet Name="ItemSet" EntityType="Model1.Item" />
@@ -215,140 +211,161 @@
             <End Role="Store" EntitySet="ItemCategorySet" />
             <End Role="Item" EntitySet="ItemSet" />
           </AssociationSet>
-          <EntitySet Name="CheckupOrRepairSet" EntityType="Model1.CheckupOrRepair" />
-          <AssociationSet Name="CheckupOrRepairItem" Association="Model1.CheckupOrRepairItem">
-            <End Role="CheckupOrRepair" EntitySet="CheckupOrRepairSet" />
-            <End Role="Item" EntitySet="ItemSet" />
-          </AssociationSet>
-          <EntitySet Name="PrintingSet" EntityType="Model1.Printing" />
-          <AssociationSet Name="OrderItem" Association="Model1.OrderItem">
-            <End Role="Order" EntitySet="OrderSet" />
-            <End Role="Item" EntitySet="ItemSet" />
-          </AssociationSet>
-          <AssociationSet Name="OrderCheckupOrRepair" Association="Model1.OrderCheckupOrRepair">
-            <End Role="Order" EntitySet="OrderSet" />
-            <End Role="CheckupOrRepair" EntitySet="CheckupOrRepairSet" />
-          </AssociationSet>
-          <AssociationSet Name="OrderPrinting" Association="Model1.OrderPrinting">
-            <End Role="Order" EntitySet="OrderSet" />
-            <End Role="Printing" EntitySet="PrintingSet" />
-          </AssociationSet>
+          <EntitySet Name="ServiceSet" EntityType="Model1.Service" />
           <AssociationSet Name="ConsumerOrder" Association="Model1.ConsumerOrder">
             <End Role="Consumer" EntitySet="ConsumerSet" />
             <End Role="Order" EntitySet="OrderSet" />
           </AssociationSet>
+          <AssociationSet Name="EmployeeOrder" Association="Model1.EmployeeOrder">
+            <End Role="Employee" EntitySet="EmployeeSet" />
+            <End Role="Order" EntitySet="OrderSet" />
+          </AssociationSet>
+          <AssociationSet Name="OrderService" Association="Model1.OrderService">
+            <End Role="Order" EntitySet="OrderSet" />
+            <End Role="Service" EntitySet="ServiceSet" />
+          </AssociationSet>
+          <AssociationSet Name="ItemSale" Association="Model1.ItemSale">
+            <End Role="Item" EntitySet="ItemSet" />
+            <End Role="Sale" EntitySet="ServiceSet" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Order">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Employee" Relationship="Model1.OrderEmployee" FromRole="Order" ToRole="Employee" />
-          <NavigationProperty Name="Item" Relationship="Model1.OrderItem" FromRole="Order" ToRole="Item" />
-          <NavigationProperty Name="CheckupOrRepair" Relationship="Model1.OrderCheckupOrRepair" FromRole="Order" ToRole="CheckupOrRepair" />
-          <NavigationProperty Name="Printing" Relationship="Model1.OrderPrinting" FromRole="Order" ToRole="Printing" />
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="date" Nullable="false" />
           <Property Type="String" Name="status" Nullable="false" />
+          <Property Type="Int32" Name="consID" Nullable="false" />
           <NavigationProperty Name="Consumer" Relationship="Model1.ConsumerOrder" FromRole="Order" ToRole="Consumer" />
+          <NavigationProperty Name="Employee" Relationship="Model1.EmployeeOrder" FromRole="Order" ToRole="Employee" />
+          <Property Type="Int32" Name="emplID" Nullable="false" />
+          <NavigationProperty Name="Service" Relationship="Model1.OrderService" FromRole="Order" ToRole="Service" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Order" Relationship="Model1.OrderEmployee" FromRole="Employee" ToRole="Order" />
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="name" Nullable="false" />
           <Property Type="String" Name="apptment" Nullable="false" />
           <Property Type="String" Name="login" Nullable="false" />
           <Property Type="String" Name="password" Nullable="false" />
+          <NavigationProperty Name="Order" Relationship="Model1.EmployeeOrder" FromRole="Employee" ToRole="Order" />
         </EntityType>
-        <Association Name="OrderEmployee">
-          <End Type="Model1.Order" Role="Order" Multiplicity="1" />
-          <End Type="Model1.Employee" Role="Employee" Multiplicity="1" />
-          <ReferentialConstraint>
-            <Principal Role="Order">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Employee">
-              <PropertyRef Name="Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="Consumer">
           <Key>
-            <PropertyRef Name="name" />
-            <PropertyRef Name="phone" />
+            <PropertyRef Name="id" />
           </Key>
           <Property Type="String" Name="name" Nullable="false" annotation:StoreGeneratedPattern="Identity" ConcurrencyMode="Fixed" />
           <Property Type="String" Name="phone" Nullable="false" ConcurrencyMode="Fixed" />
           <Property Type="String" Name="email" Nullable="false" />
+          <Property Type="Int32" Name="id" Nullable="false" />
           <NavigationProperty Name="Order" Relationship="Model1.ConsumerOrder" FromRole="Consumer" ToRole="Order" />
         </EntityType>
         <EntityType Name="ItemCategory" >
           <Key>
-            <PropertyRef Name="Name" />
+            <PropertyRef Name="id" />
           </Key>
           <NavigationProperty Name="Item" Relationship="Model1.StoreItem" FromRole="Store" ToRole="Item" />
           <Property Type="String" Name="Name" Nullable="false" />
+          <Property Type="Int32" Name="id" Nullable="false" />
         </EntityType>
         <EntityType Name="Item">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Store" Relationship="Model1.StoreItem" FromRole="Item" ToRole="Store" />
-          <NavigationProperty Name="CheckupOrRepair" Relationship="Model1.CheckupOrRepairItem" FromRole="Item" ToRole="CheckupOrRepair" />
-          <NavigationProperty Name="Order" Relationship="Model1.OrderItem" FromRole="Item" ToRole="Order" />
           <Property Type="String" Name="designation" Nullable="false" />
           <Property Type="Double" Name="purchasePrice" Nullable="false" />
           <Property Type="Double" Name="salePrice" Nullable="false" />
           <Property Type="Int32" Name="storeResidue" Nullable="false" />
           <Property Type="String" Name="demand" Nullable="false" />
+          <Property Type="Int32" Name="catID" Nullable="false" />
+          <NavigationProperty Name="Sale" Relationship="Model1.ItemSale" FromRole="Item" ToRole="Sale" />
         </EntityType>
         <Association Name="StoreItem">
           <End Type="Model1.ItemCategory" Role="Store" Multiplicity="1" />
           <End Type="Model1.Item" Role="Item" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Store">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Item">
+              <PropertyRef Name="catID" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
-        <EntityType Name="CheckupOrRepair">
-          <Key>
-            <PropertyRef Name="orderID" />
-          </Key>
-          <NavigationProperty Name="Item" Relationship="Model1.CheckupOrRepairItem" FromRole="CheckupOrRepair" ToRole="Item" />
-          <NavigationProperty Name="Order" Relationship="Model1.OrderCheckupOrRepair" FromRole="CheckupOrRepair" ToRole="Order" />
-          <Property Type="Int32" Name="orderID" Nullable="false" />
+        <EntityType Name="CheckupOrRepair" BaseType="Model1.Service">
           <Property Type="String" Name="isCheckupNeeded" Nullable="false" />
           <Property Type="String" Name="isRepairNeeded" Nullable="false" />
-          <Property Type="String" Name="servicePrice" Nullable="false" />
         </EntityType>
-        <Association Name="CheckupOrRepairItem">
-          <End Type="Model1.CheckupOrRepair" Role="CheckupOrRepair" Multiplicity="1" />
-          <End Type="Model1.Item" Role="Item" Multiplicity="*" />
-        </Association>
-        <EntityType Name="Printing" >
-          <Key>
-            <PropertyRef Name="orderID" />
-          </Key>
-          <NavigationProperty Name="Order" Relationship="Model1.OrderPrinting" FromRole="Printing" ToRole="Order" />
-          <Property Type="Int32" Name="orderID" Nullable="false" />
-          <Property Type="Int32" Name="count" Nullable="false" />
-          <Property Type="String" Name="format" Nullable="false" />
+        <EntityType Name="Printing" BaseType="Model1.Sale" >
           <Property Type="Boolean" Name="isEditNeeded" Nullable="false" />
+          <Property Type="String" Name="format" Nullable="false" />
         </EntityType>
-        <Association Name="OrderItem">
-          <End Type="Model1.Order" Role="Order" Multiplicity="1" />
-          <End Type="Model1.Item" Role="Item" Multiplicity="*" />
-        </Association>
-        <Association Name="OrderCheckupOrRepair">
-          <End Type="Model1.Order" Role="Order" Multiplicity="1" />
-          <End Type="Model1.CheckupOrRepair" Role="CheckupOrRepair" Multiplicity="*" />
-        </Association>
-        <Association Name="OrderPrinting">
-          <End Type="Model1.Order" Role="Order" Multiplicity="1" />
-          <End Type="Model1.Printing" Role="Printing" Multiplicity="*" />
-        </Association>
+        <EntityType Name="Service">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="orderID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Price" Nullable="false" />
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <NavigationProperty Name="Order" Relationship="Model1.OrderService" FromRole="Service" ToRole="Order" />
+        </EntityType>
+        <EntityType Name="Sale" BaseType="Model1.Service">
+          <Property Type="Int32" Name="count" Nullable="false" />
+          <Property Type="Int32" Name="itemID" Nullable="false" />
+          <NavigationProperty Name="Item" Relationship="Model1.ItemSale" FromRole="Sale" ToRole="Item" />
+        </EntityType>
         <Association Name="ConsumerOrder">
           <End Type="Model1.Consumer" Role="Consumer" Multiplicity="1" />
           <End Type="Model1.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Consumer">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="consID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EmployeeOrder">
+          <End Type="Model1.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="Model1.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="emplID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OrderService">
+          <End Type="Model1.Order" Role="Order" Multiplicity="1" />
+          <End Type="Model1.Service" Role="Service" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Service">
+              <PropertyRef Name="orderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ItemSale">
+          <End Type="Model1.Item" Role="Item" Multiplicity="1" />
+          <End Type="Model1.Sale" Role="Sale" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Item">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Sale">
+              <PropertyRef Name="itemID" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -359,7 +376,7 @@
     <EntitySetMapping Name="OrderSet">
       <EntityTypeMapping TypeName="IsTypeOf(Model1.Order)">
         <MappingFragment StoreEntitySet="OrderSet">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="id" ColumnName="Id" />
           <ScalarProperty Name="date" ColumnName="date" />
           <ScalarProperty Name="status" ColumnName="status" />
         </MappingFragment>
@@ -368,7 +385,7 @@
     <EntitySetMapping Name="EmployeeSet">
       <EntityTypeMapping TypeName="IsTypeOf(Model1.Employee)">
         <MappingFragment StoreEntitySet="EmployeeSet">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="id" ColumnName="Id" />
           <ScalarProperty Name="name" ColumnName="name" />
           <ScalarProperty Name="apptment" ColumnName="apptment" />
           <ScalarProperty Name="login" ColumnName="login" />
@@ -395,7 +412,7 @@
     <EntitySetMapping Name="ItemSet">
       <EntityTypeMapping TypeName="IsTypeOf(Model1.Item)">
         <MappingFragment StoreEntitySet="ItemSet">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="id" ColumnName="Id" />
           <ScalarProperty Name="designation" ColumnName="designation" />
           <ScalarProperty Name="purchasePrice" ColumnName="purchasePrice" />
           <ScalarProperty Name="salePrice" ColumnName="salePrice" />
@@ -404,75 +421,27 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="CheckupOrRepairSet">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.CheckupOrRepair)">
-        <MappingFragment StoreEntitySet="CheckupOrRepairSet">
-          <ScalarProperty Name="orderID" ColumnName="orderID" />
-          <ScalarProperty Name="isCheckupNeeded" ColumnName="isCheckupNeeded" />
-          <ScalarProperty Name="isRepairNeeded" ColumnName="isRepairNeeded" />
-          <ScalarProperty Name="servicePrice" ColumnName="servicePrice" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="PrintingSet">
-      <EntityTypeMapping TypeName="IsTypeOf(Model1.Printing)">
-        <MappingFragment StoreEntitySet="PrintingSet">
-          <ScalarProperty Name="orderID" ColumnName="orderID" />
-          <ScalarProperty Name="count" ColumnName="count" />
-          <ScalarProperty Name="format" ColumnName="format" />
-          <ScalarProperty Name="isEditNeeded" ColumnName="isEditNeeded" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <AssociationSetMapping Name="StoreItem" TypeName="Model1.StoreItem" StoreEntitySet="ItemSet">
       <EndProperty Name="Store">
         <ScalarProperty Name="Name" ColumnName="Store_Name" />
       </EndProperty>
       <EndProperty Name="Item">
-        <ScalarProperty Name="Id" ColumnName="Id" />
+        <ScalarProperty Name="id" ColumnName="Id" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="CheckupOrRepairItem" TypeName="Model1.CheckupOrRepairItem" StoreEntitySet="ItemSet">
-      <EndProperty Name="CheckupOrRepair">
-        <ScalarProperty Name="orderID" ColumnName="CheckupOrRepair_orderID" />
-      </EndProperty>
-      <EndProperty Name="Item">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="OrderItem" TypeName="Model1.OrderItem" StoreEntitySet="ItemSet">
-      <EndProperty Name="Order">
-        <ScalarProperty Name="Id" ColumnName="Order_Id" />
-      </EndProperty>
-      <EndProperty Name="Item">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="OrderCheckupOrRepair" TypeName="Model1.OrderCheckupOrRepair" StoreEntitySet="CheckupOrRepairSet">
-      <EndProperty Name="Order">
-        <ScalarProperty Name="Id" ColumnName="Order_Id" />
-      </EndProperty>
-      <EndProperty Name="CheckupOrRepair">
-        <ScalarProperty Name="orderID" ColumnName="orderID" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="OrderPrinting" TypeName="Model1.OrderPrinting" StoreEntitySet="PrintingSet">
-      <EndProperty Name="Order">
-        <ScalarProperty Name="Id" ColumnName="Order_Id" />
-      </EndProperty>
-      <EndProperty Name="Printing">
-        <ScalarProperty Name="orderID" ColumnName="orderID" />
-      </EndProperty>
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="ConsumerOrder" TypeName="Model1.ConsumerOrder" StoreEntitySet="OrderSet">
-      <EndProperty Name="Consumer">
-        <ScalarProperty Name="name" ColumnName="Consumer_name" />
-        <ScalarProperty Name="phone" ColumnName="Consumer_phone" />
-      </EndProperty>
-      <EndProperty Name="Order">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-    </AssociationSetMapping>
+          <EntitySetMapping Name="ServiceSet">
+            <EntityTypeMapping TypeName="IsTypeOf(Model1.CheckupOrRepair)" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+              <MappingFragment StoreEntitySet="CheckupOrRepairSet">
+                <ScalarProperty Name="isCheckupNeeded" ColumnName="isCheckupNeeded" />
+                <ScalarProperty Name="isRepairNeeded" ColumnName="isRepairNeeded" />
+              </MappingFragment>
+            </EntityTypeMapping>
+            <EntityTypeMapping TypeName="IsTypeOf(Model1.Printing)" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+              <MappingFragment StoreEntitySet="PrintingSet">
+                <ScalarProperty Name="isEditNeeded" ColumnName="isEditNeeded" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
@@ -491,42 +460,53 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram Name="Model1" >
-        <EntityTypeShape EntityType="Model1.Order" Width="1.5" PointX="3" PointY="4" Height="2.5571907552083326" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.Employee" Width="1.5" PointX="3" PointY="0.875" Height="2.172587890625" IsExpanded="true" />
-        <AssociationConnector Association="Model1.OrderEmployee">
-          <ConnectorPoint PointX="3.75" PointY="4" />
-          <ConnectorPoint PointX="3.75" PointY="3.047587890625" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="Model1.Consumer" Width="1.5" PointX="0.5" PointY="3" Height="1.7879850260416665" IsExpanded="true" />
-        <EntityTypeShape EntityType="Model1.ItemCategory" Width="1.5" PointX="6.75" PointY="0.5" Height="1.4033821614583335" />
-        <EntityTypeShape EntityType="Model1.Item" Width="1.5" PointX="6.75" PointY="2.5" Height="2.7494921874999996" />
+      <Diagram Name="Model1" ZoomLevel="73" >
+        <EntityTypeShape EntityType="Model1.Order" Width="1.5" PointX="3" PointY="3.375" Height="2.5571907552083326" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Employee" Width="1.5" PointX="3" PointY="0.5" Height="2.172587890625" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Consumer" Width="1.5" PointX="0.5" PointY="3.375" Height="1.9802864583333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.ItemCategory" Width="1.5" PointX="7.625" PointY="0.5" Height="1.59568359375" />
+        <EntityTypeShape EntityType="Model1.Item" Width="1.5" PointX="5.375" PointY="0.5" Height="2.7494921874999996" />
         <AssociationConnector Association="Model1.StoreItem">
-          <ConnectorPoint PointX="7.5" PointY="1.9033821614583335" />
-          <ConnectorPoint PointX="7.5" PointY="2.5" />
+          <ConnectorPoint PointX="7.625" PointY="1.2978417968749998" />
+          <ConnectorPoint PointX="6.875" PointY="1.2978417968749998" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="Model1.CheckupOrRepair" Width="1.5" PointX="9.375" PointY="4.625" Height="2.1725878906249996" />
-        <AssociationConnector Association="Model1.CheckupOrRepairItem">
-          <ConnectorPoint PointX="9.375" PointY="4.93724609375" />
-          <ConnectorPoint PointX="8.25" PointY="4.93724609375" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="Model1.Printing" Width="1.5" PointX="6.375" PointY="6.25" Height="1.9802864583333335" />
-        <AssociationConnector Association="Model1.OrderItem">
-          <ConnectorPoint PointX="4.5" PointY="4.62474609375" />
-          <ConnectorPoint PointX="6.75" PointY="4.62474609375" />
-        </AssociationConnector>
-        <AssociationConnector Association="Model1.OrderCheckupOrRepair">
-          <ConnectorPoint PointX="4.5" PointY="5.74974609375" />
-          <ConnectorPoint PointX="9.375" PointY="5.74974609375" />
-        </AssociationConnector>
-        <AssociationConnector Association="Model1.OrderPrinting">
-          <ConnectorPoint PointX="4.5" PointY="6.4035953776041659" />
-          <ConnectorPoint PointX="6.375" PointY="6.4035953776041659" />
-        </AssociationConnector>
+        <EntityTypeShape EntityType="Model1.CheckupOrRepair" Width="1.5" PointX="9.5" PointY="3.625" Height="1.4033821614583326" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Printing" Width="1.5" PointX="5.875" PointY="3.625" Height="1.4033821614583326" IsExpanded="true" />
+        <EntityTypeShape EntityType="Model1.Service" Width="1.5" PointX="8.25" PointY="5.5" Height="1.7879850260416657" />
+        <EntityTypeShape EntityType="Model1.Sale" Width="1.5" PointX="7.75" PointY="3.625" Height="1.5956835937499996" IsExpanded="true" />
+        <InheritanceConnector EntityType="Model1.Sale">
+          <ConnectorPoint PointX="9" PointY="5.5" />
+          <ConnectorPoint PointX="9" PointY="5.3742835937499995" />
+          <ConnectorPoint PointX="8.5" PointY="5.3742835937499995" />
+          <ConnectorPoint PointX="8.5" PointY="5.22068359375" />
+        </InheritanceConnector>
+        <InheritanceConnector EntityType="Model1.CheckupOrRepair">
+          <ConnectorPoint PointX="9" PointY="5.5" />
+          <ConnectorPoint PointX="9" PointY="5.3464" />
+          <ConnectorPoint PointX="10.25" PointY="5.3464" />
+          <ConnectorPoint PointX="10.25" PointY="5.0283821614583326" />
+        </InheritanceConnector>
         <AssociationConnector Association="Model1.ConsumerOrder">
-          <ConnectorPoint PointX="2" PointY="4.3939925130208328" />
-          <ConnectorPoint PointX="3" PointY="4.3939925130208328" />
+          <ConnectorPoint PointX="2" PointY="4.3651432291666667" />
+          <ConnectorPoint PointX="3" PointY="4.3651432291666667" />
         </AssociationConnector>
+        <AssociationConnector Association="Model1.EmployeeOrder">
+          <ConnectorPoint PointX="3.75" PointY="2.672587890625" />
+          <ConnectorPoint PointX="3.75" PointY="3.375" />
+        </AssociationConnector>
+        <AssociationConnector Association="Model1.OrderService">
+          <ConnectorPoint PointX="4.5" PointY="5.7160953776041659" />
+          <ConnectorPoint PointX="8.25" PointY="5.7160953776041659" />
+        </AssociationConnector>
+        <AssociationConnector Association="Model1.ItemSale">
+          <ConnectorPoint PointX="6.875" PointY="2.7038378906249996" />
+          <ConnectorPoint PointX="9.21875" PointY="2.7038378906249996" />
+          <ConnectorPoint PointX="9.21875" PointY="3.625" />
+        </AssociationConnector>
+        <InheritanceConnector EntityType="Model1.Printing">
+          <ConnectorPoint PointX="7.75" PointY="4.3266910807291659" />
+          <ConnectorPoint PointX="7.375" PointY="4.3266910807291659" />
+        </InheritanceConnector>
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
