@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+  <EntityContainer Name="Model1Container" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="OrderSet" EntityType="Model1.Order" />
+    <EntitySet Name="EmployeeSet" EntityType="Model1.Employee" />
+    <AssociationSet Name="OrderEmployee" Association="Model1.OrderEmployee">
+      <End Role="Order" EntitySet="OrderSet" />
+      <End Role="Employee" EntitySet="EmployeeSet" />
+    </AssociationSet>
+    <EntitySet Name="ConsumerSet" EntityType="Model1.Consumer" />
+    <AssociationSet Name="OrderConsumer" Association="Model1.OrderConsumer">
+      <End Role="Order" EntitySet="OrderSet" />
+      <End Role="Consumer" EntitySet="ConsumerSet" />
+    </AssociationSet>
+    <EntitySet Name="StoreSet" EntityType="Model1.Store" />
+    <EntitySet Name="ItemSet" EntityType="Model1.Item" />
+    <AssociationSet Name="StoreItem" Association="Model1.StoreItem">
+      <End Role="Store" EntitySet="StoreSet" />
+      <End Role="Item" EntitySet="ItemSet" />
+    </AssociationSet>
+    <EntitySet Name="CheckupOrRepairSet" EntityType="Model1.CheckupOrRepair" />
+    <AssociationSet Name="CheckupOrRepairItem" Association="Model1.CheckupOrRepairItem">
+      <End Role="CheckupOrRepair" EntitySet="CheckupOrRepairSet" />
+      <End Role="Item" EntitySet="ItemSet" />
+    </AssociationSet>
+    <EntitySet Name="PrintingSet" EntityType="Model1.Printing" />
+    <AssociationSet Name="OrderItem" Association="Model1.OrderItem">
+      <End Role="Order" EntitySet="OrderSet" />
+      <End Role="Item" EntitySet="ItemSet" />
+    </AssociationSet>
+    <AssociationSet Name="OrderCheckupOrRepair" Association="Model1.OrderCheckupOrRepair">
+      <End Role="Order" EntitySet="OrderSet" />
+      <End Role="CheckupOrRepair" EntitySet="CheckupOrRepairSet" />
+    </AssociationSet>
+    <AssociationSet Name="OrderPrinting" Association="Model1.OrderPrinting">
+      <End Role="Order" EntitySet="OrderSet" />
+      <End Role="Printing" EntitySet="PrintingSet" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Employee" Relationship="Model1.OrderEmployee" FromRole="Order" ToRole="Employee" />
+    <NavigationProperty Name="Consumer" Relationship="Model1.OrderConsumer" FromRole="Order" ToRole="Consumer" />
+    <NavigationProperty Name="Item" Relationship="Model1.OrderItem" FromRole="Order" ToRole="Item" />
+    <NavigationProperty Name="CheckupOrRepair" Relationship="Model1.OrderCheckupOrRepair" FromRole="Order" ToRole="CheckupOrRepair" />
+    <NavigationProperty Name="Printing" Relationship="Model1.OrderPrinting" FromRole="Order" ToRole="Printing" />
+  </EntityType>
+  <EntityType Name="Employee">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Order" Relationship="Model1.OrderEmployee" FromRole="Employee" ToRole="Order" />
+  </EntityType>
+  <Association Name="OrderEmployee">
+    <End Type="Model1.Order" Role="Order" Multiplicity="1" />
+    <End Type="Model1.Employee" Role="Employee" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Consumer">
+    <Key>
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Type="String" Name="Name" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Order" Relationship="Model1.OrderConsumer" FromRole="Consumer" ToRole="Order" />
+  </EntityType>
+  <Association Name="OrderConsumer">
+    <End Type="Model1.Order" Role="Order" Multiplicity="1" />
+    <End Type="Model1.Consumer" Role="Consumer" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Consumer">
+        <PropertyRef Name="Name" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="Store">
+    <NavigationProperty Name="Item" Relationship="Model1.StoreItem" FromRole="Store" ToRole="Item" />
+  </EntityType>
+  <EntityType Name="Item">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Store" Relationship="Model1.StoreItem" FromRole="Item" ToRole="Store" />
+    <NavigationProperty Name="CheckupOrRepair" Relationship="Model1.CheckupOrRepairItem" FromRole="Item" ToRole="CheckupOrRepair" />
+    <NavigationProperty Name="Order" Relationship="Model1.OrderItem" FromRole="Item" ToRole="Order" />
+  </EntityType>
+  <Association Name="StoreItem">
+    <End Type="Model1.Store" Role="Store" Multiplicity="1" />
+    <End Type="Model1.Item" Role="Item" Multiplicity="*" />
+  </Association>
+  <EntityType Name="CheckupOrRepair">
+    <NavigationProperty Name="Item" Relationship="Model1.CheckupOrRepairItem" FromRole="CheckupOrRepair" ToRole="Item" />
+    <NavigationProperty Name="Order" Relationship="Model1.OrderCheckupOrRepair" FromRole="CheckupOrRepair" ToRole="Order" />
+  </EntityType>
+  <Association Name="CheckupOrRepairItem">
+    <End Type="Model1.CheckupOrRepair" Role="CheckupOrRepair" Multiplicity="1" />
+    <End Type="Model1.Item" Role="Item" Multiplicity="*" />
+  </Association>
+  <EntityType Name="Printing">
+    <NavigationProperty Name="Order" Relationship="Model1.OrderPrinting" FromRole="Printing" ToRole="Order" />
+  </EntityType>
+  <Association Name="OrderItem">
+    <End Type="Model1.Order" Role="Order" Multiplicity="1" />
+    <End Type="Model1.Item" Role="Item" Multiplicity="*" />
+  </Association>
+  <Association Name="OrderCheckupOrRepair">
+    <End Type="Model1.Order" Role="Order" Multiplicity="1" />
+    <End Type="Model1.CheckupOrRepair" Role="CheckupOrRepair" Multiplicity="*" />
+  </Association>
+  <Association Name="OrderPrinting">
+    <End Type="Model1.Order" Role="Order" Multiplicity="1" />
+    <End Type="Model1.Printing" Role="Printing" Multiplicity="*" />
+  </Association>
+</Schema>
