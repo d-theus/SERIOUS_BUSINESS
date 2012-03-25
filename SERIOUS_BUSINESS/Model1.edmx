@@ -86,7 +86,6 @@
     <Property Name="purchasePrice" Type="float" Nullable="false" />
     <Property Name="salePrice" Type="float" Nullable="false" />
     <Property Name="storeResidue" Type="int" Nullable="false" />
-    <Property Name="demand" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Store_Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="CheckupOrRepair_orderID" Type="int" Nullable="false" />
     <Property Name="Order_Id" Type="int" Nullable="false" />
@@ -303,7 +302,6 @@
           <Property Type="Double" Name="purchasePrice" Nullable="false" />
           <Property Type="Double" Name="salePrice" Nullable="false" />
           <Property Type="Int32" Name="storeResidue" Nullable="false" />
-          <Property Type="String" Name="demand" Nullable="false" />
         </EntityType>
         <Association Name="StoreItem">
           <End Type="Model1.ItemCategory" Role="Store" Multiplicity="1" />
@@ -400,7 +398,6 @@
           <ScalarProperty Name="purchasePrice" ColumnName="purchasePrice" />
           <ScalarProperty Name="salePrice" ColumnName="salePrice" />
           <ScalarProperty Name="storeResidue" ColumnName="storeResidue" />
-          <ScalarProperty Name="demand" ColumnName="demand" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -500,24 +497,24 @@
         </AssociationConnector>
         <EntityTypeShape EntityType="Model1.Consumer" Width="1.5" PointX="0.5" PointY="3" Height="1.7879850260416665" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.ItemCategory" Width="1.5" PointX="6.75" PointY="0.5" Height="1.4033821614583335" />
-        <EntityTypeShape EntityType="Model1.Item" Width="1.5" PointX="6.75" PointY="2.5" Height="2.7494921874999996" />
+        <EntityTypeShape EntityType="Model1.Item" Width="1.5" PointX="6.75" PointY="2.5" Height="2.5571907552083326" />
         <AssociationConnector Association="Model1.StoreItem">
           <ConnectorPoint PointX="7.5" PointY="1.9033821614583335" />
           <ConnectorPoint PointX="7.5" PointY="2.5" />
         </AssociationConnector>
         <EntityTypeShape EntityType="Model1.CheckupOrRepair" Width="1.5" PointX="9.375" PointY="4.625" Height="2.1725878906249996" />
         <AssociationConnector Association="Model1.CheckupOrRepairItem">
-          <ConnectorPoint PointX="9.375" PointY="4.93724609375" />
-          <ConnectorPoint PointX="8.25" PointY="4.93724609375" />
+          <ConnectorPoint PointX="9.375" PointY="4.8410953776041659" />
+          <ConnectorPoint PointX="8.25" PointY="4.8410953776041659" />
         </AssociationConnector>
         <EntityTypeShape EntityType="Model1.Printing" Width="1.5" PointX="6.375" PointY="6.25" Height="1.9802864583333335" />
         <AssociationConnector Association="Model1.OrderItem">
-          <ConnectorPoint PointX="4.5" PointY="4.62474609375" />
-          <ConnectorPoint PointX="6.75" PointY="4.62474609375" />
+          <ConnectorPoint PointX="4.5" PointY="4.5285953776041659" />
+          <ConnectorPoint PointX="6.75" PointY="4.5285953776041659" />
         </AssociationConnector>
         <AssociationConnector Association="Model1.OrderCheckupOrRepair">
-          <ConnectorPoint PointX="4.5" PointY="5.74974609375" />
-          <ConnectorPoint PointX="9.375" PointY="5.74974609375" />
+          <ConnectorPoint PointX="4.5" PointY="5.6535953776041659" />
+          <ConnectorPoint PointX="9.375" PointY="5.6535953776041659" />
         </AssociationConnector>
         <AssociationConnector Association="Model1.OrderPrinting">
           <ConnectorPoint PointX="4.5" PointY="6.4035953776041659" />

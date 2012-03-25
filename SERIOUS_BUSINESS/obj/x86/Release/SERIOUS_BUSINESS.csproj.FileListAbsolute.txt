@@ -1,0 +1,13 @@
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\bin\Release\Database1.mdf
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\bin\Release\Database1_log.ldf
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\bin\Release\SERIOUS_BUSINESS.exe.config
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\bin\Release\SERIOUS_BUSINESS.exe
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\bin\Release\SERIOUS_BUSINESS.pdb
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\obj\x86\Release\ResolveAssemblyReference.cache
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\obj\x86\Release\SERIOUS_BUSINESS.FormLogin.resources
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\obj\x86\Release\SERIOUS_BUSINESS.FormMain.resources
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\obj\x86\Release\SERIOUS_BUSINESS.Properties.Resources.resources
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\obj\x86\Release\GenerateResource.read.1.tlog
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\obj\x86\Release\GenerateResource.write.1.tlog
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\obj\x86\Release\SERIOUS_BUSINESS.exe
+F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\obj\x86\Release\SERIOUS_BUSINESS.pdb

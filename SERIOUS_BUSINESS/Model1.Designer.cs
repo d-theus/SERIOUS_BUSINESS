@@ -804,8 +804,7 @@ namespace SERIOUS_BUSINESS
         /// <param name="purchasePrice">Initial value of the purchasePrice property.</param>
         /// <param name="salePrice">Initial value of the salePrice property.</param>
         /// <param name="storeResidue">Initial value of the storeResidue property.</param>
-        /// <param name="demand">Initial value of the demand property.</param>
-        public static Item CreateItem(global::System.Int32 id, global::System.String designation, global::System.Double purchasePrice, global::System.Double salePrice, global::System.Int32 storeResidue, global::System.String demand)
+        public static Item CreateItem(global::System.Int32 id, global::System.String designation, global::System.Double purchasePrice, global::System.Double salePrice, global::System.Int32 storeResidue)
         {
             Item item = new Item();
             item.Id = id;
@@ -813,7 +812,6 @@ namespace SERIOUS_BUSINESS
             item.purchasePrice = purchasePrice;
             item.salePrice = salePrice;
             item.storeResidue = storeResidue;
-            item.demand = demand;
             return item;
         }
 
@@ -942,30 +940,6 @@ namespace SERIOUS_BUSINESS
         private global::System.Int32 _storeResidue;
         partial void OnstoreResidueChanging(global::System.Int32 value);
         partial void OnstoreResidueChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String demand
-        {
-            get
-            {
-                return _demand;
-            }
-            set
-            {
-                OndemandChanging(value);
-                ReportPropertyChanging("demand");
-                _demand = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("demand");
-                OndemandChanged();
-            }
-        }
-        private global::System.String _demand;
-        partial void OndemandChanging(global::System.String value);
-        partial void OndemandChanged();
 
         #endregion
     

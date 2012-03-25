@@ -32,6 +32,7 @@ namespace SERIOUS_BUSINESS
 
                 if (!sr.EndOfStream) tb_login.Text = sr.ReadLine();
                 sr.Close();
+                tb_passwd.TabIndex = 1;
             }
             catch (Exception ex)
             {

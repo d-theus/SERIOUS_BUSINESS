@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 03/23/2012 10:39:52
+-- Date Created: 03/23/2012 14:10:49
 -- Generated from EDMX file: F:\Users\Slowness\Programming\DB\SERIOUS_BUSINESS\Model1.edmx
 -- --------------------------------------------------
 
@@ -110,7 +110,6 @@ CREATE TABLE [dbo].[ItemSet] (
     [purchasePrice] float  NOT NULL,
     [salePrice] float  NOT NULL,
     [storeResidue] int  NOT NULL,
-    [demand] nvarchar(max)  NOT NULL,
     [Store_Name] nvarchar(max)  NOT NULL,
     [CheckupOrRepair_orderID] int  NOT NULL,
     [Order_Id] int  NOT NULL
