@@ -3,39 +3,46 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.IO;
+using System.Linq;
+using System.Resources;
+using System.Text;
 using System.Windows.Forms;
-
 namespace SERIOUS_BUSINESS
 {
     public partial class FormLogin : Form
     {
-        public SERIOUS_BUSINESS.User resUser = new User("");
+        bool rememberChanged = false;
         public FormLogin()
         {
             InitializeComponent();
+            System.Data.SqlClient.SqlConnection dbConnection = new System.Data.SqlClient.SqlConnection(res.Settings.dbConn_DataSource +
+                                                                                                       "AttachDbFilename = " + res.Dynamic.path_app_res + "Database1.mdf;" +
+                                                                                                       res.Settings.dbConn_IntSecurity);
             try
             {
-                StreamReader sr = new StreamReader("../res/history.txt");
-                string saving;
-
-                if (!sr.EndOfStream)
+                dbConnection.Open();
+                ResXResourceReader rr = new ResXResourceReader(res.Dynamic.path_app_res + "Settings.resx");
+                var enr = rr.GetEnumerator();
+                while (enr.MoveNext()) 
                 {
-                    saving = sr.ReadLine();
-                    if (saving == "1")
-                        cb_remember.Checked = true;
-                    else
-                        cb_remember.Checked = false;
+                    string key = enr.Entry.Key.ToString();
+                    string val = enr.Entry.Value.ToString();
+                    if (key.Equals("last_user"))
+                    {
+                        tb_login.Text = val;
+                        if (val.Length != 0)
+                            cb_remember.Checked = true;
+                    }
                 }
-
-                if (!sr.EndOfStream) tb_login.Text = sr.ReadLine();
-                sr.Close();
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                dbConnection.Close();
             }
         }
 
@@ -43,26 +50,36 @@ namespace SERIOUS_BUSINESS
         {
             if (!String.IsNullOrEmpty(tb_login.Text) && !String.IsNullOrEmpty(tb_passwd.Text))
             {
-                resUser.name = tb_login.Text;
-                resUser.passwd = tb_passwd.Text;
+                if(rememberChanged)
+                {
                 try
                 {
-                    StreamWriter sw = new StreamWriter("../res/history.txt", false);
-                    if (cb_remember.Checked)
+                    ResXResourceSet rs = new ResXResourceSet(res.Dynamic.path_app_res + "Settings.resx");
+                    ResXResourceWriter rw = new ResXResourceWriter(res.Dynamic.path_app_res + "Settings.resx");
+                    var enr = rs.GetEnumerator();
+                    List<ResXDataNode> nodes = new List<ResXDataNode>();
+                    while (enr.MoveNext())
                     {
-                        sw.WriteLine("1");
-                        sw.WriteLine(resUser.name);
+                        if (!(enr.Entry.Key.ToString().Equals("last_user")))
+                            nodes.Add(new ResXDataNode(enr.Entry.Key.ToString(), enr.Entry.Value.ToString()));
+                        else
+                            if (cb_remember.Checked)
+                                nodes.Add(new ResXDataNode(enr.Entry.Key.ToString(), tb_login.Text));
+                            else
+                                nodes.Add(new ResXDataNode(enr.Entry.Key.ToString(), ""));
                     }
-                    else
+                    foreach (var entry in nodes)
                     {
-                        sw.WriteLine("0");
+
+                        rw.AddResource(entry);
                     }
-                    sw.Close();
-                }
+                    rw.Close();
+                    }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
+            }
                 DialogResult = DialogResult.OK;
                 return;
             }
@@ -79,6 +96,11 @@ namespace SERIOUS_BUSINESS
             {
                 DialogResult = DialogResult.Abort;
             }
+        }
+
+        private void cb_remember_CheckedChanged(object sender, EventArgs e)
+        {
+            rememberChanged = true;
         }
 
     }

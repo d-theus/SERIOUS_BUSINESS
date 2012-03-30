@@ -11,7 +11,6 @@ namespace SERIOUS_BUSINESS
 {
     public partial class FormMain : Form
     {
-        User user;
         public FormMain()
         {
             InitializeComponent();
@@ -21,8 +20,6 @@ namespace SERIOUS_BUSINESS
             switch (res)
             {
                 case DialogResult.OK:
-                    this.user = formLogin.resUser;
-                    //try sign in
                     this.Enabled = true;
                     break;
                 default:
