@@ -12,7 +12,7 @@ namespace SERIOUS_BUSINESS
 {
     public partial class FormMain : Form
     {
-        public Employee currentUser;
+        public User currentUser;
         public FormMain()
         {
             InitializeComponent();
@@ -23,6 +23,8 @@ namespace SERIOUS_BUSINESS
             {
                 case DialogResult.OK:
                     this.Enabled = true;
+                    this.currentUser = formLogin.usr;
+                    this.Text = currentUser.login + " - PHOTOLOLO";
                     break;
                 default:
                     MessageBox.Show("Окно авторизации было закрыто");

@@ -13,6 +13,7 @@ namespace SERIOUS_BUSINESS
     public partial class FormLogin : Form
     {
         bool rememberChanged = false;
+        public User usr;
         public FormLogin()
         {
             InitializeComponent();
@@ -22,7 +23,7 @@ namespace SERIOUS_BUSINESS
             try
             {
                 dbConnection.Open();
-                ResXResourceReader rr = new ResXResourceReader(res.Dynamic.path_app_res + "Settings.resx");
+                ResXResourceReader rr = new ResXResourceReader(res.Dynamic.path_app_res + "Dynamic.resx");
                 var enr = rr.GetEnumerator();
                 while (enr.MoveNext()) 
                 {
@@ -54,8 +55,10 @@ namespace SERIOUS_BUSINESS
                 {
                 try
                 {
-                    ResXResourceSet rs = new ResXResourceSet(res.Dynamic.path_app_res + "Settings.resx");
-                    ResXResourceWriter rw = new ResXResourceWriter(res.Dynamic.path_app_res + "Settings.resx");
+
+#region History file interacting
+                    ResXResourceSet rs = new ResXResourceSet(res.Dynamic.path_app_res + "Dynamic.resx");
+                    ResXResourceWriter rw = new ResXResourceWriter(res.Dynamic.path_app_res + "Dynamic.resx");
                     var enr = rs.GetEnumerator();
                     List<ResXDataNode> nodes = new List<ResXDataNode>();
                     while (enr.MoveNext())
@@ -66,21 +69,22 @@ namespace SERIOUS_BUSINESS
                             if (cb_remember.Checked)
                                 nodes.Add(new ResXDataNode(enr.Entry.Key.ToString(), tb_login.Text));
                             else
-                                nodes.Add(new ResXDataNode(enr.Entry.Key.ToString(), ""));
+                                nodes.Add(new ResXDataNode(enr.Entry.Key.ToString(), enr.Entry.Value.ToString()));
                     }
                     foreach (var entry in nodes)
                     {
-
                         rw.AddResource(entry);
                     }
                     rw.Close();
-                    }
+#endregion
+                }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
                 }
             }
                 DialogResult = DialogResult.OK;
+                usr = new User(tb_login.Text, (int)Access_Modifiers.acc_director);
                 return;
             }
             else

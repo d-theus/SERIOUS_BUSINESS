@@ -63,6 +63,15 @@ namespace SERIOUS_BUSINESS.res {
         /// <summary>
         ///   Looks up a localized string similar to .
         /// </summary>
+        internal static string last_user {
+            get {
+                return ResourceManager.GetString("last_user", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
         internal static string path_app_res {
             get {
                 return ResourceManager.GetString("path_app_res", resourceCulture);

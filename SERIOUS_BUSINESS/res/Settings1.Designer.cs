@@ -77,14 +77,5 @@ namespace SERIOUS_BUSINESS.res {
                 return ResourceManager.GetString("dbConn_IntSecurity", resourceCulture);
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        internal static string last_user {
-            get {
-                return ResourceManager.GetString("last_user", resourceCulture);
-            }
-        }
     }
 }

@@ -18,25 +18,25 @@ namespace SERIOUS_BUSINESS
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+#region resources interaction
             string appRootPath = System.Text.RegularExpressions.Regex.Split(Application.StartupPath, "bin")[0];
-
             ResXResourceSet resRs = new ResXResourceSet(appRootPath + @"res\Dynamic.resx");
-            bool firstLaunch = false;
             var enr = resRs.GetEnumerator();
+            List<ResXDataNode> nodes = new List<ResXDataNode>();
             while (enr.MoveNext())
             {
-                if (enr.Entry.Value.ToString().Length == 0)
-                {
-                    firstLaunch = true;
-                }
+                if (enr.Entry.Key.ToString().Equals("path_app_root") && (enr.Entry.Value.ToString().Length == 0))
+                    nodes.Add(new ResXDataNode(enr.Entry.Key.ToString(), appRootPath));
+                else if (enr.Entry.Key.ToString().Equals("path_app_res") && (enr.Entry.Value.ToString().Length == 0))
+                    nodes.Add(new ResXDataNode(enr.Entry.Key.ToString(), appRootPath + @"res\"));
+                else nodes.Add(new ResXDataNode(enr.Entry.Key.ToString(), enr.Entry.Value.ToString()));
             }
-            if (firstLaunch)
-            {
-                ResXResourceWriter resWr = new ResXResourceWriter(appRootPath + @"res\Dynamic.resx");
-                resWr.AddResource("path_app_root", appRootPath);
-                resWr.AddResource("path_app_res", appRootPath + @"res\");
-                resWr.Close();
-            }
+
+            ResXResourceWriter resWr = new ResXResourceWriter(appRootPath + @"res\Dynamic.resx");
+            foreach (var entry in nodes)
+                resWr.AddResource(entry);
+            resWr.Close();
+#endregion
             FormMain formMain = new FormMain();
             formMain.Hide();
             Application.Run(formMain);
