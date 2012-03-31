@@ -181,8 +181,9 @@
             this.ClientSize = new System.Drawing.Size(326, 262);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "FormEditCategories";
-            this.Text = "Услуги";
+            this.Text = "Товары и параметры";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

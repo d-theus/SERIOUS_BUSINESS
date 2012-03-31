@@ -125,6 +125,7 @@
             this.редактированиеПароляToolStripMenuItem.Name = "редактированиеПароляToolStripMenuItem";
             this.редактированиеПароляToolStripMenuItem.Size = new System.Drawing.Size(206, 22);
             this.редактированиеПароляToolStripMenuItem.Text = "Редактирование данных";
+            this.редактированиеПароляToolStripMenuItem.Click += new System.EventHandler(this.редактированиеПароляToolStripMenuItem_Click);
             // 
             // выходToolStripMenuItem1
             // 

@@ -160,6 +160,7 @@
             this.Controls.Add(this.tn_cancel);
             this.Controls.Add(this.btn_ok);
             this.Controls.Add(this.label1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "FormEditItem";
             this.Text = "Услуга\\товар";
             this.ResumeLayout(false);

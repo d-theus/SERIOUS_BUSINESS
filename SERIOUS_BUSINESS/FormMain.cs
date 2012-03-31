@@ -32,5 +32,11 @@ namespace SERIOUS_BUSINESS
             Application.Exit();
         }
 
+        private void редактированиеПароляToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormEditEmpl emplDlg = new FormEditEmpl();
+            emplDlg.ShowDialog();
+        }
+
     }
 }

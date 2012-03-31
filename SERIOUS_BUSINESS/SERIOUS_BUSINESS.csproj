@@ -70,6 +70,12 @@
     <Compile Include="FormEditCategories.Designer.cs">
       <DependentUpon>FormEditCategories.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormEditEmpl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEditEmpl.Designer.cs">
+      <DependentUpon>FormEditEmpl.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormEditItem.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -125,6 +131,9 @@
     <EmbeddedResource Include="FormEditCategories.resx">
       <DependentUpon>FormEditCategories.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormEditEmpl.resx">
+      <DependentUpon>FormEditEmpl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormEditItem.resx">
       <DependentUpon>FormEditItem.cs</DependentUpon>
     </EmbeddedResource>
@@ -178,13 +187,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="res\Database1.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="res\Database1_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>Database1.mdf</DependentUpon>
-    </Content>
     <Content Include="Model1.edmx.sql" />
     <Content Include="res\Model1.edmx.sql" />
   </ItemGroup>
