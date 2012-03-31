@@ -120,10 +120,10 @@
   <data name="dbConn_DataSource" xml:space="preserve">
     <value>Data Source = .\SQLEXPRESS;</value>
   </data>
-  <data name="last_user" xml:space="preserve">
-    <value />
-  </data>
   <data name="dbConn_IntSecurity" xml:space="preserve">
     <value>Integrated Security = SSPI;</value>
+  </data>
+  <data name="last_user" xml:space="preserve">
+    <value />
   </data>
 </root>

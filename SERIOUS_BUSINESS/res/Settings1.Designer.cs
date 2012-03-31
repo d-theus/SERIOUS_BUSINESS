@@ -79,7 +79,7 @@ namespace SERIOUS_BUSINESS.res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to yes.
+        ///   Looks up a localized string similar to .
         /// </summary>
         internal static string last_user {
             get {
