@@ -5,12 +5,12 @@ using System.Text;
 
 namespace SERIOUS_BUSINESS
 {
-    enum Access_Modifiers { acc_none, acc_director, acc_administrator, acc_storewk, acc_mgr }; 
-    class User : res.Employee
+    enum Access_Modifiers : int  { acc_none = 0, acc_director, acc_administrator, acc_storewk, acc_mgr }; 
+    public class User
     {
         public int accessModifier;
         public string login;
-        User(string _login, int _accessModifier)
+        public User(string _login, int _accessModifier)
         {
             login = _login;
             accessModifier = _accessModifier;
