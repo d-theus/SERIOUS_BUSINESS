@@ -20,16 +20,23 @@ namespace SERIOUS_BUSINESS
 
             string appRootPath = System.Text.RegularExpressions.Regex.Split(Application.StartupPath, "bin")[0];
 
-            ResXResourceReader resRd = new ResXResourceReader(appRootPath + @"Dynamic.resx");
-
-            if (resRd.ToString().Length == 0)
+            ResXResourceSet resRs = new ResXResourceSet(appRootPath + @"res\Dynamic.resx");
+            bool firstLaunch = false;
+            var enr = resRs.GetEnumerator();
+            while (enr.MoveNext())
             {
-                ResXResourceWriter resWr = new ResXResourceWriter(appRootPath + @"Dynamic.resx");
+                if (enr.Entry.Value.ToString().Length == 0)
+                {
+                    firstLaunch = true;
+                }
+            }
+            if (firstLaunch)
+            {
+                ResXResourceWriter resWr = new ResXResourceWriter(appRootPath + @"res\Dynamic.resx");
                 resWr.AddResource("path_app_root", appRootPath);
-                resWr.AddResource("path_app_res", appRootPath + @"\res\");
+                resWr.AddResource("path_app_res", appRootPath + @"res\");
                 resWr.Close();
             }
-
             FormMain formMain = new FormMain();
             formMain.Hide();
             Application.Run(formMain);

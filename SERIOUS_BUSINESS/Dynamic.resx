@@ -117,13 +117,10 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="dbConn_DataSource" xml:space="preserve">
-    <value>Data Source = .\SQLEXPRESS;</value>
+  <data name="path_app_root" xml:space="preserve">
+    <value>C:\Users\Slowness\Programming\SERIOUS_BUSINESS\SERIOUS_BUSINESS\</value>
   </data>
-  <data name="last_user" xml:space="preserve">
-    <value />
-  </data>
-  <data name="dbConn_IntSecurity" xml:space="preserve">
-    <value>Integrated Security = SSPI;</value>
+  <data name="path_app_res" xml:space="preserve">
+    <value>C:\Users\Slowness\Programming\SERIOUS_BUSINESS\SERIOUS_BUSINESS\\res\</value>
   </data>
 </root>

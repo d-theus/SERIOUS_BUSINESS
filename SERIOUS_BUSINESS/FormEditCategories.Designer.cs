@@ -31,16 +31,16 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tb_name = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rb_binary = new System.Windows.Forms.RadioButton();
+            this.rb_text = new System.Windows.Forms.RadioButton();
+            this.rb_numeric = new System.Windows.Forms.RadioButton();
             this.btn_addPar = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.cmb_cat = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.btn_addCat = new System.Windows.Forms.Button();
             this.tb_catName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.btn_addCat = new System.Windows.Forms.Button();
-            this.rb_numeric = new System.Windows.Forms.RadioButton();
-            this.rb_text = new System.Windows.Forms.RadioButton();
-            this.rb_binary = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -77,6 +77,39 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Добавить новый параметр";
+            // 
+            // rb_binary
+            // 
+            this.rb_binary.AutoSize = true;
+            this.rb_binary.Location = new System.Drawing.Point(174, 110);
+            this.rb_binary.Name = "rb_binary";
+            this.rb_binary.Size = new System.Drawing.Size(77, 17);
+            this.rb_binary.TabIndex = 7;
+            this.rb_binary.TabStop = true;
+            this.rb_binary.Text = "Двоичный";
+            this.rb_binary.UseVisualStyleBackColor = true;
+            // 
+            // rb_text
+            // 
+            this.rb_text.AutoSize = true;
+            this.rb_text.Location = new System.Drawing.Point(87, 110);
+            this.rb_text.Name = "rb_text";
+            this.rb_text.Size = new System.Drawing.Size(81, 17);
+            this.rb_text.TabIndex = 6;
+            this.rb_text.TabStop = true;
+            this.rb_text.Text = "Текстовый";
+            this.rb_text.UseVisualStyleBackColor = true;
+            // 
+            // rb_numeric
+            // 
+            this.rb_numeric.AutoSize = true;
+            this.rb_numeric.Location = new System.Drawing.Point(6, 110);
+            this.rb_numeric.Name = "rb_numeric";
+            this.rb_numeric.Size = new System.Drawing.Size(75, 17);
+            this.rb_numeric.TabIndex = 5;
+            this.rb_numeric.TabStop = true;
+            this.rb_numeric.Text = "Числовой";
+            this.rb_numeric.UseVisualStyleBackColor = true;
             // 
             // btn_addPar
             // 
@@ -116,6 +149,15 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Добавить новый тип товаров";
             // 
+            // btn_addCat
+            // 
+            this.btn_addCat.Location = new System.Drawing.Point(255, 43);
+            this.btn_addCat.Name = "btn_addCat";
+            this.btn_addCat.Size = new System.Drawing.Size(41, 23);
+            this.btn_addCat.TabIndex = 2;
+            this.btn_addCat.Text = "+";
+            this.btn_addCat.UseVisualStyleBackColor = true;
+            // 
             // tb_catName
             // 
             this.tb_catName.Location = new System.Drawing.Point(7, 43);
@@ -131,48 +173,6 @@
             this.label3.Size = new System.Drawing.Size(57, 13);
             this.label3.TabIndex = 0;
             this.label3.Text = "Название";
-            // 
-            // btn_addCat
-            // 
-            this.btn_addCat.Location = new System.Drawing.Point(255, 43);
-            this.btn_addCat.Name = "btn_addCat";
-            this.btn_addCat.Size = new System.Drawing.Size(41, 23);
-            this.btn_addCat.TabIndex = 2;
-            this.btn_addCat.Text = "+";
-            this.btn_addCat.UseVisualStyleBackColor = true;
-            // 
-            // rb_numeric
-            // 
-            this.rb_numeric.AutoSize = true;
-            this.rb_numeric.Location = new System.Drawing.Point(6, 110);
-            this.rb_numeric.Name = "rb_numeric";
-            this.rb_numeric.Size = new System.Drawing.Size(75, 17);
-            this.rb_numeric.TabIndex = 5;
-            this.rb_numeric.TabStop = true;
-            this.rb_numeric.Text = "Числовой";
-            this.rb_numeric.UseVisualStyleBackColor = true;
-            // 
-            // rb_text
-            // 
-            this.rb_text.AutoSize = true;
-            this.rb_text.Location = new System.Drawing.Point(87, 110);
-            this.rb_text.Name = "rb_text";
-            this.rb_text.Size = new System.Drawing.Size(81, 17);
-            this.rb_text.TabIndex = 6;
-            this.rb_text.TabStop = true;
-            this.rb_text.Text = "Текстовый";
-            this.rb_text.UseVisualStyleBackColor = true;
-            // 
-            // rb_binary
-            // 
-            this.rb_binary.AutoSize = true;
-            this.rb_binary.Location = new System.Drawing.Point(174, 110);
-            this.rb_binary.Name = "rb_binary";
-            this.rb_binary.Size = new System.Drawing.Size(77, 17);
-            this.rb_binary.TabIndex = 7;
-            this.rb_binary.TabStop = true;
-            this.rb_binary.Text = "Двоичный";
-            this.rb_binary.UseVisualStyleBackColor = true;
             // 
             // FormEditCategories
             // 
