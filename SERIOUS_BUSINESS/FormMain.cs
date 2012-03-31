@@ -6,11 +6,13 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using SERIOUS_BUSINESS.res;
 
 namespace SERIOUS_BUSINESS
 {
     public partial class FormMain : Form
     {
+        public Employee currentUser;
         public FormMain()
         {
             InitializeComponent();
