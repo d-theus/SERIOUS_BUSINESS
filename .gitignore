@@ -1,0 +1,8 @@
+*.exe
+*.mdf
+*.dll
+*.sql
+*.o
+*.obj
+*/bin/*
+*/obj/*
