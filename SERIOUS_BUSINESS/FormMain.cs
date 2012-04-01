@@ -24,7 +24,7 @@ namespace SERIOUS_BUSINESS
                 case DialogResult.OK:
                     this.Enabled = true;
                     this.currentUser = formLogin.usr;
-                    this.Text = currentUser.login + " - PHOTOLOLO";
+                    this.Text = Settings.app_title +  " - " + currentUser.login;
                     break;
                 default:
                     MessageBox.Show("Окно авторизации было закрыто");
@@ -38,9 +38,40 @@ namespace SERIOUS_BUSINESS
 
         private void редактированиеПароляToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormEditEmpl emplDlg = new FormEditEmpl();
+            FormEditEmplOne emplDlg = new FormEditEmplOne(this.currentUser);
             emplDlg.ShowDialog();
         }
+
+        private void оформитьНовыйToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormEditOrder formOrder = new FormEditOrder();
+            formOrder.ShowDialog();
+        }
+
+        private void оформитьПоступлениеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormIntake formIntake = new FormIntake();
+            formIntake.ShowDialog();
+        }
+
+        private void категорииИХарактеристикиТоваровToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormEditCategories formCat = new FormEditCategories();
+            formCat.ShowDialog();
+        }
+
+        private void новыйToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormNewEmpl newEmpl = new FormNewEmpl();
+            newEmpl.ShowDialog();
+        }
+
+        private void редактироватьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormEditEmplSet formEmplSet = new FormEditEmplSet();
+            formEmplSet.ShowDialog();
+        }
+
 
     }
 }

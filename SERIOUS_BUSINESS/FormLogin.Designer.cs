@@ -126,7 +126,7 @@
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "FormLogin";
-            this.Text = "PhotoAdm 0.001";
+            this.Text = res.Settings.app_title + " - login";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormLogin_FormClosing);
             this.ResumeLayout(false);
             this.PerformLayout();

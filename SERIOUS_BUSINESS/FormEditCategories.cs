@@ -16,5 +16,11 @@ namespace SERIOUS_BUSINESS
             InitializeComponent();
         }
 
+        private void btn_cancel_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.Cancel;
+            this.Close();
+        }
+
     }
 }

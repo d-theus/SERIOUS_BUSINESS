@@ -9,14 +9,14 @@ using System.Windows.Forms;
 
 namespace SERIOUS_BUSINESS
 {
-    public partial class FormEditItem : Form
+    public partial class FormNewEmpl : Form
     {
-        public FormEditItem()
+        public FormNewEmpl()
         {
             InitializeComponent();
         }
 
-        private void tn_cancel_Click(object sender, EventArgs e)
+        private void btn_cancel_Click(object sender, EventArgs e)
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();

@@ -68,6 +68,7 @@
             this.tn_cancel.TabIndex = 2;
             this.tn_cancel.Text = "Отмена";
             this.tn_cancel.UseVisualStyleBackColor = true;
+            this.tn_cancel.Click += new System.EventHandler(this.tn_cancel_Click);
             // 
             // cb_type
             // 

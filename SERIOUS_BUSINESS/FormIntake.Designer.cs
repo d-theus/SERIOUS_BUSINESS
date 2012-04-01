@@ -117,6 +117,7 @@
             this.button2.TabIndex = 8;
             this.button2.Text = "Отмена";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // FormIntake
             // 
@@ -134,7 +135,7 @@
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "FormIntake";
-            this.Text = "FormIntake";
+            this.Text = "Новые поступления";
             ((System.ComponentModel.ISupportInitialize)(this.num_count)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

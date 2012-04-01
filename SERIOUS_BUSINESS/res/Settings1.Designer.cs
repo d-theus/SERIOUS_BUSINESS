@@ -61,6 +61,15 @@ namespace SERIOUS_BUSINESS.res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SBPS.
+        /// </summary>
+        internal static string app_title {
+            get {
+                return ResourceManager.GetString("app_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Data Source =(local);.
         /// </summary>
         internal static string dbConn_DataSource {

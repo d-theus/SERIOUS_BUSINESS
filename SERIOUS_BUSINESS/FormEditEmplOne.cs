@@ -9,18 +9,17 @@ using System.Windows.Forms;
 
 namespace SERIOUS_BUSINESS
 {
-    public partial class FormEditItem : Form
+    public partial class FormEditEmplOne : Form
     {
-        public FormEditItem()
+        public FormEditEmplOne(User _usr)
         {
             InitializeComponent();
+            lbl_username.Text = _usr.login;
         }
 
-        private void tn_cancel_Click(object sender, EventArgs e)
+        private void btn_close_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.Cancel;
             this.Close();
         }
-
     }
 }
