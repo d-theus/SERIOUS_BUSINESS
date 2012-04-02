@@ -367,6 +367,7 @@
           <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int16" Name="accessModifier" Nullable="false" />
           <NavigationProperty Name="Employee" Relationship="Model1.AppointmentEmployee" FromRole="Appointment" ToRole="Employee" />
+          <Property Type="String" Name="name" Nullable="false" />
         </EntityType>
         <Association Name="AppointmentEmployee">
           <End Type="Model1.Appointment" Role="Appointment" Multiplicity="1" />
@@ -545,10 +546,10 @@
           <ConnectorPoint PointX="4.5" PointY="4.8362939453125" />
           <ConnectorPoint PointX="5.375" PointY="4.8362939453125" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="Model1.Appointment" Width="1.5" PointX="0.5" PointY="0.5" Height="1.4033821614583333" />
+        <EntityTypeShape EntityType="Model1.Appointment" Width="1.5" PointX="0.5" PointY="0.5" Height="1.787985026041667" />
         <AssociationConnector Association="Model1.AppointmentEmployee">
-          <ConnectorPoint PointX="2" PointY="1.297841796875" />
-          <ConnectorPoint PointX="3" PointY="1.297841796875" />
+          <ConnectorPoint PointX="2" PointY="1.3939925130208335" />
+          <ConnectorPoint PointX="3" PointY="1.3939925130208335" />
         </AssociationConnector>
         <AssociationConnector Association="Model1.ServiceItem">
           <ConnectorPoint PointX="6.125" PointY="3.75" />
