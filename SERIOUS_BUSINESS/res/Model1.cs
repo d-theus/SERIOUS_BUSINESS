@@ -24,7 +24,10 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("Model1", "OrderService", "Order", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.res.Order), "Service", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.res.Position), true)]
 [assembly: EdmRelationshipAttribute("Model1", "AppointmentEmployee", "Appointment", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.res.Appointment), "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.res.Employee), true)]
 [assembly: EdmRelationshipAttribute("Model1", "ServiceItem", "Service", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.res.Position), "Item", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.res.Item), true)]
-[assembly: EdmRelationshipAttribute("Model1", "ItemCategoryItemParameter", "ItemCategory", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.res.ItemCategory), "ItemParameter", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.res.ItemParameter), true)]
+[assembly: EdmRelationshipAttribute("Model1", "ParameterCategoryItemParameter", "ParameterCategory", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.res.ParameterCategory), "ItemParameter", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.res.ItemParameter), true)]
+[assembly: EdmRelationshipAttribute("Model1", "ItemItemParameter", "Item", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.res.Item), "ItemParameter", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.res.ItemParameter), true)]
+[assembly: EdmRelationshipAttribute("Model1", "ItemCategorypureJoin_IPcats", "ItemCategory", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.res.ItemCategory), "pureJoin_IPcats", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.res.pureJoin_IPcats), true)]
+[assembly: EdmRelationshipAttribute("Model1", "ParameterCategorypureJoin_IPcats", "ParameterCategory", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.res.ParameterCategory), "pureJoin_IPcats", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.res.pureJoin_IPcats), true)]
 
 #endregion
 
@@ -203,6 +206,38 @@ namespace SERIOUS_BUSINESS.res
             }
         }
         private ObjectSet<ItemParameter> _ItemParameterSet;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<ParameterCategory> ParameterCategorySet
+        {
+            get
+            {
+                if ((_ParameterCategorySet == null))
+                {
+                    _ParameterCategorySet = base.CreateObjectSet<ParameterCategory>("ParameterCategorySet");
+                }
+                return _ParameterCategorySet;
+            }
+        }
+        private ObjectSet<ParameterCategory> _ParameterCategorySet;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<pureJoin_IPcats> pureJoin_IPcatsSet
+        {
+            get
+            {
+                if ((_pureJoin_IPcatsSet == null))
+                {
+                    _pureJoin_IPcatsSet = base.CreateObjectSet<pureJoin_IPcats>("pureJoin_IPcatsSet");
+                }
+                return _pureJoin_IPcatsSet;
+            }
+        }
+        private ObjectSet<pureJoin_IPcats> _pureJoin_IPcatsSet;
 
         #endregion
         #region AddTo Methods
@@ -269,6 +304,22 @@ namespace SERIOUS_BUSINESS.res
         public void AddToItemParameterSet(ItemParameter itemParameter)
         {
             base.AddObject("ItemParameterSet", itemParameter);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ParameterCategorySet EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToParameterCategorySet(ParameterCategory parameterCategory)
+        {
+            base.AddObject("ParameterCategorySet", parameterCategory);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the pureJoin_IPcatsSet EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddTopureJoin_IPcatsSet(pureJoin_IPcats pureJoin_IPcats)
+        {
+            base.AddObject("pureJoin_IPcatsSet", pureJoin_IPcats);
         }
 
         #endregion
@@ -1061,6 +1112,28 @@ namespace SERIOUS_BUSINESS.res
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Model1", "ItemItemParameter", "ItemParameter")]
+        public EntityCollection<ItemParameter> ItemParameter
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ItemParameter>("Model1.ItemItemParameter", "ItemParameter");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ItemParameter>("Model1.ItemItemParameter", "ItemParameter", value);
+                }
+            }
+        }
 
         #endregion
     }
@@ -1174,18 +1247,18 @@ namespace SERIOUS_BUSINESS.res
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Model1", "ItemCategoryItemParameter", "ItemParameter")]
-        public EntityCollection<ItemParameter> ItemParameter
+        [EdmRelationshipNavigationPropertyAttribute("Model1", "ItemCategorypureJoin_IPcats", "pureJoin_IPcats")]
+        public EntityCollection<pureJoin_IPcats> pureJoin_IPcats
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ItemParameter>("Model1.ItemCategoryItemParameter", "ItemParameter");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<pureJoin_IPcats>("Model1.ItemCategorypureJoin_IPcats", "pureJoin_IPcats");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ItemParameter>("Model1.ItemCategoryItemParameter", "ItemParameter", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<pureJoin_IPcats>("Model1.ItemCategorypureJoin_IPcats", "pureJoin_IPcats", value);
                 }
             }
         }
@@ -1210,15 +1283,17 @@ namespace SERIOUS_BUSINESS.res
         /// <param name="valueDbl">Initial value of the valueDbl property.</param>
         /// <param name="valueBool">Initial value of the valueBool property.</param>
         /// <param name="valueTxt">Initial value of the valueTxt property.</param>
-        /// <param name="catID">Initial value of the catID property.</param>
-        public static ItemParameter CreateItemParameter(global::System.Int32 id, global::System.Double valueDbl, global::System.Boolean valueBool, global::System.String valueTxt, global::System.Int32 catID)
+        /// <param name="itemID">Initial value of the itemID property.</param>
+        /// <param name="paramCatID">Initial value of the paramCatID property.</param>
+        public static ItemParameter CreateItemParameter(global::System.Int32 id, global::System.Double valueDbl, global::System.Boolean valueBool, global::System.String valueTxt, global::System.Int32 itemID, global::System.Int32 paramCatID)
         {
             ItemParameter itemParameter = new ItemParameter();
             itemParameter.id = id;
             itemParameter.valueDbl = valueDbl;
             itemParameter.valueBool = valueBool;
             itemParameter.valueTxt = valueTxt;
-            itemParameter.catID = catID;
+            itemParameter.itemID = itemID;
+            itemParameter.paramCatID = paramCatID;
             return itemParameter;
         }
 
@@ -1329,24 +1404,48 @@ namespace SERIOUS_BUSINESS.res
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 catID
+        public global::System.Int32 itemID
         {
             get
             {
-                return _catID;
+                return _itemID;
             }
             set
             {
-                OncatIDChanging(value);
-                ReportPropertyChanging("catID");
-                _catID = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("catID");
-                OncatIDChanged();
+                OnitemIDChanging(value);
+                ReportPropertyChanging("itemID");
+                _itemID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("itemID");
+                OnitemIDChanged();
             }
         }
-        private global::System.Int32 _catID;
-        partial void OncatIDChanging(global::System.Int32 value);
-        partial void OncatIDChanged();
+        private global::System.Int32 _itemID;
+        partial void OnitemIDChanging(global::System.Int32 value);
+        partial void OnitemIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 paramCatID
+        {
+            get
+            {
+                return _paramCatID;
+            }
+            set
+            {
+                OnparamCatIDChanging(value);
+                ReportPropertyChanging("paramCatID");
+                _paramCatID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("paramCatID");
+                OnparamCatIDChanged();
+            }
+        }
+        private global::System.Int32 _paramCatID;
+        partial void OnparamCatIDChanging(global::System.Int32 value);
+        partial void OnparamCatIDChanged();
 
         #endregion
     
@@ -1358,16 +1457,16 @@ namespace SERIOUS_BUSINESS.res
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Model1", "ItemCategoryItemParameter", "ItemCategory")]
-        public ItemCategory ItemCategory
+        [EdmRelationshipNavigationPropertyAttribute("Model1", "ParameterCategoryItemParameter", "ParameterCategory")]
+        public ParameterCategory ParameterCategory
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ItemCategory>("Model1.ItemCategoryItemParameter", "ItemCategory").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ParameterCategory>("Model1.ParameterCategoryItemParameter", "ParameterCategory").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ItemCategory>("Model1.ItemCategoryItemParameter", "ItemCategory").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ParameterCategory>("Model1.ParameterCategoryItemParameter", "ParameterCategory").Value = value;
             }
         }
         /// <summary>
@@ -1375,17 +1474,55 @@ namespace SERIOUS_BUSINESS.res
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<ItemCategory> ItemCategoryReference
+        public EntityReference<ParameterCategory> ParameterCategoryReference
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ItemCategory>("Model1.ItemCategoryItemParameter", "ItemCategory");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ParameterCategory>("Model1.ParameterCategoryItemParameter", "ParameterCategory");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<ItemCategory>("Model1.ItemCategoryItemParameter", "ItemCategory", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<ParameterCategory>("Model1.ParameterCategoryItemParameter", "ParameterCategory", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Model1", "ItemItemParameter", "Item")]
+        public Item Item
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("Model1.ItemItemParameter", "Item").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("Model1.ItemItemParameter", "Item").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<Item> ItemReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("Model1.ItemItemParameter", "Item");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Item>("Model1.ItemItemParameter", "Item", value);
                 }
             }
         }
@@ -1656,6 +1793,160 @@ namespace SERIOUS_BUSINESS.res
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="Model1", Name="ParameterCategory")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class ParameterCategory : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new ParameterCategory object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="name">Initial value of the name property.</param>
+        /// <param name="itmCatId">Initial value of the itmCatId property.</param>
+        public static ParameterCategory CreateParameterCategory(global::System.Int32 id, global::System.String name, global::System.Int32 itmCatId)
+        {
+            ParameterCategory parameterCategory = new ParameterCategory();
+            parameterCategory.Id = id;
+            parameterCategory.name = name;
+            parameterCategory.itmCatId = itmCatId;
+            return parameterCategory;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                OnnameChanging(value);
+                ReportPropertyChanging("name");
+                _name = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("name");
+                OnnameChanged();
+            }
+        }
+        private global::System.String _name;
+        partial void OnnameChanging(global::System.String value);
+        partial void OnnameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 itmCatId
+        {
+            get
+            {
+                return _itmCatId;
+            }
+            set
+            {
+                OnitmCatIdChanging(value);
+                ReportPropertyChanging("itmCatId");
+                _itmCatId = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("itmCatId");
+                OnitmCatIdChanged();
+            }
+        }
+        private global::System.Int32 _itmCatId;
+        partial void OnitmCatIdChanging(global::System.Int32 value);
+        partial void OnitmCatIdChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Model1", "ParameterCategoryItemParameter", "ItemParameter")]
+        public EntityCollection<ItemParameter> ItemParameter
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ItemParameter>("Model1.ParameterCategoryItemParameter", "ItemParameter");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ItemParameter>("Model1.ParameterCategoryItemParameter", "ItemParameter", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Model1", "ParameterCategorypureJoin_IPcats", "pureJoin_IPcats")]
+        public EntityCollection<pureJoin_IPcats> pureJoin_IPcats
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<pureJoin_IPcats>("Model1.ParameterCategorypureJoin_IPcats", "pureJoin_IPcats");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<pureJoin_IPcats>("Model1.ParameterCategorypureJoin_IPcats", "pureJoin_IPcats", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Model1", Name="Position")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -1858,6 +2149,169 @@ namespace SERIOUS_BUSINESS.res
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Item>("Model1.ServiceItem", "Item", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="Model1", Name="pureJoin_IPcats")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class pureJoin_IPcats : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new pureJoin_IPcats object.
+        /// </summary>
+        /// <param name="iCID">Initial value of the ICID property.</param>
+        /// <param name="pCID">Initial value of the PCID property.</param>
+        public static pureJoin_IPcats CreatepureJoin_IPcats(global::System.Int32 iCID, global::System.Int32 pCID)
+        {
+            pureJoin_IPcats pureJoin_IPcats = new pureJoin_IPcats();
+            pureJoin_IPcats.ICID = iCID;
+            pureJoin_IPcats.PCID = pCID;
+            return pureJoin_IPcats;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ICID
+        {
+            get
+            {
+                return _ICID;
+            }
+            set
+            {
+                if (_ICID != value)
+                {
+                    OnICIDChanging(value);
+                    ReportPropertyChanging("ICID");
+                    _ICID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ICID");
+                    OnICIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ICID;
+        partial void OnICIDChanging(global::System.Int32 value);
+        partial void OnICIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 PCID
+        {
+            get
+            {
+                return _PCID;
+            }
+            set
+            {
+                if (_PCID != value)
+                {
+                    OnPCIDChanging(value);
+                    ReportPropertyChanging("PCID");
+                    _PCID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("PCID");
+                    OnPCIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _PCID;
+        partial void OnPCIDChanging(global::System.Int32 value);
+        partial void OnPCIDChanged();
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Model1", "ItemCategorypureJoin_IPcats", "ItemCategory")]
+        public ItemCategory ItemCategory
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ItemCategory>("Model1.ItemCategorypureJoin_IPcats", "ItemCategory").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ItemCategory>("Model1.ItemCategorypureJoin_IPcats", "ItemCategory").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<ItemCategory> ItemCategoryReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ItemCategory>("Model1.ItemCategorypureJoin_IPcats", "ItemCategory");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<ItemCategory>("Model1.ItemCategorypureJoin_IPcats", "ItemCategory", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Model1", "ParameterCategorypureJoin_IPcats", "ParameterCategory")]
+        public ParameterCategory ParameterCategory
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ParameterCategory>("Model1.ParameterCategorypureJoin_IPcats", "ParameterCategory").Value;
+            }
+            set
+            {
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ParameterCategory>("Model1.ParameterCategorypureJoin_IPcats", "ParameterCategory").Value = value;
+            }
+        }
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [BrowsableAttribute(false)]
+        [DataMemberAttribute()]
+        public EntityReference<ParameterCategory> ParameterCategoryReference
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<ParameterCategory>("Model1.ParameterCategorypureJoin_IPcats", "ParameterCategory");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<ParameterCategory>("Model1.ParameterCategorypureJoin_IPcats", "ParameterCategory", value);
                 }
             }
         }
