@@ -41,8 +41,6 @@
             this.btn_addCat = new System.Windows.Forms.Button();
             this.tb_catName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.btn_ok = new System.Windows.Forms.Button();
-            this.btn_cancel = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -176,32 +174,11 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Название";
             // 
-            // btn_ok
-            // 
-            this.btn_ok.Location = new System.Drawing.Point(167, 239);
-            this.btn_ok.Name = "btn_ok";
-            this.btn_ok.Size = new System.Drawing.Size(75, 23);
-            this.btn_ok.TabIndex = 4;
-            this.btn_ok.Text = "ОК";
-            this.btn_ok.UseVisualStyleBackColor = true;
-            // 
-            // btn_cancel
-            // 
-            this.btn_cancel.Location = new System.Drawing.Point(248, 239);
-            this.btn_cancel.Name = "btn_cancel";
-            this.btn_cancel.Size = new System.Drawing.Size(75, 23);
-            this.btn_cancel.TabIndex = 5;
-            this.btn_cancel.Text = "Отмена";
-            this.btn_cancel.UseVisualStyleBackColor = true;
-            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
-            // 
             // FormEditCategories
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(326, 262);
-            this.Controls.Add(this.btn_cancel);
-            this.Controls.Add(this.btn_ok);
+            this.ClientSize = new System.Drawing.Size(322, 238);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
@@ -230,7 +207,5 @@
         private System.Windows.Forms.RadioButton rb_text;
         private System.Windows.Forms.RadioButton rb_numeric;
         private System.Windows.Forms.Button btn_addCat;
-        private System.Windows.Forms.Button btn_ok;
-        private System.Windows.Forms.Button btn_cancel;
     }
 }
