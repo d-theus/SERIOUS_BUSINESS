@@ -69,6 +69,7 @@
         <MappingFragment StoreEntitySet="AppointmentSet">
           <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="accessModifier" ColumnName="accessModifier" />
+          <ScalarProperty Name="name" ColumnName="name" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -79,7 +80,25 @@
           <ScalarProperty Name="valueDbl" ColumnName="valueDbl" />
           <ScalarProperty Name="valueBool" ColumnName="valueBool" />
           <ScalarProperty Name="valueTxt" ColumnName="valueTxt" />
-          <ScalarProperty Name="catID" ColumnName="catID" />
+          <ScalarProperty Name="itemID" ColumnName="itemID" />
+          <ScalarProperty Name="paramCatID" ColumnName="paramCatID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ParameterCategorySet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.ParameterCategory)">
+        <MappingFragment StoreEntitySet="ParameterCategorySet">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="itmCatId" ColumnName="itmCatId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="pureJoin_IPcatsSet">
+      <EntityTypeMapping TypeName="IsTypeOf(Model1.pureJoin_IPcats)">
+        <MappingFragment StoreEntitySet="pureJoin_IPcatsSet">
+          <ScalarProperty Name="ICID" ColumnName="ICID" />
+          <ScalarProperty Name="PCID" ColumnName="PCID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
