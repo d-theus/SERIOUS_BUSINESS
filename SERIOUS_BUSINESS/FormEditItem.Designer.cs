@@ -29,17 +29,16 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.btn_ok = new System.Windows.Forms.Button();
-            this.tn_cancel = new System.Windows.Forms.Button();
             this.cb_type = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
             this.tb_designation = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.pb_purchPrice = new System.Windows.Forms.TextBox();
+            this.tb_purchPrice = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.tb_salePrice = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
+            this.btn_add = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -50,24 +49,6 @@
             this.label1.Size = new System.Drawing.Size(26, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Тип";
-            // 
-            // btn_ok
-            // 
-            this.btn_ok.Location = new System.Drawing.Point(49, 184);
-            this.btn_ok.Name = "btn_ok";
-            this.btn_ok.Size = new System.Drawing.Size(75, 23);
-            this.btn_ok.TabIndex = 1;
-            this.btn_ok.Text = "ОК";
-            this.btn_ok.UseVisualStyleBackColor = true;
-            // 
-            // tn_cancel
-            // 
-            this.tn_cancel.Location = new System.Drawing.Point(130, 184);
-            this.tn_cancel.Name = "tn_cancel";
-            this.tn_cancel.Size = new System.Drawing.Size(75, 23);
-            this.tn_cancel.TabIndex = 2;
-            this.tn_cancel.Text = "Отмена";
-            this.tn_cancel.UseVisualStyleBackColor = true;
             // 
             // cb_type
             // 
@@ -102,12 +83,12 @@
             this.label3.TabIndex = 6;
             this.label3.Text = "Стоимость закупки";
             // 
-            // pb_purchPrice
+            // tb_purchPrice
             // 
-            this.pb_purchPrice.Location = new System.Drawing.Point(12, 119);
-            this.pb_purchPrice.Name = "pb_purchPrice";
-            this.pb_purchPrice.Size = new System.Drawing.Size(83, 20);
-            this.pb_purchPrice.TabIndex = 7;
+            this.tb_purchPrice.Location = new System.Drawing.Point(12, 119);
+            this.tb_purchPrice.Name = "tb_purchPrice";
+            this.tb_purchPrice.Size = new System.Drawing.Size(83, 20);
+            this.tb_purchPrice.TabIndex = 7;
             // 
             // label4
             // 
@@ -143,22 +124,30 @@
             this.label6.TabIndex = 11;
             this.label6.Text = "руб.";
             // 
+            // btn_add
+            // 
+            this.btn_add.Location = new System.Drawing.Point(165, 142);
+            this.btn_add.Name = "btn_add";
+            this.btn_add.Size = new System.Drawing.Size(40, 36);
+            this.btn_add.TabIndex = 12;
+            this.btn_add.Text = "+";
+            this.btn_add.UseVisualStyleBackColor = true;
+            // 
             // FormEditItem
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(214, 218);
+            this.ClientSize = new System.Drawing.Size(208, 180);
+            this.Controls.Add(this.btn_add);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.tb_salePrice);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.pb_purchPrice);
+            this.Controls.Add(this.tb_purchPrice);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.tb_designation);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.cb_type);
-            this.Controls.Add(this.tn_cancel);
-            this.Controls.Add(this.btn_ok);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "FormEditItem";
@@ -171,16 +160,15 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btn_ok;
-        private System.Windows.Forms.Button tn_cancel;
         private System.Windows.Forms.ComboBox cb_type;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tb_designation;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox pb_purchPrice;
+        private System.Windows.Forms.TextBox tb_purchPrice;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.TextBox tb_salePrice;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button btn_add;
     }
 }

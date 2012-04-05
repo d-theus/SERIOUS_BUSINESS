@@ -70,11 +70,17 @@
     <Compile Include="FormEditCategories.Designer.cs">
       <DependentUpon>FormEditCategories.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormEditEmpl.cs">
+    <Compile Include="FormEditEmplOne.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="FormEditEmpl.Designer.cs">
-      <DependentUpon>FormEditEmpl.cs</DependentUpon>
+    <Compile Include="FormEditEmplOne.Designer.cs">
+      <DependentUpon>FormEditEmplOne.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormEditEmplSet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormEditEmplSet.Designer.cs">
+      <DependentUpon>FormEditEmplSet.cs</DependentUpon>
     </Compile>
     <Compile Include="FormEditItem.cs">
       <SubType>Form</SubType>
@@ -106,6 +112,12 @@
     <Compile Include="FormEditOrder.Designer.cs">
       <DependentUpon>FormEditOrder.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormNewEmpl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormNewEmpl.Designer.cs">
+      <DependentUpon>FormNewEmpl.cs</DependentUpon>
+    </Compile>
     <Compile Include="res\Dynamic.Designer.cs">
       <DependentUpon>Dynamic.resx</DependentUpon>
       <DesignTime>True</DesignTime>
@@ -132,8 +144,11 @@
     <EmbeddedResource Include="FormEditCategories.resx">
       <DependentUpon>FormEditCategories.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="FormEditEmpl.resx">
-      <DependentUpon>FormEditEmpl.cs</DependentUpon>
+    <EmbeddedResource Include="FormEditEmplOne.resx">
+      <DependentUpon>FormEditEmplOne.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormEditEmplSet.resx">
+      <DependentUpon>FormEditEmplSet.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormEditItem.resx">
       <DependentUpon>FormEditItem.cs</DependentUpon>
@@ -149,6 +164,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormEditOrder.resx">
       <DependentUpon>FormEditOrder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormNewEmpl.resx">
+      <DependentUpon>FormNewEmpl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
