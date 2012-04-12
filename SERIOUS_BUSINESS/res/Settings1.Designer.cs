@@ -79,6 +79,15 @@ namespace SERIOUS_BUSINESS.res {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Database = DATABASE;.
+        /// </summary>
+        internal static string dbConn_DbName {
+            get {
+                return ResourceManager.GetString("dbConn_DbName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Integrated Security = SSPI;.
         /// </summary>
         internal static string dbConn_IntSecurity {

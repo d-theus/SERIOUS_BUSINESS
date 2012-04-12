@@ -11,7 +11,7 @@ namespace SERIOUS_BUSINESS
 {
     public partial class FormEditEmplOne : Form
     {
-        public FormEditEmplOne(User _usr)
+        public FormEditEmplOne(res.Employee _usr)
         {
             InitializeComponent();
             lbl_username.Text = _usr.login;

@@ -12,7 +12,7 @@ namespace SERIOUS_BUSINESS
 {
     public partial class FormMain : Form
     {
-        public User currentUser;
+        public res.Employee currentUser;
         public FormMain()
         {
             InitializeComponent();
@@ -23,7 +23,7 @@ namespace SERIOUS_BUSINESS
             {
                 case DialogResult.OK:
                     this.Enabled = true;
-                    this.currentUser = formLogin.usr;
+                    this.currentUser = formLogin.employee;
                     this.Text = Settings.app_title +  " - " + currentUser.login;
                     break;
                 default:
