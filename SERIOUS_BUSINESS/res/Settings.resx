@@ -120,8 +120,14 @@
   <data name="app_title" xml:space="preserve">
     <value>SBPS</value>
   </data>
+  <data name="dbConn_ConnStr" xml:space="preserve">
+    <value>Data Source =(local); Database = DATABASE; Integrated Security = SSPI;</value>
+  </data>
   <data name="dbConn_DataSource" xml:space="preserve">
     <value>Data Source =(local);</value>
+  </data>
+  <data name="dbConn_DbName" xml:space="preserve">
+    <value>Database = DATABASE;</value>
   </data>
   <data name="dbConn_IntSecurity" xml:space="preserve">
     <value>Integrated Security = SSPI;</value>

@@ -2320,5 +2320,6 @@ namespace SERIOUS_BUSINESS.res
     }
 
     #endregion
-    
+
+    enum accessModifiers {acc_none, acc_store, acc_mgr, acc_adm};
 }

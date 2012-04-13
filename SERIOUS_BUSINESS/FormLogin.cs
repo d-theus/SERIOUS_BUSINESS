@@ -19,7 +19,7 @@ namespace SERIOUS_BUSINESS
         public FormLogin()
         {
             InitializeComponent();
-            dbConnection = new SqlConnection(res.Settings.dbConn_DataSource + res.Settings.dbConn_DbName + res.Settings.dbConn_IntSecurity);
+            dbConnection = new SqlConnection(res.Settings.dbConn_ConnStr);
             try
             {
                 dbConnection.Open();
