@@ -8,6 +8,7 @@ using System.Linq;
 using System.Resources;
 using System.Text;
 using System.Windows.Forms;
+using Microsoft.Win32;
 namespace SERIOUS_BUSINESS
 {
     public partial class FormLogin : Form
@@ -23,19 +24,12 @@ namespace SERIOUS_BUSINESS
             try
             {
                 dbConnection.Open();
-                ResXResourceReader rr = new ResXResourceReader(res.Dynamic.path_app_res + "Dynamic.resx");
-                var enr = rr.GetEnumerator();
-                while (enr.MoveNext()) 
-                {
-                    string key = enr.Entry.Key.ToString();
-                    string val = enr.Entry.Value.ToString();
-                    if (key.Equals("last_user"))
-                    {
-                        tb_login.Text = val;
-                        if (val.Length != 0)
-                            cb_remember.Checked = true;
-                    }
-                }
+#region Retrieving last user from registry
+                RegistryKey readKey = Registry.LocalMachine.OpenSubKey(@"software\\"+res.Settings.app_title+@"\");
+                string loadString = (string)readKey.GetValue("Last User");
+                readKey.Close();
+#endregion
+
             }
             catch (Exception ex)
             {
@@ -56,26 +50,11 @@ namespace SERIOUS_BUSINESS
                 try
                 {
 
-#region History file interacting
-                    ResXResourceSet rs = new ResXResourceSet(res.Dynamic.path_app_res + "Dynamic.resx");
-                    ResXResourceWriter rw = new ResXResourceWriter(res.Dynamic.path_app_res + "Dynamic.resx");
-                    var enr = rs.GetEnumerator();
-                    List<ResXDataNode> nodes = new List<ResXDataNode>();
-                    while (enr.MoveNext())
-                    {
-                        if (!(enr.Entry.Key.ToString().Equals("last_user")))
-                            nodes.Add(new ResXDataNode(enr.Entry.Key.ToString(), enr.Entry.Value.ToString()));
-                        else
-                            if (cb_remember.Checked)
-                                nodes.Add(new ResXDataNode(enr.Entry.Key.ToString(), tb_login.Text));
-                            else
-                                nodes.Add(new ResXDataNode(enr.Entry.Key.ToString(), enr.Entry.Value.ToString()));
-                    }
-                    foreach (var entry in nodes)
-                    {
-                        rw.AddResource(entry);
-                    }
-                    rw.Close();
+#region Saving current user to registry
+                    RegistryKey saveKey = Registry.LocalMachine.CreateSubKey(@"software\\"+res.Settings.app_title+@"\");
+                    saveKey.SetValue("Last User", tb_login.Text.ToString());
+                    saveKey.Close();
+
 #endregion
                 }
                 catch (Exception ex)
