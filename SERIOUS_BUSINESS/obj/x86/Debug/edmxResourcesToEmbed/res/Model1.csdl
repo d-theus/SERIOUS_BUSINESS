@@ -33,9 +33,23 @@
       <End Role="Item" EntitySet="ItemSet" />
     </AssociationSet>
     <EntitySet Name="ItemParameterSet" EntityType="Model1.ItemParameter" />
-    <AssociationSet Name="ItemCategoryItemParameter" Association="Model1.ItemCategoryItemParameter">
-      <End Role="ItemCategory" EntitySet="ItemCategorySet" />
+    <EntitySet Name="ParameterCategorySet" EntityType="Model1.ParameterCategory" />
+    <AssociationSet Name="ParameterCategoryItemParameter" Association="Model1.ParameterCategoryItemParameter">
+      <End Role="ParameterCategory" EntitySet="ParameterCategorySet" />
       <End Role="ItemParameter" EntitySet="ItemParameterSet" />
+    </AssociationSet>
+    <AssociationSet Name="ItemItemParameter" Association="Model1.ItemItemParameter">
+      <End Role="Item" EntitySet="ItemSet" />
+      <End Role="ItemParameter" EntitySet="ItemParameterSet" />
+    </AssociationSet>
+    <EntitySet Name="pureJoin_IPcatsSet" EntityType="Model1.pureJoin_IPcats" />
+    <AssociationSet Name="ItemCategorypureJoin_IPcats" Association="Model1.ItemCategorypureJoin_IPcats">
+      <End Role="ItemCategory" EntitySet="ItemCategorySet" />
+      <End Role="pureJoin_IPcats" EntitySet="pureJoin_IPcatsSet" />
+    </AssociationSet>
+    <AssociationSet Name="ParameterCategorypureJoin_IPcats" Association="Model1.ParameterCategorypureJoin_IPcats">
+      <End Role="ParameterCategory" EntitySet="ParameterCategorySet" />
+      <End Role="pureJoin_IPcats" EntitySet="pureJoin_IPcatsSet" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Order">
@@ -80,7 +94,7 @@
     <NavigationProperty Name="Item" Relationship="Model1.StoreItem" FromRole="Store" ToRole="Item" />
     <Property Type="String" Name="name" Nullable="false" />
     <Property Type="Int32" Name="id" Nullable="false" />
-    <NavigationProperty Name="ItemParameter" Relationship="Model1.ItemCategoryItemParameter" FromRole="ItemCategory" ToRole="ItemParameter" />
+    <NavigationProperty Name="pureJoin_IPcats" Relationship="Model1.ItemCategorypureJoin_IPcats" FromRole="ItemCategory" ToRole="pureJoin_IPcats" />
   </EntityType>
   <EntityType Name="Item">
     <Key>
@@ -95,6 +109,7 @@
     <Property Type="String" Name="demand" Nullable="false" />
     <Property Type="Int32" Name="catID" Nullable="false" />
     <NavigationProperty Name="Service" Relationship="Model1.ServiceItem" FromRole="Item" ToRole="Service" />
+    <NavigationProperty Name="ItemParameter" Relationship="Model1.ItemItemParameter" FromRole="Item" ToRole="ItemParameter" />
   </EntityType>
   <Association Name="StoreItem">
     <End Type="Model1.ItemCategory" Role="Store" Multiplicity="1" />
@@ -162,6 +177,7 @@
     <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Type="Int16" Name="accessModifier" Nullable="false" />
     <NavigationProperty Name="Employee" Relationship="Model1.AppointmentEmployee" FromRole="Appointment" ToRole="Employee" />
+    <Property Type="String" Name="name" Nullable="false" />
   </EntityType>
   <Association Name="AppointmentEmployee">
     <End Type="Model1.Appointment" Role="Appointment" Multiplicity="1" />
@@ -195,18 +211,76 @@
     <Property Type="Double" Name="valueDbl" Nullable="false" />
     <Property Type="Boolean" Name="valueBool" Nullable="false" />
     <Property Type="String" Name="valueTxt" Nullable="false" />
-    <Property Type="Int32" Name="catID" Nullable="false" />
-    <NavigationProperty Name="ItemCategory" Relationship="Model1.ItemCategoryItemParameter" FromRole="ItemParameter" ToRole="ItemCategory" />
+    <Property Type="Int32" Name="itemID" Nullable="false" />
+    <NavigationProperty Name="ParameterCategory" Relationship="Model1.ParameterCategoryItemParameter" FromRole="ItemParameter" ToRole="ParameterCategory" />
+    <NavigationProperty Name="Item" Relationship="Model1.ItemItemParameter" FromRole="ItemParameter" ToRole="Item" />
+    <Property Type="Int32" Name="paramCatID" Nullable="false" />
   </EntityType>
-  <Association Name="ItemCategoryItemParameter">
-    <End Type="Model1.ItemCategory" Role="ItemCategory" Multiplicity="1" />
+  <EntityType Name="ParameterCategory">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="ItemParameter" Relationship="Model1.ParameterCategoryItemParameter" FromRole="ParameterCategory" ToRole="ItemParameter" />
+    <Property Type="String" Name="name" Nullable="false" />
+    <Property Type="Int32" Name="itmCatId" Nullable="false" />
+    <NavigationProperty Name="pureJoin_IPcats" Relationship="Model1.ParameterCategorypureJoin_IPcats" FromRole="ParameterCategory" ToRole="pureJoin_IPcats" />
+  </EntityType>
+  <Association Name="ParameterCategoryItemParameter">
+    <End Type="Model1.ParameterCategory" Role="ParameterCategory" Multiplicity="1" />
     <End Type="Model1.ItemParameter" Role="ItemParameter" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ParameterCategory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ItemParameter">
+        <PropertyRef Name="paramCatID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ItemItemParameter">
+    <End Type="Model1.Item" Role="Item" Multiplicity="1" />
+    <End Type="Model1.ItemParameter" Role="ItemParameter" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Item">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="ItemParameter">
+        <PropertyRef Name="itemID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="pureJoin_IPcats">
+    <Key>
+      <PropertyRef Name="ICID" />
+      <PropertyRef Name="PCID" />
+    </Key>
+    <Property Type="Int32" Name="ICID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="PCID" Nullable="false" />
+    <NavigationProperty Name="ItemCategory" Relationship="Model1.ItemCategorypureJoin_IPcats" FromRole="pureJoin_IPcats" ToRole="ItemCategory" />
+    <NavigationProperty Name="ParameterCategory" Relationship="Model1.ParameterCategorypureJoin_IPcats" FromRole="pureJoin_IPcats" ToRole="ParameterCategory" />
+  </EntityType>
+  <Association Name="ItemCategorypureJoin_IPcats">
+    <End Type="Model1.ItemCategory" Role="ItemCategory" Multiplicity="1" />
+    <End Type="Model1.pureJoin_IPcats" Role="pureJoin_IPcats" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="ItemCategory">
         <PropertyRef Name="id" />
       </Principal>
-      <Dependent Role="ItemParameter">
-        <PropertyRef Name="catID" />
+      <Dependent Role="pureJoin_IPcats">
+        <PropertyRef Name="ICID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ParameterCategorypureJoin_IPcats">
+    <End Type="Model1.ParameterCategory" Role="ParameterCategory" Multiplicity="1" />
+    <End Type="Model1.pureJoin_IPcats" Role="pureJoin_IPcats" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ParameterCategory">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="pureJoin_IPcats">
+        <PropertyRef Name="PCID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

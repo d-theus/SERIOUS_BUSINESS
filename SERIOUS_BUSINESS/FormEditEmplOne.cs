@@ -11,10 +11,10 @@ namespace SERIOUS_BUSINESS
 {
     public partial class FormEditEmplOne : Form
     {
-        public FormEditEmplOne(User _usr)
+        public FormEditEmplOne(res.Employee empl)
         {
             InitializeComponent();
-            lbl_username.Text = _usr.login;
+            lbl_username.Text = empl.login;
         }
 
         private void btn_close_Click(object sender, EventArgs e)

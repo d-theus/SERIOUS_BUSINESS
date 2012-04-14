@@ -13,7 +13,7 @@ namespace SERIOUS_BUSINESS
     public partial class FormLogin : Form
     {
         bool rememberChanged = false;
-        public User usr;
+        public res.Employee usr;
         public FormLogin()
         {
             InitializeComponent();
@@ -84,7 +84,6 @@ namespace SERIOUS_BUSINESS
                 }
             }
                 DialogResult = DialogResult.OK;
-                usr = new User(tb_login.Text, (int)Access_Modifiers.acc_director);
                 return;
             }
             else
