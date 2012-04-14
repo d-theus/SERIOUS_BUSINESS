@@ -18,12 +18,12 @@ namespace SERIOUS_BUSINESS
         public FormLogin()
         {
             InitializeComponent();
-            System.Data.SqlClient.SqlConnection dbConnection = new System.Data.SqlClient.SqlConnection(res.Settings.dbConn_DataSource +
-                                                                                                       "AttachDbFilename = " + res.Dynamic.path_app_res + "Database1.mdf;" +
-                                                                                                       res.Settings.dbConn_IntSecurity);
+            //System.Data.SqlClient.SqlConnection dbConnection = new System.Data.SqlClient.SqlConnection(res.Settings.dbConn_DataSource +
+             //                                                                                          "AttachDbFilename = " + res.Dynamic.path_app_res + "Database1.mdf;" +
+            //                                                                                           res.Settings.dbConn_IntSecurity);
             try
             {
-                dbConnection.Open();
+            //    dbConnection.Open();
 #region Retrieving last user from registry
                 RegistryKey readKey = Registry.LocalMachine.OpenSubKey(@"software\\"+res.Settings.app_title+@"\");
                 string loadString = (string)readKey.GetValue("Last User");
@@ -37,7 +37,7 @@ namespace SERIOUS_BUSINESS
             }
             finally
             {
-                dbConnection.Close();
+            //    dbConnection.Close();
             }
         }
 
@@ -51,9 +51,9 @@ namespace SERIOUS_BUSINESS
                 {
 
 #region Saving current user to registry
-                    RegistryKey saveKey = Registry.LocalMachine.CreateSubKey(@"software\\"+res.Settings.app_title+@"\");
-                    saveKey.SetValue("Last User", tb_login.Text.ToString());
-                    saveKey.Close();
+                    RegistryKey openKey = Registry.LocalMachine.OpenSubKey(@"software\\"+res.Settings.app_title+@"\");
+                    openKey.SetValue("Last User", tb_login.Text.ToString());
+                    openKey.Close();
 
 #endregion
                 }
