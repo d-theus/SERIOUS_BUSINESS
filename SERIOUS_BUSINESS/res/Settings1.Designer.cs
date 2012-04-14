@@ -104,5 +104,14 @@ namespace SERIOUS_BUSINESS.res {
                 return ResourceManager.GetString("dbConn_IntSecurity", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to software\\SBPS\.
+        /// </summary>
+        internal static string reg_Subkey {
+            get {
+                return ResourceManager.GetString("reg_Subkey", resourceCulture);
+            }
+        }
     }
 }

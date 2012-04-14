@@ -28,6 +28,7 @@ namespace SERIOUS_BUSINESS
                     this.Enabled = true;
                     this.currentUser = formLogin.employee;
                     this.Text = Settings.app_title +  " - " + currentUser.login;
+                    this.currentUser = formLogin.usr;
                     break;
                 default:
                     MessageBox.Show("Окно авторизации было закрыто");

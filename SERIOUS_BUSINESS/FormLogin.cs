@@ -9,40 +9,35 @@ using System.Data.SqlClient;
 using System.Resources;
 using System.Text;
 using System.Windows.Forms;
+using Microsoft.Win32;
 namespace SERIOUS_BUSINESS
 {
     public partial class FormLogin : Form
     {
         bool rememberChanged = false;
-        public res.Employee employee;
-        private SqlConnection dbConnection = null;
+        public res.Employee usr;
         public FormLogin()
         {
             InitializeComponent();
-            dbConnection = new SqlConnection(res.Settings.dbConn_ConnStr);
+            System.Data.SqlClient.SqlConnection dbConnection = new System.Data.SqlClient.SqlConnection(res.Settings.dbConn_DataSource +
+                                                                                                      "AttachDbFilename = " + res.Dynamic.path_app_res + "Database1.mdf;" +
+                                                                                                       res.Settings.dbConn_IntSecurity);
             try
             {
                 dbConnection.Open();
-                #region resources
-
-                ResXResourceReader rr = new ResXResourceReader(res.Dynamic.path_app_res + "Dynamic.resx");
-                var enr = rr.GetEnumerator();
-                while (enr.MoveNext()) 
-                {
-                    string key = enr.Entry.Key.ToString();
-                    string val = enr.Entry.Value.ToString();
-                    if (key.Equals("last_user"))
-                    {
-                        tb_login.Text = val;
-                        if (val.Length != 0)
-                            cb_remember.Checked = true;
-                    }
-                }
-            #endregion
+#region Retrieving last user from registry
+                RegistryKey readKey = Registry.LocalMachine.OpenSubKey(@"software\\"+res.Settings.app_title+@"\");
+                string loadString = (string)readKey.GetValue("Last User");
+                readKey.Close();
+#endregion
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                dbConnection.Close();
             }
         }
 
@@ -80,33 +75,20 @@ namespace SERIOUS_BUSINESS
                             sql_drd.Close();
                         }
                         #endregion
+                try
+                {
 
-                        #region History file interacting
-                        ResXResourceSet rs = new ResXResourceSet(res.Dynamic.path_app_res + "Dynamic.resx");
-                        ResXResourceWriter rw = new ResXResourceWriter(res.Dynamic.path_app_res + "Dynamic.resx");
-                        var enr = rs.GetEnumerator();
-                        List<ResXDataNode> nodes = new List<ResXDataNode>();
-                        while (enr.MoveNext())
-                        {
-                            if (!(enr.Entry.Key.ToString().Equals("last_user")))
-                                nodes.Add(new ResXDataNode(enr.Entry.Key.ToString(), enr.Entry.Value.ToString()));
-                            else
-                                if (cb_remember.Checked)
-                                    nodes.Add(new ResXDataNode(enr.Entry.Key.ToString(), tb_login.Text));
-                                else
-                                    nodes.Add(new ResXDataNode(enr.Entry.Key.ToString(), enr.Entry.Value.ToString()));
-                        }
-                        foreach (var entry in nodes)
-                        {
-                            rw.AddResource(entry);
-                        }
-                        rw.Close();
-                        #endregion
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                    }
+#region Saving current user to registry
+                    RegistryKey openKey = Registry.LocalMachine.OpenSubKey(@"software\\"+res.Settings.app_title+@"\");
+                    openKey.SetValue("Last User", tb_login.Text.ToString());
+                    openKey.Close();
+
+#endregion
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             }
                 DialogResult = DialogResult.OK;
                 return;

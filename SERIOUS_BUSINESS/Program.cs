@@ -4,11 +4,13 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Text.RegularExpressions;
 using System.Resources;
+using Microsoft.Win32;
 
 namespace SERIOUS_BUSINESS
 {
     static class Program
     {
+        static private string pwd = "";
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -18,25 +20,18 @@ namespace SERIOUS_BUSINESS
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-#region resources interaction
-            string appRootPath = System.Text.RegularExpressions.Regex.Split(Application.StartupPath, "bin")[0];
-            ResXResourceSet resRs = new ResXResourceSet(appRootPath + @"res\Dynamic.resx");
-            var enr = resRs.GetEnumerator();
-            List<ResXDataNode> nodes = new List<ResXDataNode>();
-            while (enr.MoveNext())
+#region Writing current pwd to registry
+            RegistryKey regRead = Registry.LocalMachine.OpenSubKey(res.Settings.reg_Subkey);
+            if (regRead == null)
             {
-                if (enr.Entry.Key.ToString().Equals("path_app_root") && (enr.Entry.Value.ToString().Length == 0))
-                    nodes.Add(new ResXDataNode(enr.Entry.Key.ToString(), appRootPath));
-                else if (enr.Entry.Key.ToString().Equals("path_app_res") && (enr.Entry.Value.ToString().Length == 0))
-                    nodes.Add(new ResXDataNode(enr.Entry.Key.ToString(), appRootPath + @"res\"));
-                else nodes.Add(new ResXDataNode(enr.Entry.Key.ToString(), enr.Entry.Value.ToString()));
+                RegistryKey regCreateKey = Registry.LocalMachine.CreateSubKey(res.Settings.reg_Subkey);
+                regCreateKey.SetValue("Last User", "");
+                Regex sep = new Regex("bin");
+                pwd = sep.Split(Application.ExecutablePath)[0];
+                regCreateKey.SetValue("Root Directory", pwd); 
             }
-
-            ResXResourceWriter resWr = new ResXResourceWriter(appRootPath + @"res\Dynamic.resx");
-            foreach (var entry in nodes)
-                resWr.AddResource(entry);
-            resWr.Close();
 #endregion
+
             FormMain formMain = new FormMain();
             formMain.Hide();
             Application.Run(formMain);
