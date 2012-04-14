@@ -50,6 +50,7 @@
             this.выходToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.DGV = new System.Windows.Forms.DataGridView();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cb_parameterName = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tb_search = new System.Windows.Forms.TextBox();
             this.btn_find = new System.Windows.Forms.Button();
@@ -63,7 +64,6 @@
             this.btn_edit = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.cb_parameterName = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGV)).BeginInit();
             this.panel1.SuspendLayout();
@@ -258,6 +258,15 @@
             this.panel1.Size = new System.Drawing.Size(194, 82);
             this.panel1.TabIndex = 2;
             // 
+            // cb_parameterName
+            // 
+            this.cb_parameterName.FormattingEnabled = true;
+            this.cb_parameterName.Location = new System.Drawing.Point(49, 4);
+            this.cb_parameterName.Name = "cb_parameterName";
+            this.cb_parameterName.Size = new System.Drawing.Size(121, 21);
+            this.cb_parameterName.TabIndex = 3;
+            this.cb_parameterName.Text = "Имя параметра";
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -395,15 +404,6 @@
             this.splitContainer1.Size = new System.Drawing.Size(792, 403);
             this.splitContainer1.SplitterDistance = 581;
             this.splitContainer1.TabIndex = 6;
-            // 
-            // cb_parameterName
-            // 
-            this.cb_parameterName.FormattingEnabled = true;
-            this.cb_parameterName.Location = new System.Drawing.Point(49, 4);
-            this.cb_parameterName.Name = "cb_parameterName";
-            this.cb_parameterName.Size = new System.Drawing.Size(121, 21);
-            this.cb_parameterName.TabIndex = 3;
-            this.cb_parameterName.Text = "Имя параметра";
             // 
             // FormMain
             // 
