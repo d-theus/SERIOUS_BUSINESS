@@ -126,4 +126,7 @@
   <data name="dbConn_IntSecurity" xml:space="preserve">
     <value>Integrated Security = SSPI;</value>
   </data>
+  <data name="reg_Subkey" xml:space="preserve">
+    <value>software\\SBPS\</value>
+  </data>
 </root>
