@@ -26,7 +26,7 @@ namespace SERIOUS_BUSINESS
             {
                 case DialogResult.OK:
                     this.Enabled = true;
-                    this.currentUser = formLogin.employee;
+                    this.currentUser = formLogin.usr;
                     this.Text = Settings.app_title +  " - " + currentUser.login;
                     this.currentUser = formLogin.usr;
                     break;

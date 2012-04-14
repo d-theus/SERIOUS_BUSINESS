@@ -91,7 +91,6 @@
             this.cb_remember.TabIndex = 6;
             this.cb_remember.Text = "Запомнить меня";
             this.cb_remember.UseVisualStyleBackColor = true;
-            this.cb_remember.CheckedChanged += new System.EventHandler(this.cb_remember_CheckedChanged);
             // 
             // btn_enter
             // 

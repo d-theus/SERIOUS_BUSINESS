@@ -14,30 +14,28 @@ namespace SERIOUS_BUSINESS
 {
     public partial class FormLogin : Form
     {
-        bool rememberChanged = false;
+        private SqlConnection dbConnection = null;
         public res.Employee usr;
         public FormLogin()
         {
             InitializeComponent();
-            System.Data.SqlClient.SqlConnection dbConnection = new System.Data.SqlClient.SqlConnection(res.Settings.dbConn_DataSource +
-                                                                                                      "AttachDbFilename = " + res.Dynamic.path_app_res + "Database1.mdf;" +
-                                                                                                       res.Settings.dbConn_IntSecurity);
+            dbConnection = new System.Data.SqlClient.SqlConnection(res.Settings.dbConn_ConnStr);
             try
             {
                 dbConnection.Open();
-#region Retrieving last user from registry
-                RegistryKey readKey = Registry.LocalMachine.OpenSubKey(@"software\\"+res.Settings.app_title+@"\");
+                #region Retrieving last user from registry
+                RegistryKey readKey = Registry.LocalMachine.OpenSubKey(@"software\\" + res.Settings.app_title + @"\");
                 string loadString = (string)readKey.GetValue("Last User");
                 readKey.Close();
-#endregion
+                #endregion
+            }
+            catch (SqlException sqlex)
+            {
+                MessageBox.Show(sqlex.Message);
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
-            }
-            finally
-            {
-                dbConnection.Close();
             }
         }
 
@@ -45,51 +43,49 @@ namespace SERIOUS_BUSINESS
         {
             if (!String.IsNullOrEmpty(tb_login.Text) && !String.IsNullOrEmpty(tb_passwd.Text))
             {
-                if(rememberChanged)
+                try
                 {
-                    try
-                    {
-                        #region sql query : get password from db and compare, create emp instance if success
+                    #region sql query : get password from db and compare, create emp instance if success
 
-                        SqlCommand sql_countByLogin = new SqlCommand("SELECT COUNT(*) FROM [DATABASE].[dbo].[EmployeeSet] WHERE [login] = '" + tb_login.Text + "'", dbConnection);
-                        if(sql_countByLogin.ExecuteScalar().ToString().Equals("0"))
+                    SqlCommand sql_countByLogin = new SqlCommand("SELECT COUNT(*) FROM [DATABASE].[dbo].[EmployeeSet] WHERE [login] = '" + tb_login.Text + "'", dbConnection);
+                    if (sql_countByLogin.ExecuteScalar().ToString().Equals("0"))
+                    {
+                        MessageBox.Show("Нет такого пользователя в базе данных, проверьте правильность ввода логина");
+                        return;
+                    }
+                    else
+                    {
+                        SqlCommand sql_GetEmployee = new SqlCommand("SELECT [id],[login],[name],[password], [aptID] FROM [DATABASE].[dbo].[EmployeeSet] WHERE [login] = '" + tb_login.Text + "'", dbConnection);
+                        SqlDataReader sql_drd = sql_GetEmployee.ExecuteReader();
+                        sql_drd.Read();
+                        if (tb_passwd.Text.ToString().Equals(sql_drd["password"]))
                         {
-                            MessageBox.Show("Нет такого пользователя в базе данных, проверьте правильность ввода логина");
-                            return;
+                            usr = res.Employee.CreateEmployee((int)sql_drd["id"], sql_drd["name"].ToString(), sql_drd["login"].ToString(), sql_drd["password"].ToString(), (int)sql_drd["aptID"]);
                         }
                         else
                         {
-                            SqlCommand sql_GetEmployee = new SqlCommand("SELECT [id],[login],[name],[password], [aptID] FROM [DATABASE].[dbo].[EmployeeSet] WHERE [login] = '" + tb_login.Text + "'", dbConnection);
-                            SqlDataReader sql_drd = sql_GetEmployee.ExecuteReader();
-                            sql_drd.Read();
-                            if (tb_passwd.Text.ToString().Equals(sql_drd["password"]))
-                            {
-                                employee = res.Employee.CreateEmployee((int)sql_drd["id"], sql_drd["name"].ToString(), sql_drd["login"].ToString(), sql_drd["password"].ToString(), (int)sql_drd["aptID"]);
-                            }
-                            else
-                            {
-                                MessageBox.Show("Неверный пароль");
-                                sql_drd.Close();
-                                return;
-                            }
+                            MessageBox.Show("Неверный пароль");
                             sql_drd.Close();
+                            return;
                         }
-                        #endregion
-                try
-                {
-
-#region Saving current user to registry
-                    RegistryKey openKey = Registry.LocalMachine.OpenSubKey(@"software\\"+res.Settings.app_title+@"\");
-                    openKey.SetValue("Last User", tb_login.Text.ToString());
-                    openKey.Close();
-
-#endregion
+                        sql_drd.Close();
+                    }
+                    #endregion
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message);
+                    MessageBox.Show(ex.Message + "\n Будет осуществлен выход, обратитесь к системному администратору", "Ошибка базы данных", MessageBoxButtons.OK);
+                    Application.Exit();
                 }
-            }
+                if (cb_remember.Checked)
+                {
+                    #region Saving current user to registry
+                    RegistryKey openKey = Registry.LocalMachine.OpenSubKey(@"software\\" + res.Settings.app_title + @"\", true);
+                    openKey.SetValue("Last User", tb_login.Text.ToString());
+                    openKey.Close();
+
+                    #endregion
+                }
                 DialogResult = DialogResult.OK;
                 return;
             }
@@ -102,17 +98,13 @@ namespace SERIOUS_BUSINESS
 
         private void FormLogin_FormClosing(object sender, FormClosingEventArgs e)
         {
-            dbConnection.Close();
+
+            if (dbConnection != null)
+                dbConnection.Close();
             if (DialogResult != DialogResult.OK)
             {
                 DialogResult = DialogResult.Abort;
             }
         }
-
-        private void cb_remember_CheckedChanged(object sender, EventArgs e)
-        {
-            rememberChanged = true;
-        }
-
     }
 }
