@@ -63,6 +63,7 @@
             this.btn_edit = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.cb_parameterName = new System.Windows.Forms.ComboBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGV)).BeginInit();
             this.panel1.SuspendLayout();
@@ -248,6 +249,7 @@
             this.panel1.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.panel1.BackColor = System.Drawing.SystemColors.Control;
             this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel1.Controls.Add(this.cb_parameterName);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Controls.Add(this.tb_search);
             this.panel1.Controls.Add(this.btn_find);
@@ -394,6 +396,15 @@
             this.splitContainer1.SplitterDistance = 581;
             this.splitContainer1.TabIndex = 6;
             // 
+            // cb_parameterName
+            // 
+            this.cb_parameterName.FormattingEnabled = true;
+            this.cb_parameterName.Location = new System.Drawing.Point(49, 4);
+            this.cb_parameterName.Name = "cb_parameterName";
+            this.cb_parameterName.Size = new System.Drawing.Size(121, 21);
+            this.cb_parameterName.TabIndex = 3;
+            this.cb_parameterName.Text = "Имя параметра";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -460,6 +471,7 @@
         private System.Windows.Forms.ToolStripMenuItem новыйToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem показатьТаблицуToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem редактироватьToolStripMenuItem;
+        private System.Windows.Forms.ComboBox cb_parameterName;
 
     }
 }

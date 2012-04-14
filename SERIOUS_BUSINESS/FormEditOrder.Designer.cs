@@ -37,6 +37,8 @@
             this.num_itemCount = new System.Windows.Forms.NumericUpDown();
             this.tb_Name = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btn_rmItem = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.btn_addItem = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tb_email = new System.Windows.Forms.TextBox();
@@ -44,19 +46,16 @@
             this.tb_phone = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.dtp_date = new System.Windows.Forms.DateTimePicker();
             this.label8 = new System.Windows.Forms.Label();
             this.btn_ok = new System.Windows.Forms.Button();
             this.btn_cancel = new System.Windows.Forms.Button();
             this.lbl_num = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.btn_rmItem = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.num_itemCount)).BeginInit();
             this.groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -145,6 +144,23 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Позиция";
             // 
+            // btn_rmItem
+            // 
+            this.btn_rmItem.Location = new System.Drawing.Point(161, 126);
+            this.btn_rmItem.Name = "btn_rmItem";
+            this.btn_rmItem.Size = new System.Drawing.Size(33, 23);
+            this.btn_rmItem.TabIndex = 18;
+            this.btn_rmItem.Text = "-";
+            this.btn_rmItem.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Location = new System.Drawing.Point(200, 19);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(239, 147);
+            this.dataGridView1.TabIndex = 17;
+            // 
             // btn_addItem
             // 
             this.btn_addItem.Location = new System.Drawing.Point(161, 93);
@@ -211,13 +227,6 @@
             this.label5.TabIndex = 9;
             this.label5.Text = "Фамилия И. О.";
             // 
-            // dtp_date
-            // 
-            this.dtp_date.Location = new System.Drawing.Point(246, 17);
-            this.dtp_date.Name = "dtp_date";
-            this.dtp_date.Size = new System.Drawing.Size(178, 20);
-            this.dtp_date.TabIndex = 11;
-            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -266,23 +275,6 @@
             this.panel1.Size = new System.Drawing.Size(79, 20);
             this.panel1.TabIndex = 16;
             // 
-            // dataGridView1
-            // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(200, 19);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(239, 147);
-            this.dataGridView1.TabIndex = 17;
-            // 
-            // btn_rmItem
-            // 
-            this.btn_rmItem.Location = new System.Drawing.Point(161, 126);
-            this.btn_rmItem.Name = "btn_rmItem";
-            this.btn_rmItem.Size = new System.Drawing.Size(33, 23);
-            this.btn_rmItem.TabIndex = 18;
-            this.btn_rmItem.Text = "-";
-            this.btn_rmItem.UseVisualStyleBackColor = true;
-            // 
             // FormEditOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -291,7 +283,6 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_ok);
-            this.Controls.Add(this.dtp_date);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
@@ -301,11 +292,11 @@
             ((System.ComponentModel.ISupportInitialize)(this.num_itemCount)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -328,7 +319,6 @@
         private System.Windows.Forms.TextBox tb_phone;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.DateTimePicker dtp_date;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button btn_ok;
         private System.Windows.Forms.Button btn_cancel;
