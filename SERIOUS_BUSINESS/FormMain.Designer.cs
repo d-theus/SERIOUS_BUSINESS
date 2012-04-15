@@ -65,10 +65,10 @@
             this.btn_edit = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.ms_dgvMS = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.редактироватьToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.добавитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.удалитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.дОбавитьЗаписьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.удалитьЗапистьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGV)).BeginInit();
             this.panel1.SuspendLayout();
@@ -79,7 +79,7 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.contextMenuStrip1.SuspendLayout();
+            this.ms_dgvMS.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -244,6 +244,7 @@
             this.DGV.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DGV.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.DGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DGV.ContextMenuStrip = this.ms_dgvMS;
             this.DGV.Location = new System.Drawing.Point(10, 10);
             this.DGV.Margin = new System.Windows.Forms.Padding(10);
             this.DGV.Name = "DGV";
@@ -411,35 +412,32 @@
             this.splitContainer1.SplitterDistance = 581;
             this.splitContainer1.TabIndex = 6;
             // 
-            // contextMenuStrip1
+            // ms_dgvMS
             // 
-            this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ms_dgvMS.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.редактироватьToolStripMenuItem1,
-            this.добавитьToolStripMenuItem,
-            this.удалитьToolStripMenuItem});
-            this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(195, 92);
+            this.дОбавитьЗаписьToolStripMenuItem,
+            this.удалитьЗапистьToolStripMenuItem});
+            this.ms_dgvMS.Name = "ms_dgvMS";
+            this.ms_dgvMS.Size = new System.Drawing.Size(167, 70);
             // 
             // редактироватьToolStripMenuItem1
             // 
             this.редактироватьToolStripMenuItem1.Name = "редактироватьToolStripMenuItem1";
-            this.редактироватьToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.редактироватьToolStripMenuItem1.Size = new System.Drawing.Size(194, 22);
+            this.редактироватьToolStripMenuItem1.Size = new System.Drawing.Size(166, 22);
             this.редактироватьToolStripMenuItem1.Text = "Редактировать";
             // 
-            // добавитьToolStripMenuItem
+            // дОбавитьЗаписьToolStripMenuItem
             // 
-            this.добавитьToolStripMenuItem.Name = "добавитьToolStripMenuItem";
-            this.добавитьToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Insert)));
-            this.добавитьToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
-            this.добавитьToolStripMenuItem.Text = "Добавить";
+            this.дОбавитьЗаписьToolStripMenuItem.Name = "дОбавитьЗаписьToolStripMenuItem";
+            this.дОбавитьЗаписьToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.дОбавитьЗаписьToolStripMenuItem.Text = "Добавить запись";
             // 
-            // удалитьToolStripMenuItem
+            // удалитьЗапистьToolStripMenuItem
             // 
-            this.удалитьToolStripMenuItem.Name = "удалитьToolStripMenuItem";
-            this.удалитьToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete)));
-            this.удалитьToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
-            this.удалитьToolStripMenuItem.Text = "Удалить";
+            this.удалитьЗапистьToolStripMenuItem.Name = "удалитьЗапистьToolStripMenuItem";
+            this.удалитьЗапистьToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
+            this.удалитьЗапистьToolStripMenuItem.Text = "Удалить запись";
             // 
             // FormMain
             // 
@@ -465,7 +463,7 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.contextMenuStrip1.ResumeLayout(false);
+            this.ms_dgvMS.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -509,10 +507,10 @@
         private System.Windows.Forms.ToolStripMenuItem показатьТаблицуToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem редактироватьToolStripMenuItem;
         private System.Windows.Forms.ComboBox cb_parameterName;
-        private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
+        private System.Windows.Forms.ContextMenuStrip ms_dgvMS;
         private System.Windows.Forms.ToolStripMenuItem редактироватьToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem добавитьToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem дОбавитьЗаписьToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem удалитьЗапистьToolStripMenuItem;
 
     }
 }
