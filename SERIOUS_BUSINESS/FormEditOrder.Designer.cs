@@ -102,6 +102,7 @@
             this.cb_itemType.Name = "cb_itemType";
             this.cb_itemType.Size = new System.Drawing.Size(185, 21);
             this.cb_itemType.TabIndex = 4;
+            this.cb_itemType.SelectedIndexChanged += new System.EventHandler(this.cb_itemType_SelectedIndexChanged);
             // 
             // cb_itemDesignation
             // 
@@ -110,6 +111,7 @@
             this.cb_itemDesignation.Name = "cb_itemDesignation";
             this.cb_itemDesignation.Size = new System.Drawing.Size(121, 21);
             this.cb_itemDesignation.TabIndex = 5;
+            this.cb_itemDesignation.SelectedIndexChanged += new System.EventHandler(this.cb_itemDesignation_SelectedIndexChanged);
             // 
             // num_itemCount
             // 

@@ -70,7 +70,7 @@ namespace SERIOUS_BUSINESS.res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Data Source =(local); Database = DATABASE; Integrated Security = SSPI;.
+        ///   Looks up a localized string similar to Data Source =(local); Database = DATABASE; Integrated Security = SSPI;MultipleActiveResultSets=true;.
         /// </summary>
         internal static string dbConn_ConnStr {
             get {
@@ -79,7 +79,7 @@ namespace SERIOUS_BUSINESS.res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Data Source =(local);.
+        ///   Looks up a localized string similar to (local).
         /// </summary>
         internal static string dbConn_DataSource {
             get {
@@ -88,7 +88,7 @@ namespace SERIOUS_BUSINESS.res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Database = DATABASE;.
+        ///   Looks up a localized string similar to [DATABASE].
         /// </summary>
         internal static string dbConn_DbName {
             get {
@@ -97,7 +97,7 @@ namespace SERIOUS_BUSINESS.res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Integrated Security = SSPI;.
+        ///   Looks up a localized string similar to SSPI.
         /// </summary>
         internal static string dbConn_IntSecurity {
             get {

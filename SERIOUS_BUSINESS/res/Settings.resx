@@ -121,16 +121,16 @@
     <value>SBPS</value>
   </data>
   <data name="dbConn_ConnStr" xml:space="preserve">
-    <value>Data Source =(local); Database = DATABASE; Integrated Security = SSPI;</value>
+    <value>Data Source =(local); Database = DATABASE; Integrated Security = SSPI;MultipleActiveResultSets=true;</value>
   </data>
   <data name="dbConn_DataSource" xml:space="preserve">
-    <value>Data Source =(local);</value>
+    <value>(local)</value>
   </data>
   <data name="dbConn_DbName" xml:space="preserve">
-    <value>Database = DATABASE;</value>
+    <value>[DATABASE]</value>
   </data>
   <data name="dbConn_IntSecurity" xml:space="preserve">
-    <value>Integrated Security = SSPI;</value>
+    <value>SSPI</value>
   </data>
   <data name="reg_Subkey" xml:space="preserve">
     <value>software\\SBPS\</value>

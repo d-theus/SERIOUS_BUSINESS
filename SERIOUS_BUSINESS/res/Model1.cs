@@ -344,13 +344,11 @@ namespace SERIOUS_BUSINESS.res
         /// Create a new Appointment object.
         /// </summary>
         /// <param name="id">Initial value of the id property.</param>
-        /// <param name="accessModifier">Initial value of the accessModifier property.</param>
         /// <param name="name">Initial value of the name property.</param>
-        public static Appointment CreateAppointment(global::System.Int32 id, global::System.Int16 accessModifier, global::System.String name)
+        public static Appointment CreateAppointment(global::System.Int32 id, global::System.String name)
         {
             Appointment appointment = new Appointment();
             appointment.id = id;
-            appointment.accessModifier = accessModifier;
             appointment.name = name;
             return appointment;
         }
@@ -405,7 +403,7 @@ namespace SERIOUS_BUSINESS.res
                 OnaccessModifierChanged();
             }
         }
-        private global::System.Int16 _accessModifier;
+        private global::System.Int16 _accessModifier = 0;
         partial void OnaccessModifierChanging(global::System.Int16 value);
         partial void OnaccessModifierChanged();
     
@@ -856,19 +854,13 @@ namespace SERIOUS_BUSINESS.res
         /// Create a new Item object.
         /// </summary>
         /// <param name="id">Initial value of the id property.</param>
-        /// <param name="designation">Initial value of the designation property.</param>
-        /// <param name="purchasePrice">Initial value of the purchasePrice property.</param>
-        /// <param name="salePrice">Initial value of the salePrice property.</param>
         /// <param name="storeResidue">Initial value of the storeResidue property.</param>
         /// <param name="demand">Initial value of the demand property.</param>
         /// <param name="catID">Initial value of the catID property.</param>
-        public static Item CreateItem(global::System.Int32 id, global::System.String designation, global::System.Double purchasePrice, global::System.Double salePrice, global::System.Int32 storeResidue, global::System.String demand, global::System.Int32 catID)
+        public static Item CreateItem(global::System.Int32 id, global::System.Int32 storeResidue, global::System.Int32 demand, global::System.Int32 catID)
         {
             Item item = new Item();
             item.id = id;
-            item.designation = designation;
-            item.purchasePrice = purchasePrice;
-            item.salePrice = salePrice;
             item.storeResidue = storeResidue;
             item.demand = demand;
             item.catID = catID;
@@ -910,78 +902,6 @@ namespace SERIOUS_BUSINESS.res
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String designation
-        {
-            get
-            {
-                return _designation;
-            }
-            set
-            {
-                OndesignationChanging(value);
-                ReportPropertyChanging("designation");
-                _designation = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("designation");
-                OndesignationChanged();
-            }
-        }
-        private global::System.String _designation;
-        partial void OndesignationChanging(global::System.String value);
-        partial void OndesignationChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Double purchasePrice
-        {
-            get
-            {
-                return _purchasePrice;
-            }
-            set
-            {
-                OnpurchasePriceChanging(value);
-                ReportPropertyChanging("purchasePrice");
-                _purchasePrice = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("purchasePrice");
-                OnpurchasePriceChanged();
-            }
-        }
-        private global::System.Double _purchasePrice;
-        partial void OnpurchasePriceChanging(global::System.Double value);
-        partial void OnpurchasePriceChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Double salePrice
-        {
-            get
-            {
-                return _salePrice;
-            }
-            set
-            {
-                OnsalePriceChanging(value);
-                ReportPropertyChanging("salePrice");
-                _salePrice = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("salePrice");
-                OnsalePriceChanged();
-            }
-        }
-        private global::System.Double _salePrice;
-        partial void OnsalePriceChanging(global::System.Double value);
-        partial void OnsalePriceChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
         public global::System.Int32 storeResidue
         {
             get
@@ -1006,7 +926,7 @@ namespace SERIOUS_BUSINESS.res
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String demand
+        public global::System.Int32 demand
         {
             get
             {
@@ -1016,13 +936,13 @@ namespace SERIOUS_BUSINESS.res
             {
                 OndemandChanging(value);
                 ReportPropertyChanging("demand");
-                _demand = StructuralObject.SetValidValue(value, false);
+                _demand = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("demand");
                 OndemandChanged();
             }
         }
-        private global::System.String _demand;
-        partial void OndemandChanging(global::System.String value);
+        private global::System.Int32 _demand;
+        partial void OndemandChanging(global::System.Int32 value);
         partial void OndemandChanged();
     
         /// <summary>
@@ -1280,18 +1200,12 @@ namespace SERIOUS_BUSINESS.res
         /// Create a new ItemParameter object.
         /// </summary>
         /// <param name="id">Initial value of the id property.</param>
-        /// <param name="valueDbl">Initial value of the valueDbl property.</param>
-        /// <param name="valueBool">Initial value of the valueBool property.</param>
-        /// <param name="valueTxt">Initial value of the valueTxt property.</param>
         /// <param name="itemID">Initial value of the itemID property.</param>
         /// <param name="paramCatID">Initial value of the paramCatID property.</param>
-        public static ItemParameter CreateItemParameter(global::System.Int32 id, global::System.Double valueDbl, global::System.Boolean valueBool, global::System.String valueTxt, global::System.Int32 itemID, global::System.Int32 paramCatID)
+        public static ItemParameter CreateItemParameter(global::System.Int32 id, global::System.Int32 itemID, global::System.Int32 paramCatID)
         {
             ItemParameter itemParameter = new ItemParameter();
             itemParameter.id = id;
-            itemParameter.valueDbl = valueDbl;
-            itemParameter.valueBool = valueBool;
-            itemParameter.valueTxt = valueTxt;
             itemParameter.itemID = itemID;
             itemParameter.paramCatID = paramCatID;
             return itemParameter;
@@ -1330,9 +1244,9 @@ namespace SERIOUS_BUSINESS.res
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.Double valueDbl
+        public Nullable<global::System.Double> valueDbl
         {
             get
             {
@@ -1347,16 +1261,16 @@ namespace SERIOUS_BUSINESS.res
                 OnvalueDblChanged();
             }
         }
-        private global::System.Double _valueDbl;
-        partial void OnvalueDblChanging(global::System.Double value);
+        private Nullable<global::System.Double> _valueDbl;
+        partial void OnvalueDblChanging(Nullable<global::System.Double> value);
         partial void OnvalueDblChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
-        public global::System.Boolean valueBool
+        public Nullable<global::System.Boolean> valueBool
         {
             get
             {
@@ -1371,14 +1285,14 @@ namespace SERIOUS_BUSINESS.res
                 OnvalueBoolChanged();
             }
         }
-        private global::System.Boolean _valueBool;
-        partial void OnvalueBoolChanging(global::System.Boolean value);
+        private Nullable<global::System.Boolean> _valueBool;
+        partial void OnvalueBoolChanging(Nullable<global::System.Boolean> value);
         partial void OnvalueBoolChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
         [DataMemberAttribute()]
         public global::System.String valueTxt
         {
@@ -1390,7 +1304,7 @@ namespace SERIOUS_BUSINESS.res
             {
                 OnvalueTxtChanging(value);
                 ReportPropertyChanging("valueTxt");
-                _valueTxt = StructuralObject.SetValidValue(value, false);
+                _valueTxt = StructuralObject.SetValidValue(value, true);
                 ReportPropertyChanged("valueTxt");
                 OnvalueTxtChanged();
             }
@@ -1548,7 +1462,7 @@ namespace SERIOUS_BUSINESS.res
         /// <param name="status">Initial value of the status property.</param>
         /// <param name="consID">Initial value of the consID property.</param>
         /// <param name="emplID">Initial value of the emplID property.</param>
-        public static Order CreateOrder(global::System.Int32 id, global::System.String date, global::System.String status, global::System.Int32 consID, global::System.Int32 emplID)
+        public static Order CreateOrder(global::System.Int32 id, global::System.DateTime date, global::System.String status, global::System.Int32 consID, global::System.Int32 emplID)
         {
             Order order = new Order();
             order.id = id;
@@ -1594,7 +1508,7 @@ namespace SERIOUS_BUSINESS.res
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.String date
+        public global::System.DateTime date
         {
             get
             {
@@ -1604,13 +1518,13 @@ namespace SERIOUS_BUSINESS.res
             {
                 OndateChanging(value);
                 ReportPropertyChanging("date");
-                _date = StructuralObject.SetValidValue(value, false);
+                _date = StructuralObject.SetValidValue(value);
                 ReportPropertyChanged("date");
                 OndateChanged();
             }
         }
-        private global::System.String _date;
-        partial void OndateChanging(global::System.String value);
+        private global::System.DateTime _date;
+        partial void OndateChanging(global::System.DateTime value);
         partial void OndateChanged();
     
         /// <summary>
@@ -1803,15 +1717,13 @@ namespace SERIOUS_BUSINESS.res
         /// <summary>
         /// Create a new ParameterCategory object.
         /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="id">Initial value of the id property.</param>
         /// <param name="name">Initial value of the name property.</param>
-        /// <param name="itmCatId">Initial value of the itmCatId property.</param>
-        public static ParameterCategory CreateParameterCategory(global::System.Int32 id, global::System.String name, global::System.Int32 itmCatId)
+        public static ParameterCategory CreateParameterCategory(global::System.Int32 id, global::System.String name)
         {
             ParameterCategory parameterCategory = new ParameterCategory();
-            parameterCategory.Id = id;
+            parameterCategory.id = id;
             parameterCategory.name = name;
-            parameterCategory.itmCatId = itmCatId;
             return parameterCategory;
         }
 
@@ -1823,27 +1735,27 @@ namespace SERIOUS_BUSINESS.res
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
         [DataMemberAttribute()]
-        public global::System.Int32 Id
+        public global::System.Int32 id
         {
             get
             {
-                return _Id;
+                return _id;
             }
             set
             {
-                if (_Id != value)
+                if (_id != value)
                 {
-                    OnIdChanging(value);
-                    ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("Id");
-                    OnIdChanged();
+                    OnidChanging(value);
+                    ReportPropertyChanging("id");
+                    _id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("id");
+                    OnidChanged();
                 }
             }
         }
-        private global::System.Int32 _Id;
-        partial void OnIdChanging(global::System.Int32 value);
-        partial void OnIdChanged();
+        private global::System.Int32 _id;
+        partial void OnidChanging(global::System.Int32 value);
+        partial void OnidChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -1868,30 +1780,6 @@ namespace SERIOUS_BUSINESS.res
         private global::System.String _name;
         partial void OnnameChanging(global::System.String value);
         partial void OnnameChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 itmCatId
-        {
-            get
-            {
-                return _itmCatId;
-            }
-            set
-            {
-                OnitmCatIdChanging(value);
-                ReportPropertyChanging("itmCatId");
-                _itmCatId = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("itmCatId");
-                OnitmCatIdChanged();
-            }
-        }
-        private global::System.Int32 _itmCatId;
-        partial void OnitmCatIdChanging(global::System.Int32 value);
-        partial void OnitmCatIdChanged();
 
         #endregion
     
@@ -2320,6 +2208,5 @@ namespace SERIOUS_BUSINESS.res
     }
 
     #endregion
-
-    enum accessModifiers {acc_none, acc_store, acc_mgr, acc_adm};
+    
 }
