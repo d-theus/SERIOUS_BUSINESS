@@ -29,12 +29,8 @@ namespace SERIOUS_BUSINESS
                     this.currentUser = formLogin.usr;
                     this.Text = Settings.app_title +  " - " + currentUser.login;
                     this.currentUser = formLogin.usr;
-                    break;
-                default:
-                    MessageBox.Show("Окно авторизации было закрыто");
-                    break;
-            }
-            #region DB - get acc modifier
+
+#region DB - get acc modifier
             try
             {
                 dbConnection = new SqlConnection(SERIOUS_BUSINESS.res.Settings.dbConn_ConnStr);
@@ -49,7 +45,7 @@ namespace SERIOUS_BUSINESS
             }
             #endregion
 
-            #region example filling dgv
+#region example filling dgv
             string sql_str_getEmployees = @"
 SELECT EmployeeSet.name AS [Сотрудник], AppointmentSet.name AS [Текущий доступ] FROM 
 EmployeeSet
@@ -63,6 +59,13 @@ ON EmployeeSet.aptID = AppointmentSet.id";
             DGV.DataSource = ds.Tables[0];
             DGV.Refresh();
             #endregion
+
+                    break;
+                default:
+                    MessageBox.Show("Окно авторизации было закрыто", "Ошибка авторизации");
+                    break;
+            }
+
         }
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {

@@ -69,10 +69,6 @@
             this.btn_edit = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.ms_dgvMS = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.редактироватьToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.дОбавитьЗаписьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.удалитьЗапистьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGV)).BeginInit();
             this.ms_dgvMS.SuspendLayout();
