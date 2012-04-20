@@ -84,14 +84,14 @@
     <Property Name="name" Type="nvarchar(max)" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="phone" Type="nvarchar(max)" Nullable="false" />
     <Property Name="email" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
   <EntityType Name="ItemCategorySet">
     <Key>
       <PropertyRef Name="id" />
     </Key>
     <Property Name="name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
   <EntityType Name="ItemSet">
     <Key>
@@ -107,7 +107,7 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="orderID" Type="int" Nullable="false" />
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="count" Type="int" Nullable="false" />
     <Property Name="itemID" Type="int" Nullable="false" />
   </EntityType>
@@ -352,7 +352,7 @@
           <Property Type="String" Name="name" Nullable="false" annotation:StoreGeneratedPattern="Identity" ConcurrencyMode="Fixed" />
           <Property Type="String" Name="phone" Nullable="false" ConcurrencyMode="Fixed" />
           <Property Type="String" Name="email" Nullable="false" />
-          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Order" Relationship="Model1.ConsumerOrder" FromRole="Consumer" ToRole="Order" />
         </EntityType>
         <EntityType Name="ItemCategory" >
@@ -361,7 +361,7 @@
           </Key>
           <NavigationProperty Name="Item" Relationship="Model1.StoreItem" FromRole="Store" ToRole="Item" />
           <Property Type="String" Name="name" Nullable="false" />
-          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="pureJoin_IPcats" Relationship="Model1.ItemCategorypureJoin_IPcats" FromRole="ItemCategory" ToRole="pureJoin_IPcats" />
         </EntityType>
         <EntityType Name="Item">
@@ -392,7 +392,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Type="Int32" Name="orderID" Nullable="false" annotation:StoreGeneratedPattern="None" />
-          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Order" Relationship="Model1.OrderPosition" FromRole="Position" ToRole="Order" />
           <NavigationProperty Name="Item" Relationship="Model1.PositionItem" FromRole="Position" ToRole="Item" />
           <Property Type="Int32" Name="count" Nullable="false" />

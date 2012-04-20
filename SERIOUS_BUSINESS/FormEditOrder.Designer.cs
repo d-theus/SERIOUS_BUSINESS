@@ -294,6 +294,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Name = "FormEditOrder";
             this.Text = "Редактирование заказа";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormEditOrder_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.num_itemCount)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
