@@ -21,9 +21,9 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("Model1", "StoreItem", "Store", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.res.ItemCategory), "Item", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.res.Item), true)]
 [assembly: EdmRelationshipAttribute("Model1", "ConsumerOrder", "Consumer", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.res.Consumer), "Order", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.res.Order), true)]
 [assembly: EdmRelationshipAttribute("Model1", "EmployeeOrder", "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.res.Employee), "Order", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.res.Order), true)]
-[assembly: EdmRelationshipAttribute("Model1", "OrderService", "Order", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.res.Order), "Service", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.res.Position), true)]
+[assembly: EdmRelationshipAttribute("Model1", "OrderPosition", "Order", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.res.Order), "Position", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.res.Position), true)]
 [assembly: EdmRelationshipAttribute("Model1", "AppointmentEmployee", "Appointment", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.res.Appointment), "Employee", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.res.Employee), true)]
-[assembly: EdmRelationshipAttribute("Model1", "ServiceItem", "Service", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.res.Position), "Item", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.res.Item), true)]
+[assembly: EdmRelationshipAttribute("Model1", "PositionItem", "Position", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.res.Position), "Item", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.res.Item), true)]
 [assembly: EdmRelationshipAttribute("Model1", "ParameterCategoryItemParameter", "ParameterCategory", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.res.ParameterCategory), "ItemParameter", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.res.ItemParameter), true)]
 [assembly: EdmRelationshipAttribute("Model1", "ItemItemParameter", "Item", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.res.Item), "ItemParameter", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.res.ItemParameter), true)]
 [assembly: EdmRelationshipAttribute("Model1", "ItemCategorypureJoin_IPcats", "ItemCategory", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(SERIOUS_BUSINESS.res.ItemCategory), "pureJoin_IPcats", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(SERIOUS_BUSINESS.res.pureJoin_IPcats), true)]
@@ -1017,28 +1017,6 @@ namespace SERIOUS_BUSINESS.res
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Model1", "ServiceItem", "Service")]
-        public EntityCollection<Position> Service
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Position>("Model1.ServiceItem", "Service");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Position>("Model1.ServiceItem", "Service", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("Model1", "ItemItemParameter", "ItemParameter")]
         public EntityCollection<ItemParameter> ItemParameter
         {
@@ -1678,28 +1656,6 @@ namespace SERIOUS_BUSINESS.res
                 }
             }
         }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Model1", "OrderService", "Service")]
-        public EntityCollection<Position> Service
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Position>("Model1.OrderService", "Service");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Position>("Model1.OrderService", "Service", value);
-                }
-            }
-        }
 
         #endregion
     }
@@ -1971,16 +1927,16 @@ namespace SERIOUS_BUSINESS.res
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Model1", "OrderService", "Order")]
+        [EdmRelationshipNavigationPropertyAttribute("Model1", "OrderPosition", "Order")]
         public Order Order
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Order>("Model1.OrderService", "Order").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Order>("Model1.OrderPosition", "Order").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Order>("Model1.OrderService", "Order").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Order>("Model1.OrderPosition", "Order").Value = value;
             }
         }
         /// <summary>
@@ -1992,13 +1948,13 @@ namespace SERIOUS_BUSINESS.res
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Order>("Model1.OrderService", "Order");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Order>("Model1.OrderPosition", "Order");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Order>("Model1.OrderService", "Order", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Order>("Model1.OrderPosition", "Order", value);
                 }
             }
         }
@@ -2009,16 +1965,16 @@ namespace SERIOUS_BUSINESS.res
         [XmlIgnoreAttribute()]
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Model1", "ServiceItem", "Item")]
+        [EdmRelationshipNavigationPropertyAttribute("Model1", "PositionItem", "Item")]
         public Item Item
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("Model1.ServiceItem", "Item").Value;
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("Model1.PositionItem", "Item").Value;
             }
             set
             {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("Model1.ServiceItem", "Item").Value = value;
+                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("Model1.PositionItem", "Item").Value = value;
             }
         }
         /// <summary>
@@ -2030,13 +1986,13 @@ namespace SERIOUS_BUSINESS.res
         {
             get
             {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("Model1.ServiceItem", "Item");
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Item>("Model1.PositionItem", "Item");
             }
             set
             {
                 if ((value != null))
                 {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Item>("Model1.ServiceItem", "Item", value);
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Item>("Model1.PositionItem", "Item", value);
                 }
             }
         }
