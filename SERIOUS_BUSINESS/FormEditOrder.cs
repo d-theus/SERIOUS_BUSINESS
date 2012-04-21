@@ -21,14 +21,14 @@ namespace SERIOUS_BUSINESS
         private res.Order curOrder = null;
         
         
-        const string sqlcmd_comstr_ItemParameters_GetDesignations_INCOMPLETE = "SELECT [valueTxt] AS [designation] FROM ItemParameterSet INNER JOIN ItemSet ON ItemParameterSet.itemID = ItemSet.id AND [valueTxt] != '' AND ItemSet.catID = (SELECT [id] FROM ItemCategorySet WHERE [name] = '<ItemCategoryName>'";
+        const string sqlcmd_comstr_ItemParameters_GetDesignations_INCOMPLETE = "SELECT [valueTxt] AS [designation] FROM ItemParameterSet INNER JOIN ItemSet ON ItemParameterSet.itemID = ItemSet.id AND [valueTxt] != '' AND ItemSet.catID = (SELECT [id] FROM ItemCategorySet WHERE [name] = @ItemCategoryName";
         const string sqlcmd_comstr_ItemCategories_GetNames = "SELECT [name] FROM ItemCategorySet";
         const string sqlcmd_comstr_Positions_List = "SELECT [dbo].[PositionSet].[id] AS [Номер],[dbo].[PositionSet].[itemID] AS [Артикул] , [valueTxt] AS [Наименование], [count] AS [Количество] FROM PositionSet INNER JOIN ItemParameterSet ON ItemParameterSet.itemID = PositionSet.itemID AND ItemParameterSet.paramCatID = (SELECT [id] FROM ParameterCategorySet WHERE name = 'Наименование')";
         const string sqlcmd_comstr_Consumers_GetCount = "SELECT COUNT(*) FROM ConsumerSet";
-        const string sqlcmd_comstr_Orders_Insert_INCOMPLETE = "INSERT INTO [OrderSet] ([date], [status], [consID], [emplID]) VALUES (<date>, 'Обрабатывается', <consumerID>, <emplID>)";
-        const string sqlcmd_comstr_Consumers_Insert_INCOMPLETE = "INSERT INTO ConsumerSet (id, name, phone, email) VALUES ('<id>','<name>' , '<phone>', '<email>')";
-        const string sqlcmd_comstr_Orders_GetCurrId_INCOMPLETE = "SELECT [id] FROM OrderSet WHERE date ='<date>'";
-        const string sqlcmd_comstr_Positions_Insert_INCOMPLETE = "INSERT INTO PositionSet (id,orderID,itemID,[count]) VALUES (<orderID>,<itemID>,<count>)";
+        const string sqlcmd_comstr_Orders_Insert_INCOMPLETE = "INSERT INTO [OrderSet] ([date], [status], [consID], [emplID]) VALUES (@date, 'Обрабатывается', @consumerID, @emplID)";
+        const string sqlcmd_comstr_Consumers_Insert_INCOMPLETE = "INSERT INTO ConsumerSet (id, name, phone, email) VALUES (@id,@name , @phone, @email)";
+        const string sqlcmd_comstr_Orders_GetCurrId_INCOMPLETE = "SELECT [id] FROM OrderSet WHERE date = @date";
+        const string sqlcmd_comstr_Positions_Insert_INCOMPLETE = "INSERT INTO PositionSet (id,orderID,itemID,[count]) VALUES (@orderID, @itemID, @count)";
 
 
         SqlCommand sqlCMD = null;
@@ -98,7 +98,8 @@ retry:
         {
             cb_itemDesignation.Items.Clear();
             cb_itemDesignation.Text = "";
-            sqlCMD.CommandText = sqlcmd_comstr_Positions_List.Replace("<ItemCategoryName>", cb_itemType.Text.ToString());
+            //sqlCMD.CommandText = sqlcmd_comstr_Positions_List.Replace("<ItemCategoryName>", cb_itemType.Text.ToString());
+            sqlCMD.Parameters.Add(new SqlParameter ("ItemCategoryName", cb_itemType.Text.ToString()));
             try
             {
                 SqlDataReader drd = sqlCMD.ExecuteReader();
@@ -112,6 +113,10 @@ retry:
             {
                 MessageBox.Show(ex.Message, "Ошибка базы данных");
             }
+            finally
+            {
+                sqlCMD.Parameters.Clear();
+            }
         }
 
         private void btn_ok_Click(object sender, EventArgs e)
@@ -119,22 +124,26 @@ retry:
 
             if (tables.Tables[0].Rows.Count > 0 && !tb_Name.Text.ToString().Equals("") && !tb_phone.Text.ToString().Equals(""))
             {
-#region consumer
-        try_create_consumer:
+                #region consumer
+            try_create_consumer:
                 sqlTRS = dbConnection.BeginTransaction("Transaction : New consumer");
                 sqlCMD.Transaction = sqlTRS;
                 try
                 {
-                sqlCMD.CommandText = sqlcmd_comstr_Consumers_GetCount;
-                curCons = res.Consumer.CreateConsumer(tb_Name.Text.ToString(), tb_phone.Text.ToString(), tb_email.Text.ToString(), int.Parse(sqlCMD.ExecuteScalar().ToString()));
-                sqlCMD.CommandText = sqlcmd_comstr_Consumers_Insert_INCOMPLETE.Replace("<id>", curCons.id.ToString()).Replace("<name>", curCons.name.ToString()).Replace("<phone>", curCons.phone.ToString()).Replace("<email>", curCons.email.ToString());
+                    sqlCMD.CommandText = sqlcmd_comstr_Consumers_GetCount;
+                    curCons = res.Consumer.CreateConsumer(tb_Name.Text.ToString(), tb_phone.Text.ToString(), tb_email.Text.ToString(), int.Parse(sqlCMD.ExecuteScalar().ToString()));
+                    //sqlCMD.CommandText = sqlcmd_comstr_Consumers_Insert_INCOMPLETE.Replace("<id>", curCons.id.ToString()).Replace("<name>", curCons.name.ToString()).Replace("<phone>", curCons.phone.ToString()).Replace("<email>", curCons.email.ToString());
+                    sqlCMD.Parameters.Add(new SqlParameter("id", curCons.id.ToString()));
+                    sqlCMD.Parameters.Add(new SqlParameter("name", curCons.name.ToString()));
+                    sqlCMD.Parameters.Add(new SqlParameter("phone", curCons.phone.ToString()));
+                    sqlCMD.Parameters.Add(new SqlParameter("email", curCons.email.ToString()));
                     sqlCMD.ExecuteNonQuery();
                     sqlTRS.Commit();
                 }
-                catch(Exception exc)
+                catch (Exception exc)
                 {
                     sqlTRS.Rollback();
-                    DialogResult result = MessageBox.Show(exc.Message,"Ошибка добавления клиента в базу данных", MessageBoxButtons.RetryCancel);
+                    DialogResult result = MessageBox.Show(exc.Message, "Ошибка добавления клиента в базу данных", MessageBoxButtons.RetryCancel);
                     switch (result)
                     {
                         case DialogResult.Cancel:
@@ -143,21 +152,28 @@ retry:
                             goto try_create_consumer;
                     }
                 }
-#endregion
-#region order
-                curOrder = res.Order.CreateOrder(-1, DateTime.Now, "Набор", curCons.id, curUsr.id); 
-        try_create_order:
-                sqlCMD.CommandText = sqlcmd_comstr_Orders_Insert_INCOMPLETE.Replace("<consumerID>", curCons.id.ToString()).Replace("<emplId>", curUsr.id.ToString());
+                finally
+                {
+                    sqlCMD.Parameters.Clear();
+                }
+                #endregion
+                #region order
+                curOrder = res.Order.CreateOrder(-1, DateTime.Now, "Набор", curCons.id, curUsr.id);
+            try_create_order:
+                //sqlCMD.CommandText = sqlcmd_comstr_Orders_Insert_INCOMPLETE.Replace("<consumerID>", curCons.id.ToString()).Replace("<emplId>", curUsr.id.ToString());
+                sqlCMD.Parameters.Add(new SqlParameter("consumerID", curCons.id.ToString()));
+                sqlCMD.Parameters.Add(new SqlParameter("emplId", curUsr.id.ToString()));
                 sqlTRS = dbConnection.BeginTransaction("Transaction : New order");
                 sqlCMD.Transaction = sqlTRS;
                 try
                 {
                     sqlCMD.ExecuteNonQuery();
-                    sqlCMD.CommandText = sqlcmd_comstr_Orders_GetCurrId_INCOMPLETE.Replace("<date>", curOrder.date.ToString());
+                    //sqlCMD.CommandText = sqlcmd_comstr_Orders_GetCurrId_INCOMPLETE.Replace("<date>", curOrder.date.ToString());
+                    sqlCMD.Parameters.Add(new SqlParameter("date", curOrder.date.ToString()));
                     curOrder.id = int.Parse(sqlCMD.ExecuteScalar().ToString());
                     sqlTRS.Commit();
                 }
-                catch(Exception exc)
+                catch (Exception exc)
                 {
                     sqlTRS.Rollback();
                     DialogResult result = MessageBox.Show(exc.Message, "Ошибка добавления заказа в базу данных", MessageBoxButtons.RetryCancel);
@@ -169,8 +185,12 @@ retry:
                             goto try_create_order;
                     }
                 }
-#endregion
-#region positions
+                finally
+                {
+                    sqlCMD.Parameters.Clear();
+                }
+                #endregion
+                #region positions
             try_create_positions_set:
                 sqlTRS = dbConnection.BeginTransaction("Transaction : New order");
                 sqlCMD.Transaction = sqlTRS;
@@ -178,7 +198,10 @@ retry:
                 {
                     foreach (DataRow entry in tables.Tables[0].Rows)
                     {
-                        sqlCMD.CommandText = sqlcmd_comstr_Positions_Insert_INCOMPLETE.Replace("<orderID>",curOrder.id.ToString()).Replace("<count>",entry["Количество"].ToString()).Replace("<itemID>", entry["Артикул"].ToString());
+                        // sqlCMD.CommandText = sqlcmd_comstr_Positions_Insert_INCOMPLETE.Replace("<orderID>", curOrder.id.ToString()).Replace("<count>", entry["Количество"].ToString()).Replace("<itemID>", entry["Артикул"].ToString());
+                        sqlCMD.Parameters.Add(new SqlParameter("orderID", curOrder.id.ToString()));
+                        sqlCMD.Parameters.Add(new SqlParameter("count", entry["Количество"].ToString()));
+                        sqlCMD.Parameters.Add(new SqlParameter("itemID", entry["Артикул"].ToString()));
                         sqlCMD.ExecuteNonQuery();
                     }
                     sqlTRS.Commit();
@@ -195,10 +218,19 @@ retry:
                             goto try_create_positions_set;
                     }
                 }
-#endregion
+                finally
+                {
+                    sqlCMD.Parameters.Clear();
+                }
+                #endregion
+                this.dlgResult = DialogResult.OK;
+                this.Close();
             }
-
-            this.dlgResult = DialogResult.OK;
+            else
+            {
+                MessageBox.Show("Есть незаполненные обязательные поля с данными и заказчике");
+                return;
+            }
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)
