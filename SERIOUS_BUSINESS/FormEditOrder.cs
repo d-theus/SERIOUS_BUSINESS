@@ -229,7 +229,6 @@ retry:
 
         private void DGV_DataSourceChanged(object sender, EventArgs e)
         {
-            MessageBox.Show(tables.Tables[0].Rows.Count.ToString());
             if (tables.Tables[0].Rows.Count > 0)
                 this.btn_rmItem.Enabled = true;
             else
