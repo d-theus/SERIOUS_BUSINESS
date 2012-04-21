@@ -125,7 +125,7 @@ ON EmployeeSet.aptID = AppointmentSet.id";
         {
             if (currentAccess == (int)accessModifiers.acc_store || currentAccess == (int)accessModifiers.acc_adm)
             {
-                FormEditCategories formCat = new FormEditCategories();
+                FormEditCategories formCat = new FormEditCategories(this.dbConnection);
                 formCat.ShowDialog();
             }
             else

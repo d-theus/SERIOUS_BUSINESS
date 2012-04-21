@@ -23,7 +23,7 @@ namespace SERIOUS_BUSINESS
         
         const string sqlcmd_comstr_ItemParameters_GetDesignations_INCOMPLETE = "SELECT [valueTxt] AS [designation] FROM ItemParameterSet INNER JOIN ItemSet ON ItemParameterSet.itemID = ItemSet.id AND [valueTxt] != '' AND ItemSet.catID = (SELECT [id] FROM ItemCategorySet WHERE [name] = '<ItemCategoryName>'";
         const string sqlcmd_comstr_ItemCategories_GetNames = "SELECT [name] FROM ItemCategorySet";
-        const string sqlcmd_comstr_Positions_Enlist = "SELECT [dbo].[PositionSet].[id] AS [Номер],[dbo].[PositionSet].[itemID] AS [Артикул] , [valueTxt] AS [Наименование], [count] AS [Количество] FROM PositionSet INNER JOIN ItemParameterSet ON ItemParameterSet.itemID = PositionSet.itemID AND ItemParameterSet.paramCatID = (SELECT [id] FROM ParameterCategorySet WHERE name = 'Наименование')";
+        const string sqlcmd_comstr_Positions_List = "SELECT [dbo].[PositionSet].[id] AS [Номер],[dbo].[PositionSet].[itemID] AS [Артикул] , [valueTxt] AS [Наименование], [count] AS [Количество] FROM PositionSet INNER JOIN ItemParameterSet ON ItemParameterSet.itemID = PositionSet.itemID AND ItemParameterSet.paramCatID = (SELECT [id] FROM ParameterCategorySet WHERE name = 'Наименование')";
         const string sqlcmd_comstr_Consumers_GetCount = "SELECT COUNT(*) FROM ConsumerSet";
         const string sqlcmd_comstr_Orders_Insert_INCOMPLETE = "INSERT INTO [OrderSet] ([date], [status], [consID], [emplID]) VALUES (<date>, 'Обрабатывается', <consumerID>, <emplID>)";
         const string sqlcmd_comstr_Consumers_Insert_INCOMPLETE = "INSERT INTO ConsumerSet (id, name, phone, email) VALUES ('<id>','<name>' , '<phone>', '<email>')";
@@ -66,7 +66,7 @@ retry:
                 #endregion
 
                 #region Positions table initializing
-                sqlCMD.CommandText = sqlcmd_comstr_Positions_Enlist + "WHERE [dbo].[PositionSet].[id] = -1"; //empty table as columns source
+                sqlCMD.CommandText = sqlcmd_comstr_Positions_List + "WHERE [dbo].[PositionSet].[id] = -1"; //empty table as columns source
                 SqlDataAdapter dad = new SqlDataAdapter(sqlCMD);
                 dad.Fill(tables);
                 this.DGV.DataSource = tables.Tables[0];
@@ -98,7 +98,7 @@ retry:
         {
             cb_itemDesignation.Items.Clear();
             cb_itemDesignation.Text = "";
-            sqlCMD.CommandText = sqlcmd_comstr_Positions_Enlist.Replace("<ItemCategoryName>", cb_itemType.Text.ToString());
+            sqlCMD.CommandText = sqlcmd_comstr_Positions_List.Replace("<ItemCategoryName>", cb_itemType.Text.ToString());
             try
             {
                 SqlDataReader drd = sqlCMD.ExecuteReader();
