@@ -23,16 +23,16 @@
       <End Role="Employee" EntitySet="EmployeeSet" />
       <End Role="Order" EntitySet="OrderSet" />
     </AssociationSet>
-    <AssociationSet Name="OrderService" Association="Model1.Store.OrderService">
+    <AssociationSet Name="OrderPosition" Association="Model1.Store.OrderPosition">
       <End Role="Order" EntitySet="OrderSet" />
-      <End Role="Service" EntitySet="PositionSet" />
+      <End Role="Position" EntitySet="PositionSet" />
     </AssociationSet>
     <AssociationSet Name="AppointmentEmployee" Association="Model1.Store.AppointmentEmployee">
       <End Role="Appointment" EntitySet="AppointmentSet" />
       <End Role="Employee" EntitySet="EmployeeSet" />
     </AssociationSet>
-    <AssociationSet Name="ServiceItem" Association="Model1.Store.ServiceItem">
-      <End Role="Service" EntitySet="PositionSet" />
+    <AssociationSet Name="PositionItem" Association="Model1.Store.PositionItem">
+      <End Role="Position" EntitySet="PositionSet" />
       <End Role="Item" EntitySet="ItemSet" />
     </AssociationSet>
     <AssociationSet Name="ParameterCategoryItemParameter" Association="Model1.Store.ParameterCategoryItemParameter">
@@ -57,7 +57,7 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="date" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="date" Type="datetime" Nullable="false" />
     <Property Name="status" Type="nvarchar(max)" Nullable="false" />
     <Property Name="consID" Type="int" Nullable="false" />
     <Property Name="emplID" Type="int" Nullable="false" />
@@ -79,33 +79,30 @@
     <Property Name="name" Type="nvarchar(max)" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="phone" Type="nvarchar(max)" Nullable="false" />
     <Property Name="email" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
   <EntityType Name="ItemCategorySet">
     <Key>
       <PropertyRef Name="id" />
     </Key>
     <Property Name="name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
   <EntityType Name="ItemSet">
     <Key>
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="designation" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="purchasePrice" Type="float" Nullable="false" />
-    <Property Name="salePrice" Type="float" Nullable="false" />
     <Property Name="storeResidue" Type="int" Nullable="false" />
-    <Property Name="demand" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="demand" Type="int" Nullable="false" />
     <Property Name="catID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PositionSet">
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Name="orderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="id" Type="int" Nullable="false" />
+    <Property Name="orderID" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="count" Type="int" Nullable="false" />
     <Property Name="itemID" Type="int" Nullable="false" />
   </EntityType>
@@ -114,7 +111,7 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="accessModifier" Type="smallint" Nullable="false" />
+    <Property Name="accessModifier" Type="smallint" Nullable="false" DefaultValue="0" />
     <Property Name="name" Type="nvarchar(max)" Nullable="false" />
   </EntityType>
   <EntityType Name="ItemParameterSet">
@@ -122,26 +119,25 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="valueDbl" Type="float" Nullable="false" />
-    <Property Name="valueBool" Type="bit" Nullable="false" />
-    <Property Name="valueTxt" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="valueDbl" Type="float" Nullable="true" />
+    <Property Name="valueBool" Type="bit" Nullable="true" />
+    <Property Name="valueTxt" Type="nvarchar(max)" Nullable="true" />
     <Property Name="itemID" Type="int" Nullable="false" />
     <Property Name="paramCatID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="ParameterCategorySet">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="id" />
     </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="itmCatId" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="pureJoin_IPcatsSet">
     <Key>
       <PropertyRef Name="ICID" />
       <PropertyRef Name="PCID" />
     </Key>
-    <Property Name="ICID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ICID" Type="int" Nullable="false" />
     <Property Name="PCID" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="StoreItem">
@@ -180,14 +176,14 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="OrderService">
+  <Association Name="OrderPosition">
     <End Role="Order" Type="Model1.Store.OrderSet" Multiplicity="1" />
-    <End Role="Service" Type="Model1.Store.PositionSet" Multiplicity="*" />
+    <End Role="Position" Type="Model1.Store.PositionSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Order">
         <PropertyRef Name="id" />
       </Principal>
-      <Dependent Role="Service">
+      <Dependent Role="Position">
         <PropertyRef Name="orderID" />
       </Dependent>
     </ReferentialConstraint>
@@ -204,14 +200,14 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="ServiceItem">
-    <End Role="Service" Type="Model1.Store.PositionSet" Multiplicity="*" />
+  <Association Name="PositionItem">
+    <End Role="Position" Type="Model1.Store.PositionSet" Multiplicity="*" />
     <End Role="Item" Type="Model1.Store.ItemSet" Multiplicity="1" />
     <ReferentialConstraint>
       <Principal Role="Item">
         <PropertyRef Name="id" />
       </Principal>
-      <Dependent Role="Service">
+      <Dependent Role="Position">
         <PropertyRef Name="itemID" />
       </Dependent>
     </ReferentialConstraint>
@@ -221,7 +217,7 @@
     <End Role="ItemParameter" Type="Model1.Store.ItemParameterSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="ParameterCategory">
-        <PropertyRef Name="Id" />
+        <PropertyRef Name="id" />
       </Principal>
       <Dependent Role="ItemParameter">
         <PropertyRef Name="paramCatID" />
@@ -257,7 +253,7 @@
     <End Role="pureJoin_IPcats" Type="Model1.Store.pureJoin_IPcatsSet" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="ParameterCategory">
-        <PropertyRef Name="Id" />
+        <PropertyRef Name="id" />
       </Principal>
       <Dependent Role="pureJoin_IPcats">
         <PropertyRef Name="PCID" />

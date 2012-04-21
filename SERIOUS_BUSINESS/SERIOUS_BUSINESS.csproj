@@ -118,11 +118,6 @@
     <Compile Include="FormNewEmpl.Designer.cs">
       <DependentUpon>FormNewEmpl.cs</DependentUpon>
     </Compile>
-    <Compile Include="res\Dynamic.Designer.cs">
-      <DependentUpon>Dynamic.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-    </Compile>
     <Compile Include="res\Model1.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -140,7 +135,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Settings.resx</DependentUpon>
     </Compile>
-    <Compile Include="User.cs" />
     <EmbeddedResource Include="FormEditCategories.resx">
       <DependentUpon>FormEditCategories.cs</DependentUpon>
     </EmbeddedResource>
@@ -177,11 +171,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="res\Dynamic.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Dynamic.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="res\Settings.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Settings1.Designer.cs</LastGenOutput>

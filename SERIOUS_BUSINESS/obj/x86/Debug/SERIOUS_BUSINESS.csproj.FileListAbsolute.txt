@@ -57,7 +57,6 @@ F:\Programming\DB\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.FormLogin.reso
 F:\Programming\DB\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.FormMain.resources
 F:\Programming\DB\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.FormEditOrder.resources
 F:\Programming\DB\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.Properties.Resources.resources
-F:\Programming\DB\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.res.Dynamic.resources
 F:\Programming\DB\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.res.Settings.resources
 F:\Programming\DB\SERIOUS_BUSINESS\obj\x86\Debug\GenerateResource.read.1.tlog
 F:\Programming\DB\SERIOUS_BUSINESS\obj\x86\Debug\GenerateResource.write.1.tlog

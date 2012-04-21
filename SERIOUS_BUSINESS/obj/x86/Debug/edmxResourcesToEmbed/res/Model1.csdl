@@ -19,17 +19,17 @@
       <End Role="Employee" EntitySet="EmployeeSet" />
       <End Role="Order" EntitySet="OrderSet" />
     </AssociationSet>
-    <AssociationSet Name="OrderService" Association="Model1.OrderService">
+    <AssociationSet Name="OrderPosition" Association="Model1.OrderPosition">
       <End Role="Order" EntitySet="OrderSet" />
-      <End Role="Service" EntitySet="PositionSet" />
+      <End Role="Position" EntitySet="PositionSet" />
     </AssociationSet>
     <EntitySet Name="AppointmentSet" EntityType="Model1.Appointment" />
     <AssociationSet Name="AppointmentEmployee" Association="Model1.AppointmentEmployee">
       <End Role="Appointment" EntitySet="AppointmentSet" />
       <End Role="Employee" EntitySet="EmployeeSet" />
     </AssociationSet>
-    <AssociationSet Name="ServiceItem" Association="Model1.ServiceItem">
-      <End Role="Service" EntitySet="PositionSet" />
+    <AssociationSet Name="PositionItem" Association="Model1.PositionItem">
+      <End Role="Position" EntitySet="PositionSet" />
       <End Role="Item" EntitySet="ItemSet" />
     </AssociationSet>
     <EntitySet Name="ItemParameterSet" EntityType="Model1.ItemParameter" />
@@ -57,13 +57,12 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Type="String" Name="date" Nullable="false" />
+    <Property Type="DateTime" Name="date" Nullable="false" />
     <Property Type="String" Name="status" Nullable="false" />
     <Property Type="Int32" Name="consID" Nullable="false" />
     <NavigationProperty Name="Consumer" Relationship="Model1.ConsumerOrder" FromRole="Order" ToRole="Consumer" />
     <NavigationProperty Name="Employee" Relationship="Model1.EmployeeOrder" FromRole="Order" ToRole="Employee" />
     <Property Type="Int32" Name="emplID" Nullable="false" />
-    <NavigationProperty Name="Service" Relationship="Model1.OrderService" FromRole="Order" ToRole="Service" />
   </EntityType>
   <EntityType Name="Employee">
     <Key>
@@ -84,7 +83,7 @@
     <Property Type="String" Name="name" Nullable="false" annotation:StoreGeneratedPattern="Identity" ConcurrencyMode="Fixed" />
     <Property Type="String" Name="phone" Nullable="false" ConcurrencyMode="Fixed" />
     <Property Type="String" Name="email" Nullable="false" />
-    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <NavigationProperty Name="Order" Relationship="Model1.ConsumerOrder" FromRole="Consumer" ToRole="Order" />
   </EntityType>
   <EntityType Name="ItemCategory">
@@ -93,7 +92,7 @@
     </Key>
     <NavigationProperty Name="Item" Relationship="Model1.StoreItem" FromRole="Store" ToRole="Item" />
     <Property Type="String" Name="name" Nullable="false" />
-    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <NavigationProperty Name="pureJoin_IPcats" Relationship="Model1.ItemCategorypureJoin_IPcats" FromRole="ItemCategory" ToRole="pureJoin_IPcats" />
   </EntityType>
   <EntityType Name="Item">
@@ -102,13 +101,9 @@
     </Key>
     <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <NavigationProperty Name="Store" Relationship="Model1.StoreItem" FromRole="Item" ToRole="Store" />
-    <Property Type="String" Name="designation" Nullable="false" />
-    <Property Type="Double" Name="purchasePrice" Nullable="false" />
-    <Property Type="Double" Name="salePrice" Nullable="false" />
     <Property Type="Int32" Name="storeResidue" Nullable="false" />
-    <Property Type="String" Name="demand" Nullable="false" />
+    <Property Type="Int32" Name="demand" Nullable="false" />
     <Property Type="Int32" Name="catID" Nullable="false" />
-    <NavigationProperty Name="Service" Relationship="Model1.ServiceItem" FromRole="Item" ToRole="Service" />
     <NavigationProperty Name="ItemParameter" Relationship="Model1.ItemItemParameter" FromRole="Item" ToRole="ItemParameter" />
   </EntityType>
   <Association Name="StoreItem">
@@ -127,10 +122,10 @@
     <Key>
       <PropertyRef Name="id" />
     </Key>
-    <Property Type="Int32" Name="orderID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Type="Int32" Name="id" Nullable="false" />
-    <NavigationProperty Name="Order" Relationship="Model1.OrderService" FromRole="Service" ToRole="Order" />
-    <NavigationProperty Name="Item" Relationship="Model1.ServiceItem" FromRole="Service" ToRole="Item" />
+    <Property Type="Int32" Name="orderID" Nullable="false" annotation:StoreGeneratedPattern="None" />
+    <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <NavigationProperty Name="Order" Relationship="Model1.OrderPosition" FromRole="Position" ToRole="Order" />
+    <NavigationProperty Name="Item" Relationship="Model1.PositionItem" FromRole="Position" ToRole="Item" />
     <Property Type="Int32" Name="count" Nullable="false" />
     <Property Type="Int32" Name="itemID" Nullable="false" />
   </EntityType>
@@ -158,14 +153,14 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="OrderService">
+  <Association Name="OrderPosition">
     <End Type="Model1.Order" Role="Order" Multiplicity="1" />
-    <End Type="Model1.Position" Role="Service" Multiplicity="*" />
+    <End Type="Model1.Position" Role="Position" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="Order">
         <PropertyRef Name="id" />
       </Principal>
-      <Dependent Role="Service">
+      <Dependent Role="Position">
         <PropertyRef Name="orderID" />
       </Dependent>
     </ReferentialConstraint>
@@ -175,7 +170,7 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Type="Int16" Name="accessModifier" Nullable="false" />
+    <Property Type="Int16" Name="accessModifier" Nullable="false" DefaultValue="0" />
     <NavigationProperty Name="Employee" Relationship="Model1.AppointmentEmployee" FromRole="Appointment" ToRole="Employee" />
     <Property Type="String" Name="name" Nullable="false" />
   </EntityType>
@@ -191,14 +186,14 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="ServiceItem">
-    <End Type="Model1.Position" Role="Service" Multiplicity="*" />
+  <Association Name="PositionItem">
+    <End Type="Model1.Position" Role="Position" Multiplicity="*" />
     <End Type="Model1.Item" Role="Item" Multiplicity="1" />
     <ReferentialConstraint>
       <Principal Role="Item">
         <PropertyRef Name="id" />
       </Principal>
-      <Dependent Role="Service">
+      <Dependent Role="Position">
         <PropertyRef Name="itemID" />
       </Dependent>
     </ReferentialConstraint>
@@ -208,9 +203,9 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Type="Double" Name="valueDbl" Nullable="false" />
-    <Property Type="Boolean" Name="valueBool" Nullable="false" />
-    <Property Type="String" Name="valueTxt" Nullable="false" />
+    <Property Type="Double" Name="valueDbl" Nullable="true" />
+    <Property Type="Boolean" Name="valueBool" Nullable="true" />
+    <Property Type="String" Name="valueTxt" Nullable="true" />
     <Property Type="Int32" Name="itemID" Nullable="false" />
     <NavigationProperty Name="ParameterCategory" Relationship="Model1.ParameterCategoryItemParameter" FromRole="ItemParameter" ToRole="ParameterCategory" />
     <NavigationProperty Name="Item" Relationship="Model1.ItemItemParameter" FromRole="ItemParameter" ToRole="Item" />
@@ -218,12 +213,11 @@
   </EntityType>
   <EntityType Name="ParameterCategory">
     <Key>
-      <PropertyRef Name="Id" />
+      <PropertyRef Name="id" />
     </Key>
-    <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <NavigationProperty Name="ItemParameter" Relationship="Model1.ParameterCategoryItemParameter" FromRole="ParameterCategory" ToRole="ItemParameter" />
     <Property Type="String" Name="name" Nullable="false" />
-    <Property Type="Int32" Name="itmCatId" Nullable="false" />
     <NavigationProperty Name="pureJoin_IPcats" Relationship="Model1.ParameterCategorypureJoin_IPcats" FromRole="ParameterCategory" ToRole="pureJoin_IPcats" />
   </EntityType>
   <Association Name="ParameterCategoryItemParameter">
@@ -231,7 +225,7 @@
     <End Type="Model1.ItemParameter" Role="ItemParameter" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="ParameterCategory">
-        <PropertyRef Name="Id" />
+        <PropertyRef Name="id" />
       </Principal>
       <Dependent Role="ItemParameter">
         <PropertyRef Name="paramCatID" />
@@ -255,7 +249,7 @@
       <PropertyRef Name="ICID" />
       <PropertyRef Name="PCID" />
     </Key>
-    <Property Type="Int32" Name="ICID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="ICID" Nullable="false" annotation:StoreGeneratedPattern="None" />
     <Property Type="Int32" Name="PCID" Nullable="false" />
     <NavigationProperty Name="ItemCategory" Relationship="Model1.ItemCategorypureJoin_IPcats" FromRole="pureJoin_IPcats" ToRole="ItemCategory" />
     <NavigationProperty Name="ParameterCategory" Relationship="Model1.ParameterCategorypureJoin_IPcats" FromRole="pureJoin_IPcats" ToRole="ParameterCategory" />
@@ -277,7 +271,7 @@
     <End Type="Model1.pureJoin_IPcats" Role="pureJoin_IPcats" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="ParameterCategory">
-        <PropertyRef Name="Id" />
+        <PropertyRef Name="id" />
       </Principal>
       <Dependent Role="pureJoin_IPcats">
         <PropertyRef Name="PCID" />

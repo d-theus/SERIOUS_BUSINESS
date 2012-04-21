@@ -45,9 +45,6 @@
       <EntityTypeMapping TypeName="IsTypeOf(Model1.Item)">
         <MappingFragment StoreEntitySet="ItemSet">
           <ScalarProperty Name="id" ColumnName="id" />
-          <ScalarProperty Name="designation" ColumnName="designation" />
-          <ScalarProperty Name="purchasePrice" ColumnName="purchasePrice" />
-          <ScalarProperty Name="salePrice" ColumnName="salePrice" />
           <ScalarProperty Name="storeResidue" ColumnName="storeResidue" />
           <ScalarProperty Name="demand" ColumnName="demand" />
           <ScalarProperty Name="catID" ColumnName="catID" />
@@ -88,9 +85,8 @@
     <EntitySetMapping Name="ParameterCategorySet">
       <EntityTypeMapping TypeName="IsTypeOf(Model1.ParameterCategory)">
         <MappingFragment StoreEntitySet="ParameterCategorySet">
-          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="id" ColumnName="id" />
           <ScalarProperty Name="name" ColumnName="name" />
-          <ScalarProperty Name="itmCatId" ColumnName="itmCatId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
