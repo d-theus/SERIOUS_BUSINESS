@@ -24,7 +24,7 @@ namespace SERIOUS_BUSINESS
             {
                 dbConnection.Open();
                 #region Retrieving last user from registry
-                RegistryKey readKey = Registry.LocalMachine.OpenSubKey(@"software\\" + res.Settings.app_title + @"\");
+                RegistryKey readKey = Registry.LocalMachine.OpenSubKey(@"software\\" + res.Settings.cb_ + @"\");
                 tb_login.Text = (string)readKey.GetValue("Last User");
                 if (tb_login.Text.ToString().Length != 0)
                 {
@@ -84,7 +84,7 @@ namespace SERIOUS_BUSINESS
                 if (cb_remember.Checked)
                 {
                     #region Saving current user to registry
-                    RegistryKey openKey = Registry.LocalMachine.OpenSubKey(@"software\\" + res.Settings.app_title + @"\", true);
+                    RegistryKey openKey = Registry.LocalMachine.OpenSubKey(@"software\\" + res.Settings.cb_ + @"\", true);
                     openKey.SetValue("Last User", tb_login.Text.ToString());
                     openKey.Close();
                     #endregion

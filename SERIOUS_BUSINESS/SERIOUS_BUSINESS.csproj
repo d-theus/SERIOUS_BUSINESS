@@ -196,7 +196,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Model1.edmx.sql" />
     <Content Include="res\Model1.edmx.sql" />
   </ItemGroup>
   <ItemGroup>

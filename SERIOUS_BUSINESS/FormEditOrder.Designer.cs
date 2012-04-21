@@ -132,7 +132,6 @@
             // 
             this.groupBox1.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox1.Controls.Add(this.btn_rmItem);
-            this.groupBox1.Controls.Add(this.DGV);
             this.groupBox1.Controls.Add(this.btn_addItem);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.cb_itemType);
@@ -160,9 +159,9 @@
             // DGV
             // 
             this.DGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DGV.Location = new System.Drawing.Point(200, 19);
+            this.DGV.Location = new System.Drawing.Point(315, 87);
             this.DGV.Name = "DGV";
-            this.DGV.Size = new System.Drawing.Size(239, 147);
+            this.DGV.Size = new System.Drawing.Size(520, 289);
             this.DGV.TabIndex = 17;
             this.DGV.DataSourceChanged += new System.EventHandler(this.DGV_DataSourceChanged);
             // 
@@ -297,8 +296,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(853, 420);
             this.Controls.Add(this.label9);
+            this.Controls.Add(this.DGV);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_ok);
             this.Controls.Add(this.groupBox2);

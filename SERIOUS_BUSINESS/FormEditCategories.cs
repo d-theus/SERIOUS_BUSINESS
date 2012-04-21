@@ -19,7 +19,7 @@ namespace SERIOUS_BUSINESS
 
         private string sqlcmd_commstr_ItemCategory_IsExist_INCOMPLETE;
         private string sqlcmd_commstr_ItemCategory_Insert_INCOMPLETE;
-        private string sqlcmd_commstr_ItemCategory_ListNames = "SELECT [name] FROM ItemCategorySet";
+        private string sqlcmd_commstr_ItemCategory_ListNames = "SELECT * FROM ItemCategorySet";
         private string sqlcmd_commstr_Item_IsExistInCat_INCOMPLETE;
         private string sqlcmd_commstr_Item_Insert_INCOMPLETE;
 #endregion
@@ -43,10 +43,11 @@ namespace SERIOUS_BUSINESS
         private void RefillCategoriesListAndCB()
         {
         getCurrentCategories:
+            sqlCMD.CommandText = sqlcmd_commstr_ItemCategory_ListNames;
+            SqlDataReader drd = null;
             try
-            {
-                sqlCMD.CommandText = sqlcmd_commstr_ItemCategory_ListNames;
-                SqlDataReader drd = sqlCMD.ExecuteReader();
+            { 
+                drd = sqlCMD.ExecuteReader();
                 while (drd.Read())
                 {
                     CategoryList.Add(res.ItemCategory.CreateItemCategory(drd["name"].ToString(), int.Parse(drd["id"].ToString())));
@@ -64,9 +65,14 @@ namespace SERIOUS_BUSINESS
                 }
             }
             finally
-            {
-                cb_cat.Items.AddRange(CategoryList.ToArray());
-            }
+           {
+               if (drd != null)
+                   drd.Dispose();
+               foreach (res.ItemCategory entry in CategoryList)
+               {
+                   cb_cat.Items.Add(entry.name);
+               }
+           }
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)

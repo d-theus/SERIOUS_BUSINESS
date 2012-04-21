@@ -63,9 +63,9 @@ namespace SERIOUS_BUSINESS.res {
         /// <summary>
         ///   Looks up a localized string similar to SBPS.
         /// </summary>
-        internal static string app_title {
+        internal static string cb_ {
             get {
-                return ResourceManager.GetString("app_title", resourceCulture);
+                return ResourceManager.GetString("cb.", resourceCulture);
             }
         }
         
