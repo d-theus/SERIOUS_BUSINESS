@@ -28,7 +28,7 @@ namespace SERIOUS_BUSINESS
                 case DialogResult.OK:
                     this.Enabled = true;
                     this.currentUser = formLogin.usr;
-                    this.Text = Settings.cb_ + " - " + currentUser.login;
+                    this.Text = Settings.AppTitle + " - " + currentUser.login;
                     this.currentUser = formLogin.usr;
 
 #region DB - establish connection

@@ -1,4 +1,5 @@
 *.exe
+*.suo
 *.mdf
 *.dll
 *.sql
