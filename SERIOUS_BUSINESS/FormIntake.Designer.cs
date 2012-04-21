@@ -122,6 +122,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MinimizeBox = false;
             this.Name = "FormIntake";
             this.Text = "Новые поступления";
             ((System.ComponentModel.ISupportInitialize)(this.num_count)).EndInit();

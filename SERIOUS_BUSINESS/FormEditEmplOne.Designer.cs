@@ -189,6 +189,7 @@
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximizeBox = false;
             this.Name = "FormEditEmplOne";
             this.Text = "Мои данные";
             this.groupBox1.ResumeLayout(false);

@@ -38,12 +38,12 @@
             this.rb_store = new System.Windows.Forms.RadioButton();
             this.rb_none = new System.Windows.Forms.RadioButton();
             this.gb_info = new System.Windows.Forms.GroupBox();
+            this.lbl_apptment = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.lbl_apptment = new System.Windows.Forms.Label();
             this.btc_accept = new System.Windows.Forms.Button();
             this.gb_search.SuspendLayout();
             this.gb_access.SuspendLayout();
@@ -159,6 +159,25 @@
             this.gb_info.TabStop = false;
             this.gb_info.Text = "Информация";
             // 
+            // lbl_apptment
+            // 
+            this.lbl_apptment.AutoSize = true;
+            this.lbl_apptment.Location = new System.Drawing.Point(102, 68);
+            this.lbl_apptment.Name = "lbl_apptment";
+            this.lbl_apptment.Size = new System.Drawing.Size(86, 13);
+            this.lbl_apptment.TabIndex = 5;
+            this.lbl_apptment.Text = "Администратор";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label6.Location = new System.Drawing.Point(10, 66);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(86, 15);
+            this.label6.TabIndex = 4;
+            this.label6.Text = "Должность:";
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -197,25 +216,6 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "ФИО:";
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label6.Location = new System.Drawing.Point(10, 66);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(86, 15);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "Должность:";
-            // 
-            // lbl_apptment
-            // 
-            this.lbl_apptment.AutoSize = true;
-            this.lbl_apptment.Location = new System.Drawing.Point(102, 68);
-            this.lbl_apptment.Name = "lbl_apptment";
-            this.lbl_apptment.Size = new System.Drawing.Size(86, 13);
-            this.lbl_apptment.TabIndex = 5;
-            this.lbl_apptment.Text = "Администратор";
-            // 
             // btc_accept
             // 
             this.btc_accept.Location = new System.Drawing.Point(41, 332);
@@ -235,6 +235,7 @@
             this.Controls.Add(this.gb_access);
             this.Controls.Add(this.gb_search);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
             this.Name = "FormEditEmplSet";
             this.Text = "Сотрудники";
             this.gb_search.ResumeLayout(false);
