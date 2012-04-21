@@ -150,6 +150,7 @@
             this.Controls.Add(this.cb_type);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MinimizeBox = false;
             this.Name = "FormEditItem";
             this.Text = "Услуга\\товар";
             this.ResumeLayout(false);

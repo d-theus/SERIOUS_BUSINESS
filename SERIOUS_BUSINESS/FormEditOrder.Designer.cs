@@ -51,6 +51,7 @@
             this.btn_cancel = new System.Windows.Forms.Button();
             this.lbl_num = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.num_itemCount)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -100,7 +101,7 @@
             this.cb_itemType.FormattingEnabled = true;
             this.cb_itemType.Location = new System.Drawing.Point(9, 44);
             this.cb_itemType.Name = "cb_itemType";
-            this.cb_itemType.Size = new System.Drawing.Size(185, 21);
+            this.cb_itemType.Size = new System.Drawing.Size(272, 21);
             this.cb_itemType.TabIndex = 4;
             // 
             // cb_itemDesignation
@@ -108,7 +109,7 @@
             this.cb_itemDesignation.FormattingEnabled = true;
             this.cb_itemDesignation.Location = new System.Drawing.Point(9, 93);
             this.cb_itemDesignation.Name = "cb_itemDesignation";
-            this.cb_itemDesignation.Size = new System.Drawing.Size(121, 21);
+            this.cb_itemDesignation.Size = new System.Drawing.Size(233, 21);
             this.cb_itemDesignation.TabIndex = 5;
             // 
             // num_itemCount
@@ -122,14 +123,13 @@
             // 
             this.tb_Name.Location = new System.Drawing.Point(6, 44);
             this.tb_Name.Name = "tb_Name";
-            this.tb_Name.Size = new System.Drawing.Size(178, 20);
+            this.tb_Name.Size = new System.Drawing.Size(275, 20);
             this.tb_Name.TabIndex = 8;
             // 
             // groupBox1
             // 
             this.groupBox1.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox1.Controls.Add(this.btn_rmItem);
-            this.groupBox1.Controls.Add(this.dataGridView1);
             this.groupBox1.Controls.Add(this.btn_addItem);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.cb_itemType);
@@ -139,14 +139,14 @@
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Location = new System.Drawing.Point(18, 59);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(445, 172);
+            this.groupBox1.Size = new System.Drawing.Size(287, 172);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Позиция";
             // 
             // btn_rmItem
             // 
-            this.btn_rmItem.Location = new System.Drawing.Point(161, 126);
+            this.btn_rmItem.Location = new System.Drawing.Point(248, 126);
             this.btn_rmItem.Name = "btn_rmItem";
             this.btn_rmItem.Size = new System.Drawing.Size(33, 23);
             this.btn_rmItem.TabIndex = 18;
@@ -156,14 +156,14 @@
             // dataGridView1
             // 
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(200, 19);
+            this.dataGridView1.Location = new System.Drawing.Point(311, 87);
             this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(239, 147);
+            this.dataGridView1.Size = new System.Drawing.Size(530, 289);
             this.dataGridView1.TabIndex = 17;
             // 
             // btn_addItem
             // 
-            this.btn_addItem.Location = new System.Drawing.Point(161, 93);
+            this.btn_addItem.Location = new System.Drawing.Point(248, 91);
             this.btn_addItem.Name = "btn_addItem";
             this.btn_addItem.Size = new System.Drawing.Size(33, 23);
             this.btn_addItem.TabIndex = 7;
@@ -179,9 +179,9 @@
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.label5);
             this.groupBox2.Controls.Add(this.tb_Name);
-            this.groupBox2.Location = new System.Drawing.Point(463, 59);
+            this.groupBox2.Location = new System.Drawing.Point(18, 237);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(190, 172);
+            this.groupBox2.Size = new System.Drawing.Size(287, 172);
             this.groupBox2.TabIndex = 10;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Заказчик";
@@ -190,7 +190,7 @@
             // 
             this.tb_email.Location = new System.Drawing.Point(6, 141);
             this.tb_email.Name = "tb_email";
-            this.tb_email.Size = new System.Drawing.Size(149, 20);
+            this.tb_email.Size = new System.Drawing.Size(275, 20);
             this.tb_email.TabIndex = 13;
             // 
             // label7
@@ -206,7 +206,7 @@
             // 
             this.tb_phone.Location = new System.Drawing.Point(6, 93);
             this.tb_phone.Name = "tb_phone";
-            this.tb_phone.Size = new System.Drawing.Size(155, 20);
+            this.tb_phone.Size = new System.Drawing.Size(275, 20);
             this.tb_phone.TabIndex = 11;
             // 
             // label6
@@ -238,7 +238,7 @@
             // 
             // btn_ok
             // 
-            this.btn_ok.Location = new System.Drawing.Point(497, 237);
+            this.btn_ok.Location = new System.Drawing.Point(679, 385);
             this.btn_ok.Name = "btn_ok";
             this.btn_ok.Size = new System.Drawing.Size(75, 23);
             this.btn_ok.TabIndex = 13;
@@ -248,7 +248,7 @@
             // 
             // btn_cancel
             // 
-            this.btn_cancel.Location = new System.Drawing.Point(578, 237);
+            this.btn_cancel.Location = new System.Drawing.Point(760, 386);
             this.btn_cancel.Name = "btn_cancel";
             this.btn_cancel.Size = new System.Drawing.Size(75, 23);
             this.btn_cancel.TabIndex = 14;
@@ -259,7 +259,7 @@
             // lbl_num
             // 
             this.lbl_num.AutoSize = true;
-            this.lbl_num.Location = new System.Drawing.Point(42, 3);
+            this.lbl_num.Location = new System.Drawing.Point(43, 3);
             this.lbl_num.Name = "lbl_num";
             this.lbl_num.Size = new System.Drawing.Size(31, 13);
             this.lbl_num.TabIndex = 15;
@@ -272,21 +272,34 @@
             this.panel1.Controls.Add(this.label8);
             this.panel1.Location = new System.Drawing.Point(90, 17);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(79, 20);
+            this.panel1.Size = new System.Drawing.Size(113, 20);
             this.panel1.TabIndex = 16;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label9.Location = new System.Drawing.Point(312, 59);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(129, 18);
+            this.label9.TabIndex = 18;
+            this.label9.Text = "Состав заказа:";
             // 
             // FormEditOrder
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(665, 265);
+            this.ClientSize = new System.Drawing.Size(853, 420);
+            this.Controls.Add(this.label9);
             this.Controls.Add(this.panel1);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_ok);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
+            this.MaximizeBox = false;
             this.Name = "FormEditOrder";
             this.Text = "Редактирование заказа";
             ((System.ComponentModel.ISupportInitialize)(this.num_itemCount)).EndInit();
@@ -327,5 +340,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button btn_rmItem;
+        private System.Windows.Forms.Label label9;
     }
 }
