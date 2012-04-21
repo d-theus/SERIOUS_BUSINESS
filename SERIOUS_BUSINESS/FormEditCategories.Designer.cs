@@ -36,7 +36,7 @@
             this.rb_numeric = new System.Windows.Forms.RadioButton();
             this.btn_addPar = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
-            this.cmb_cat = new System.Windows.Forms.ComboBox();
+            this.cb_cat = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btn_addCat = new System.Windows.Forms.Button();
             this.tb_catName = new System.Windows.Forms.TextBox();
@@ -68,7 +68,7 @@
             this.groupBox1.Controls.Add(this.rb_numeric);
             this.groupBox1.Controls.Add(this.btn_addPar);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.cmb_cat);
+            this.groupBox1.Controls.Add(this.cb_cat);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.tb_name);
             this.groupBox1.Location = new System.Drawing.Point(12, 98);
@@ -129,13 +129,13 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Категория";
             // 
-            // cmb_cat
+            // cb_cat
             // 
-            this.cmb_cat.FormattingEnabled = true;
-            this.cmb_cat.Location = new System.Drawing.Point(6, 43);
-            this.cmb_cat.Name = "cmb_cat";
-            this.cmb_cat.Size = new System.Drawing.Size(188, 21);
-            this.cmb_cat.TabIndex = 2;
+            this.cb_cat.FormattingEnabled = true;
+            this.cb_cat.Location = new System.Drawing.Point(6, 43);
+            this.cb_cat.Name = "cb_cat";
+            this.cb_cat.Size = new System.Drawing.Size(188, 21);
+            this.cb_cat.TabIndex = 2;
             // 
             // groupBox2
             // 
@@ -202,7 +202,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btn_addPar;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox cmb_cat;
+        private System.Windows.Forms.ComboBox cb_cat;
         private System.Windows.Forms.TextBox tb_catName;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.RadioButton rb_binary;

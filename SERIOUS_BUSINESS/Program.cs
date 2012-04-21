@@ -21,7 +21,7 @@ namespace SERIOUS_BUSINESS
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-#region Writing current pwd to registry
+#region Writing current pwd & usr to registry
             RegistryKey regRead = Registry.LocalMachine.OpenSubKey(res.Settings.reg_Subkey);
             if (regRead == null)
             { 

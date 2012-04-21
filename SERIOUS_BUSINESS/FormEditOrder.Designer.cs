@@ -38,7 +38,7 @@
             this.tb_Name = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.btn_rmItem = new System.Windows.Forms.Button();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.DGV = new System.Windows.Forms.DataGridView();
             this.btn_addItem = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.tb_email = new System.Windows.Forms.TextBox();
@@ -54,7 +54,7 @@
             this.label9 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.num_itemCount)).BeginInit();
             this.groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DGV)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -103,6 +103,7 @@
             this.cb_itemType.Name = "cb_itemType";
             this.cb_itemType.Size = new System.Drawing.Size(272, 21);
             this.cb_itemType.TabIndex = 4;
+            this.cb_itemType.SelectedIndexChanged += new System.EventHandler(this.cb_itemType_SelectedIndexChanged);
             // 
             // cb_itemDesignation
             // 
@@ -111,6 +112,7 @@
             this.cb_itemDesignation.Name = "cb_itemDesignation";
             this.cb_itemDesignation.Size = new System.Drawing.Size(233, 21);
             this.cb_itemDesignation.TabIndex = 5;
+            this.cb_itemDesignation.SelectedIndexChanged += new System.EventHandler(this.cb_itemDesignation_SelectedIndexChanged);
             // 
             // num_itemCount
             // 
@@ -130,6 +132,7 @@
             // 
             this.groupBox1.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox1.Controls.Add(this.btn_rmItem);
+            this.groupBox1.Controls.Add(this.DGV);
             this.groupBox1.Controls.Add(this.btn_addItem);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.cb_itemType);
@@ -152,14 +155,16 @@
             this.btn_rmItem.TabIndex = 18;
             this.btn_rmItem.Text = "-";
             this.btn_rmItem.UseVisualStyleBackColor = true;
+            this.btn_rmItem.Click += new System.EventHandler(this.btn_rmItem_Click);
             // 
-            // dataGridView1
+            // DGV
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(311, 87);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.Size = new System.Drawing.Size(530, 289);
-            this.dataGridView1.TabIndex = 17;
+            this.DGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DGV.Location = new System.Drawing.Point(200, 19);
+            this.DGV.Name = "DGV";
+            this.DGV.Size = new System.Drawing.Size(239, 147);
+            this.DGV.TabIndex = 17;
+            this.DGV.DataSourceChanged += new System.EventHandler(this.DGV_DataSourceChanged);
             // 
             // btn_addItem
             // 
@@ -169,6 +174,7 @@
             this.btn_addItem.TabIndex = 7;
             this.btn_addItem.Text = "+";
             this.btn_addItem.UseVisualStyleBackColor = true;
+            this.btn_addItem.Click += new System.EventHandler(this.btn_addItem_Click);
             // 
             // groupBox2
             // 
@@ -244,7 +250,7 @@
             this.btn_ok.TabIndex = 13;
             this.btn_ok.Text = "ОК";
             this.btn_ok.UseVisualStyleBackColor = true;
-            this.btn_ok.Click += new System.EventHandler(this.button1_Click);
+            this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
             // 
             // btn_cancel
             // 
@@ -254,7 +260,7 @@
             this.btn_cancel.TabIndex = 14;
             this.btn_cancel.Text = "Отмена";
             this.btn_cancel.UseVisualStyleBackColor = true;
-            this.btn_cancel.Click += new System.EventHandler(this.button2_Click);
+            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
             // lbl_num
             // 
@@ -302,10 +308,11 @@
             this.MaximizeBox = false;
             this.Name = "FormEditOrder";
             this.Text = "Редактирование заказа";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormEditOrder_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.num_itemCount)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.DGV)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.panel1.ResumeLayout(false);
@@ -338,7 +345,7 @@
         private System.Windows.Forms.Button btn_addItem;
         private System.Windows.Forms.Label lbl_num;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView DGV;
         private System.Windows.Forms.Button btn_rmItem;
         private System.Windows.Forms.Label label9;
     }
