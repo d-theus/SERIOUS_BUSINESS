@@ -41,8 +41,18 @@
             this.btn_addCat = new System.Windows.Forms.Button();
             this.tb_catName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btn_addItem = new System.Windows.Forms.Button();
+            this.btn_editItem = new System.Windows.Forms.Button();
+            this.cb_designationOfItem = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.cb_CatOfItem = new System.Windows.Forms.ComboBox();
+            this.DGV_itemParameters = new System.Windows.Forms.DataGridView();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DGV_itemParameters)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -71,7 +81,7 @@
             this.groupBox1.Controls.Add(this.cb_cat);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.tb_name);
-            this.groupBox1.Location = new System.Drawing.Point(12, 98);
+            this.groupBox1.Location = new System.Drawing.Point(12, 125);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(302, 135);
             this.groupBox1.TabIndex = 2;
@@ -174,11 +184,90 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Название";
             // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.btn_addItem);
+            this.groupBox3.Controls.Add(this.btn_editItem);
+            this.groupBox3.Controls.Add(this.cb_designationOfItem);
+            this.groupBox3.Controls.Add(this.label5);
+            this.groupBox3.Controls.Add(this.label4);
+            this.groupBox3.Controls.Add(this.cb_CatOfItem);
+            this.groupBox3.Controls.Add(this.DGV_itemParameters);
+            this.groupBox3.Location = new System.Drawing.Point(320, 12);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(363, 248);
+            this.groupBox3.TabIndex = 4;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Товар";
+            // 
+            // btn_addItem
+            // 
+            this.btn_addItem.Location = new System.Drawing.Point(264, 39);
+            this.btn_addItem.Name = "btn_addItem";
+            this.btn_addItem.Size = new System.Drawing.Size(93, 38);
+            this.btn_addItem.TabIndex = 6;
+            this.btn_addItem.Text = "Добавить новый";
+            this.btn_addItem.UseVisualStyleBackColor = true;
+            // 
+            // btn_editItem
+            // 
+            this.btn_editItem.Location = new System.Drawing.Point(264, 83);
+            this.btn_editItem.Name = "btn_editItem";
+            this.btn_editItem.Size = new System.Drawing.Size(93, 23);
+            this.btn_editItem.TabIndex = 5;
+            this.btn_editItem.Text = "Редактировать";
+            this.btn_editItem.UseVisualStyleBackColor = true;
+            // 
+            // cb_designationOfItem
+            // 
+            this.cb_designationOfItem.FormattingEnabled = true;
+            this.cb_designationOfItem.Location = new System.Drawing.Point(10, 86);
+            this.cb_designationOfItem.Name = "cb_designationOfItem";
+            this.cb_designationOfItem.Size = new System.Drawing.Size(247, 21);
+            this.cb_designationOfItem.TabIndex = 4;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(10, 69);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(83, 13);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "Наименование";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 24);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(60, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Категория";
+            // 
+            // cb_CatOfItem
+            // 
+            this.cb_CatOfItem.FormattingEnabled = true;
+            this.cb_CatOfItem.Location = new System.Drawing.Point(7, 41);
+            this.cb_CatOfItem.Name = "cb_CatOfItem";
+            this.cb_CatOfItem.Size = new System.Drawing.Size(250, 21);
+            this.cb_CatOfItem.Sorted = true;
+            this.cb_CatOfItem.TabIndex = 1;
+            this.cb_CatOfItem.SelectedIndexChanged += new System.EventHandler(this.cb_CatOfItem_SelectedIndexChanged);
+            // 
+            // DGV_itemParameters
+            // 
+            this.DGV_itemParameters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DGV_itemParameters.Location = new System.Drawing.Point(6, 113);
+            this.DGV_itemParameters.Name = "DGV_itemParameters";
+            this.DGV_itemParameters.Size = new System.Drawing.Size(351, 129);
+            this.DGV_itemParameters.TabIndex = 0;
+            // 
             // FormEditCategories
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(322, 238);
+            this.ClientSize = new System.Drawing.Size(688, 261);
+            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
@@ -190,6 +279,9 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DGV_itemParameters)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -209,5 +301,13 @@
         private System.Windows.Forms.RadioButton rb_text;
         private System.Windows.Forms.RadioButton rb_numeric;
         private System.Windows.Forms.Button btn_addCat;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button btn_addItem;
+        private System.Windows.Forms.Button btn_editItem;
+        private System.Windows.Forms.ComboBox cb_designationOfItem;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cb_CatOfItem;
+        private System.Windows.Forms.DataGridView DGV_itemParameters;
     }
 }
