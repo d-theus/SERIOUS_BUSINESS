@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.tb_name = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
@@ -49,10 +50,16 @@
             this.label4 = new System.Windows.Forms.Label();
             this.cb_CatOfItem = new System.Windows.Forms.ComboBox();
             this.DGV_itemParameters = new System.Windows.Forms.DataGridView();
+            this.itemCategoryBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.itemCategoryBindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.itemCategoryBindingSource2 = new System.Windows.Forms.BindingSource(this.components);
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_itemParameters)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.itemCategoryBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.itemCategoryBindingSource1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.itemCategoryBindingSource2)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -70,6 +77,7 @@
             this.tb_name.Name = "tb_name";
             this.tb_name.Size = new System.Drawing.Size(242, 20);
             this.tb_name.TabIndex = 1;
+            this.tb_name.TextChanged += new System.EventHandler(this.tb_name_TextChanged);
             // 
             // groupBox1
             // 
@@ -123,6 +131,7 @@
             // 
             // btn_addPar
             // 
+            this.btn_addPar.Enabled = false;
             this.btn_addPar.Location = new System.Drawing.Point(255, 83);
             this.btn_addPar.Name = "btn_addPar";
             this.btn_addPar.Size = new System.Drawing.Size(41, 23);
@@ -161,12 +170,14 @@
             // 
             // btn_addCat
             // 
+            this.btn_addCat.Enabled = false;
             this.btn_addCat.Location = new System.Drawing.Point(255, 43);
             this.btn_addCat.Name = "btn_addCat";
             this.btn_addCat.Size = new System.Drawing.Size(41, 23);
             this.btn_addCat.TabIndex = 2;
             this.btn_addCat.Text = "+";
             this.btn_addCat.UseVisualStyleBackColor = true;
+            this.btn_addCat.Click += new System.EventHandler(this.btn_addCat_Click);
             // 
             // tb_catName
             // 
@@ -174,6 +185,7 @@
             this.tb_catName.Name = "tb_catName";
             this.tb_catName.Size = new System.Drawing.Size(242, 20);
             this.tb_catName.TabIndex = 1;
+            this.tb_catName.TextChanged += new System.EventHandler(this.tb_catName_TextChanged);
             // 
             // label3
             // 
@@ -262,6 +274,18 @@
             this.DGV_itemParameters.Size = new System.Drawing.Size(351, 129);
             this.DGV_itemParameters.TabIndex = 0;
             // 
+            // itemCategoryBindingSource
+            // 
+            this.itemCategoryBindingSource.DataSource = typeof(SERIOUS_BUSINESS.res.ItemCategory);
+            // 
+            // itemCategoryBindingSource1
+            // 
+            this.itemCategoryBindingSource1.DataSource = typeof(SERIOUS_BUSINESS.res.ItemCategory);
+            // 
+            // itemCategoryBindingSource2
+            // 
+            this.itemCategoryBindingSource2.DataSource = typeof(SERIOUS_BUSINESS.res.ItemCategory);
+            // 
             // FormEditCategories
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -282,6 +306,9 @@
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_itemParameters)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.itemCategoryBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.itemCategoryBindingSource1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.itemCategoryBindingSource2)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -309,5 +336,8 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.ComboBox cb_CatOfItem;
         private System.Windows.Forms.DataGridView DGV_itemParameters;
+        private System.Windows.Forms.BindingSource itemCategoryBindingSource1;
+        private System.Windows.Forms.BindingSource itemCategoryBindingSource;
+        private System.Windows.Forms.BindingSource itemCategoryBindingSource2;
     }
 }
