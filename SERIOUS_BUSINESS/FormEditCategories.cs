@@ -25,7 +25,7 @@ namespace SERIOUS_BUSINESS
         private const string sqlcmd_commstr_ItemParameter_Insert_INCOMPLETE = @"IF (SELECT COUNT(*) FROM ParameterCategorySet WHERE name = @name) = 0 
 BEGIN
 	INSERT  INTO ParameterCategorySet	
-	VALUES (@name)
+	VALUES (@name, @type)
 END";
         private const string sqlcmd_commstr_ItemParameter_ListForCurItem_INCOMPLETE = "SELECT name, valueTxt, valueDbl, valueBool FROM ItemParameterSetINNER JOIN ParameterCategorySet ON ParameterCategorySet.id = ItemParameterSet.paramCatID";
         private const string sqlcmd_commstr_ItemParameter_List = "SELECT * FROM ParameterCategorySet";
@@ -292,6 +292,15 @@ WHERE ICID = @icid AND PCID = @pcid";
 
         private void btn_addPar_Click(object sender, EventArgs e)
         {
+            short ptype = 0;
+            if (rb_text.Checked) ptype = 1;
+            else if (rb_numeric.Checked) ptype = 2;
+            else if (rb_binary.Checked) ptype = 3;
+            else 
+            {
+                MessageBox.Show("Выберите тип нового параметра");
+                return;
+            }
             if (cb_cat.SelectedIndex >= 0)
             {
             lbl_try_insert_cat:
@@ -299,6 +308,7 @@ WHERE ICID = @icid AND PCID = @pcid";
                 int catid = int.Parse(MainDataSet.Tables["Categories"].Select(string.Format("name = '{0}'", cb_cat.SelectedText))[0]["id"].ToString());
                 sqlCMD.CommandText = sqlcmd_commstr_ItemParameter_Insert_INCOMPLETE;
                 sqlCMD.Parameters.Add(new SqlParameter("name", tb_newParamName.Text.ToString()));
+                sqlCMD.Parameters.Add(new SqlParameter("type", ptype));
                 try
                 {
                     sqlTRS = dbConnection.BeginTransaction("Inserting parameter for category");

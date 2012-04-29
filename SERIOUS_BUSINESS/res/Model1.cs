@@ -1675,11 +1675,13 @@ namespace SERIOUS_BUSINESS.res
         /// </summary>
         /// <param name="id">Initial value of the id property.</param>
         /// <param name="name">Initial value of the name property.</param>
-        public static ParameterCategory CreateParameterCategory(global::System.Int32 id, global::System.String name)
+        /// <param name="type">Initial value of the type property.</param>
+        public static ParameterCategory CreateParameterCategory(global::System.Int32 id, global::System.String name, global::System.Int16 type)
         {
             ParameterCategory parameterCategory = new ParameterCategory();
             parameterCategory.id = id;
             parameterCategory.name = name;
+            parameterCategory.type = type;
             return parameterCategory;
         }
 
@@ -1736,6 +1738,30 @@ namespace SERIOUS_BUSINESS.res
         private global::System.String _name;
         partial void OnnameChanging(global::System.String value);
         partial void OnnameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int16 type
+        {
+            get
+            {
+                return _type;
+            }
+            set
+            {
+                OntypeChanging(value);
+                ReportPropertyChanging("type");
+                _type = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("type");
+                OntypeChanged();
+            }
+        }
+        private global::System.Int16 _type;
+        partial void OntypeChanging(global::System.Int16 value);
+        partial void OntypeChanged();
 
         #endregion
     
