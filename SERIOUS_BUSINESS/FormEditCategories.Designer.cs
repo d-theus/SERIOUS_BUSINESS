@@ -81,13 +81,12 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.groupBox5);
-            this.groupBox1.Controls.Add(this.groupBox4);
             this.groupBox1.Controls.Add(this.cb_cat);
             this.groupBox1.Controls.Add(this.groupBox3);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(12, 112);
+            this.groupBox1.Location = new System.Drawing.Point(12, 180);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(381, 561);
+            this.groupBox1.Size = new System.Drawing.Size(388, 485);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Изменить категорию товаров";
@@ -97,7 +96,7 @@
             this.groupBox5.BackColor = System.Drawing.SystemColors.Control;
             this.groupBox5.Controls.Add(this.btn_accParams);
             this.groupBox5.Controls.Add(this.DGV_catParameters);
-            this.groupBox5.Location = new System.Drawing.Point(1, 144);
+            this.groupBox5.Location = new System.Drawing.Point(5, 59);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Size = new System.Drawing.Size(374, 149);
             this.groupBox5.TabIndex = 5;
@@ -134,9 +133,9 @@
             this.groupBox4.Controls.Add(this.label1);
             this.groupBox4.Controls.Add(this.rb_numeric);
             this.groupBox4.Controls.Add(this.btn_addPar);
-            this.groupBox4.Location = new System.Drawing.Point(0, 59);
+            this.groupBox4.Location = new System.Drawing.Point(13, 98);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(375, 79);
+            this.groupBox4.Size = new System.Drawing.Size(380, 79);
             this.groupBox4.TabIndex = 8;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Новый параметр категории";
@@ -205,9 +204,9 @@
             this.groupBox3.Controls.Add(this.cb_existingItem);
             this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Controls.Add(this.DGV_itemParameters);
-            this.groupBox3.Location = new System.Drawing.Point(0, 299);
+            this.groupBox3.Location = new System.Drawing.Point(4, 214);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(375, 256);
+            this.groupBox3.Size = new System.Drawing.Size(375, 265);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Товары категории";
@@ -231,7 +230,7 @@
             // btn_addItem
             // 
             this.btn_addItem.Enabled = false;
-            this.btn_addItem.Location = new System.Drawing.Point(334, 33);
+            this.btn_addItem.Location = new System.Drawing.Point(331, 36);
             this.btn_addItem.Name = "btn_addItem";
             this.btn_addItem.Size = new System.Drawing.Size(35, 23);
             this.btn_addItem.TabIndex = 6;
@@ -270,7 +269,7 @@
             this.DGV_itemParameters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV_itemParameters.Location = new System.Drawing.Point(10, 112);
             this.DGV_itemParameters.Name = "DGV_itemParameters";
-            this.DGV_itemParameters.Size = new System.Drawing.Size(351, 138);
+            this.DGV_itemParameters.Size = new System.Drawing.Size(351, 147);
             this.DGV_itemParameters.TabIndex = 0;
             // 
             // label2
@@ -326,8 +325,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(403, 677);
+            this.ClientSize = new System.Drawing.Size(403, 667);
             this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
