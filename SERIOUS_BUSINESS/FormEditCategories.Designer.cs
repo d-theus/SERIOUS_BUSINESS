@@ -31,12 +31,9 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tb_newParamName = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.clb_params = new System.Windows.Forms.CheckedListBox();
             this.cb_cat = new System.Windows.Forms.ComboBox();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.rb_binary = new System.Windows.Forms.RadioButton();
-            this.rb_text = new System.Windows.Forms.RadioButton();
-            this.rb_numeric = new System.Windows.Forms.RadioButton();
-            this.btn_addPar = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
             this.tb_newItemDesignation = new System.Windows.Forms.TextBox();
@@ -46,18 +43,21 @@
             this.label5 = new System.Windows.Forms.Label();
             this.DGV_itemParameters = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.rb_binary = new System.Windows.Forms.RadioButton();
+            this.rb_text = new System.Windows.Forms.RadioButton();
+            this.rb_numeric = new System.Windows.Forms.RadioButton();
+            this.btn_addPar = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btn_addCat = new System.Windows.Forms.Button();
             this.tb_catName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.groupBox5 = new System.Windows.Forms.GroupBox();
-            this.clb_params = new System.Windows.Forms.CheckedListBox();
             this.groupBox1.SuspendLayout();
-            this.groupBox4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_itemParameters)).BeginInit();
+            this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -89,6 +89,25 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Изменить категорию товаров";
             // 
+            // groupBox5
+            // 
+            this.groupBox5.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox5.Controls.Add(this.clb_params);
+            this.groupBox5.Location = new System.Drawing.Point(7, 60);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(368, 122);
+            this.groupBox5.TabIndex = 5;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Параметры категории";
+            // 
+            // clb_params
+            // 
+            this.clb_params.FormattingEnabled = true;
+            this.clb_params.Location = new System.Drawing.Point(7, 20);
+            this.clb_params.Name = "clb_params";
+            this.clb_params.Size = new System.Drawing.Size(355, 94);
+            this.clb_params.TabIndex = 0;
+            // 
             // cb_cat
             // 
             this.cb_cat.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
@@ -99,65 +118,6 @@
             this.cb_cat.Sorted = true;
             this.cb_cat.TabIndex = 2;
             this.cb_cat.SelectedIndexChanged += new System.EventHandler(this.cb_cat_SelectedIndexChanged);
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.rb_binary);
-            this.groupBox4.Controls.Add(this.tb_newParamName);
-            this.groupBox4.Controls.Add(this.rb_text);
-            this.groupBox4.Controls.Add(this.label1);
-            this.groupBox4.Controls.Add(this.rb_numeric);
-            this.groupBox4.Controls.Add(this.btn_addPar);
-            this.groupBox4.Text = "Новый параметр категории";
-            this.groupBox4.Location = new System.Drawing.Point(12, 97);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(381, 79);
-            this.groupBox4.TabIndex = 8;
-            this.groupBox4.TabStop = false;
-            // 
-            // rb_binary
-            // 
-            this.rb_binary.AutoSize = true;
-            this.rb_binary.Location = new System.Drawing.Point(174, 59);
-            this.rb_binary.Name = "rb_binary";
-            this.rb_binary.Size = new System.Drawing.Size(77, 17);
-            this.rb_binary.TabIndex = 7;
-            this.rb_binary.TabStop = true;
-            this.rb_binary.Text = "Двоичный";
-            this.rb_binary.UseVisualStyleBackColor = true;
-            // 
-            // rb_text
-            // 
-            this.rb_text.AutoSize = true;
-            this.rb_text.Location = new System.Drawing.Point(87, 59);
-            this.rb_text.Name = "rb_text";
-            this.rb_text.Size = new System.Drawing.Size(81, 17);
-            this.rb_text.TabIndex = 6;
-            this.rb_text.TabStop = true;
-            this.rb_text.Text = "Текстовый";
-            this.rb_text.UseVisualStyleBackColor = true;
-            // 
-            // rb_numeric
-            // 
-            this.rb_numeric.AutoSize = true;
-            this.rb_numeric.Location = new System.Drawing.Point(6, 59);
-            this.rb_numeric.Name = "rb_numeric";
-            this.rb_numeric.Size = new System.Drawing.Size(75, 17);
-            this.rb_numeric.TabIndex = 5;
-            this.rb_numeric.TabStop = true;
-            this.rb_numeric.Text = "Числовой";
-            this.rb_numeric.UseVisualStyleBackColor = true;
-            // 
-            // btn_addPar
-            // 
-            this.btn_addPar.Enabled = false;
-            this.btn_addPar.Location = new System.Drawing.Point(340, 30);
-            this.btn_addPar.Name = "btn_addPar";
-            this.btn_addPar.Size = new System.Drawing.Size(35, 23);
-            this.btn_addPar.TabIndex = 4;
-            this.btn_addPar.Text = "+";
-            this.btn_addPar.UseVisualStyleBackColor = true;
-            this.btn_addPar.Click += new System.EventHandler(this.btn_addPar_Click);
             // 
             // groupBox3
             // 
@@ -184,12 +144,12 @@
             this.label4.TabIndex = 8;
             this.label4.Text = "Добавить:";
             // 
-            // tb_itemDesignation
+            // tb_newItemDesignation
             // 
-            this.tb_itemDesignation.Location = new System.Drawing.Point(7, 36);
+            this.tb_newItemDesignation.Location = new System.Drawing.Point(13, 36);
             this.tb_newItemDesignation.Name = "tb_newItemDesignation";
-            this.tb_itemDesignation.Size = new System.Drawing.Size(308, 20);
-            this.tb_itemDesignation.TabIndex = 7;
+            this.tb_newItemDesignation.Size = new System.Drawing.Size(301, 20);
+            this.tb_newItemDesignation.TabIndex = 9;
             // 
             // btn_addItem
             // 
@@ -244,6 +204,65 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Категория";
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.rb_binary);
+            this.groupBox4.Controls.Add(this.tb_newParamName);
+            this.groupBox4.Controls.Add(this.rb_text);
+            this.groupBox4.Controls.Add(this.label1);
+            this.groupBox4.Controls.Add(this.rb_numeric);
+            this.groupBox4.Controls.Add(this.btn_addPar);
+            this.groupBox4.Location = new System.Drawing.Point(12, 97);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(381, 79);
+            this.groupBox4.TabIndex = 8;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Новый параметр категории";
+            // 
+            // rb_binary
+            // 
+            this.rb_binary.AutoSize = true;
+            this.rb_binary.Location = new System.Drawing.Point(174, 59);
+            this.rb_binary.Name = "rb_binary";
+            this.rb_binary.Size = new System.Drawing.Size(77, 17);
+            this.rb_binary.TabIndex = 7;
+            this.rb_binary.TabStop = true;
+            this.rb_binary.Text = "Двоичный";
+            this.rb_binary.UseVisualStyleBackColor = true;
+            // 
+            // rb_text
+            // 
+            this.rb_text.AutoSize = true;
+            this.rb_text.Location = new System.Drawing.Point(87, 59);
+            this.rb_text.Name = "rb_text";
+            this.rb_text.Size = new System.Drawing.Size(81, 17);
+            this.rb_text.TabIndex = 6;
+            this.rb_text.TabStop = true;
+            this.rb_text.Text = "Текстовый";
+            this.rb_text.UseVisualStyleBackColor = true;
+            // 
+            // rb_numeric
+            // 
+            this.rb_numeric.AutoSize = true;
+            this.rb_numeric.Location = new System.Drawing.Point(6, 59);
+            this.rb_numeric.Name = "rb_numeric";
+            this.rb_numeric.Size = new System.Drawing.Size(75, 17);
+            this.rb_numeric.TabIndex = 5;
+            this.rb_numeric.TabStop = true;
+            this.rb_numeric.Text = "Числовой";
+            this.rb_numeric.UseVisualStyleBackColor = true;
+            // 
+            // btn_addPar
+            // 
+            this.btn_addPar.Enabled = false;
+            this.btn_addPar.Location = new System.Drawing.Point(340, 30);
+            this.btn_addPar.Name = "btn_addPar";
+            this.btn_addPar.Size = new System.Drawing.Size(35, 23);
+            this.btn_addPar.TabIndex = 4;
+            this.btn_addPar.Text = "+";
+            this.btn_addPar.UseVisualStyleBackColor = true;
+            this.btn_addPar.Click += new System.EventHandler(this.btn_addPar_Click);
+            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.btn_addCat);
@@ -264,6 +283,7 @@
             this.btn_addCat.TabIndex = 2;
             this.btn_addCat.Text = "+";
             this.btn_addCat.UseVisualStyleBackColor = true;
+            this.btn_addCat.Click += new System.EventHandler(this.btn_addCat_Click);
             // 
             // tb_catName
             // 
@@ -282,25 +302,6 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Название";
             // 
-            // groupBox5
-            // 
-            this.groupBox5.BackColor = System.Drawing.SystemColors.Control;
-            this.groupBox5.Controls.Add(this.clb_params);
-            this.groupBox5.Location = new System.Drawing.Point(7, 60);
-            this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(368, 122);
-            this.groupBox5.TabIndex = 5;
-            this.groupBox5.TabStop = false;
-            this.groupBox5.Text = "Параметры категории";
-            // 
-            // clb_params
-            // 
-            this.clb_params.FormattingEnabled = true;
-            this.clb_params.Location = new System.Drawing.Point(7, 20);
-            this.clb_params.Name = "clb_params";
-            this.clb_params.Size = new System.Drawing.Size(355, 94);
-            this.clb_params.TabIndex = 0;
-            // 
             // FormEditCategories
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -316,14 +317,14 @@
             this.Text = "Товары и параметры";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_itemParameters)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.groupBox5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

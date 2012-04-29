@@ -26,32 +26,38 @@ namespace SERIOUS_BUSINESS
 BEGIN
 	INSERT  INTO ParameterCategorySet	
 	VALUES (@name)
-	INSERT INTO pureJoin_IPcatsSet VALUES
-	(@catID, IDENT_CURRENT('ParameterCategorySet')) 
 END";
-        private const string sqlcmd_commstr_Item_Insert_INCOMPLETE = "";
         private const string sqlcmd_commstr_ItemParameter_ListForCurItem_INCOMPLETE = "SELECT name, valueTxt, valueDbl, valueBool FROM ItemParameterSetINNER JOIN ParameterCategorySet ON ParameterCategorySet.id = ItemParameterSet.paramCatID";
+        private const string sqlcmd_commstr_ItemParameter_List = "SELECT * FROM ParameterCategorySet";
+        private const string sqlcmd_commstr_CatHasParam_INCOMPLETE = @"SELECT COUNT(*) FROM 
+pureJoin_IPcatsSet
+WHERE ICID = @icid AND PCID = @pcid";
         #endregion
         DataSet MainDataSet;
 
         public FormEditCategories(SqlConnection _dbConnection)
         {
             InitializeComponent();
+            #region main data set
             MainDataSet = new DataSet();
             MainDataSet.Tables.Add(new DataTable("Categories"));
+
             MainDataSet.Tables.Add(new DataTable("Items"));
             MainDataSet.Tables.Add(new DataTable("Designations"));
             MainDataSet.Tables.Add(new DataTable("Parameters"));
+            MainDataSet.Tables["Parameters"].Columns.Add("AssocWithCat", Type.GetType("System.Boolean"));
+            #endregion
             dbConnection = _dbConnection;
             sqlCMD = dbConnection.CreateCommand();
 
             DGV_itemParameters.DataSource = MainDataSet.Tables["Parameters"];
             cb_cat.DataSource = MainDataSet.Tables["Categories"];
-            cb_designationOfItem.DataSource = MainDataSet.Tables["Designations"];
+            cb_existingItem.DataSource = MainDataSet.Tables["Designations"];
+            clb_params.DataSource = MainDataSet.Tables["Parameters"];
 
             RefillCategoriesTable();
             cb_cat.DisplayMember = "name";
-            cb_cat.ValueMember = "id";
+            clb_params.DisplayMember = "name";
         }
 
         private void RefillCategoriesTable()
@@ -63,8 +69,8 @@ END";
             getCurrentCategories:
                 try
                 {
-                        MainDataSet.Tables["Categories"].Clear();
-                        sda.Fill(MainDataSet.Tables["Categories"]);
+                    MainDataSet.Tables["Categories"].Clear();
+                    sda.Fill(MainDataSet.Tables["Categories"]);
                 }
                 catch (Exception exc)
                 {
@@ -79,6 +85,7 @@ END";
                 }
                 finally
                 {
+                    MainDataSet.Tables["Categories"].PrimaryKey = new DataColumn[] {MainDataSet.Tables["Categories"].Columns["name"]};
                     cb_cat.Update();
                 }
             }
@@ -86,13 +93,15 @@ END";
 
         private void RefillItemTable()
         {
-            if (cb_cat.SelectedIndex >= 0)
+            if (cb_cat.Text.Length > 0)
             {
+                int icid = -1;
             getcurrentitems:
-                string format = string.Format("name = '{0}'", cb_cat.Text);
-                int catid = int.Parse(MainDataSet.Tables["Categories"].Select(string.Format("name = '{0}'", cb_cat.SelectedText))[0]["id"].ToString());
+                DataRow[] selectRes = MainDataSet.Tables["Categories"].Select(string.Format("name = '{0}'", cb_cat.Text));
+                icid = int.Parse(selectRes[0]["id"].ToString());
+
                 sqlCMD.CommandText = sqlcmd_commstr_Item_List_INCOMPLETE;
-                sqlCMD.Parameters.Add(new SqlParameter("catid", catid));
+                sqlCMD.Parameters.Add(new SqlParameter("catid", icid));
                 try
                 {
                     MainDataSet.Tables["Items"].Clear();
@@ -119,9 +128,9 @@ END";
                 finally
                 {
                     sqlCMD.Parameters.Clear();
-                    cb_designationOfItem.DisplayMember = "valueTxt";
-                    cb_designationOfItem.ValueMember = "id";
-                    cb_designationOfItem.Update();
+                    cb_existingItem.DisplayMember = "valueTxt";
+                    cb_existingItem.ValueMember = "id";
+                    cb_existingItem.Update();
                 }
             }
             else
@@ -130,33 +139,74 @@ END";
             }
         }
 
-        private void RefillParameterCategoryList()
+        private void RefillParameterTable()
         {
-            //try_get_param_list:
-            //    SqlDataReader rdr = null;
-            //    try
-            //    {
-            //        sqlCMD.CommandText = sqlcmd_commstr_ItemParameter_ListForCurItem;
-            //        sqlCMD.Parameters.Add(new SqlParameter("categoryID", CategoryList.Find(x => x.name.ToString() == cb_cat.SelectedItem.ToString()).id.ToString()));
+            if (cb_cat.SelectedIndex >= 0)
+            {
+                int icid = -1;
+            lbl_try_fill_params:
+                DataRow[] selectRes = MainDataSet.Tables["Categories"].Select(string.Format("name = '{0}'", cb_cat.Text));
+                icid = int.Parse(selectRes[0]["id"].ToString());
+                sqlCMD.CommandText = sqlcmd_commstr_ItemParameter_List;
+                try
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter(sqlCMD))
+                    {
+                        MainDataSet.Tables["Parameters"].Clear();
+                        sda.Fill(MainDataSet.Tables["Parameters"]);
+                    }
+                    int row_count = MainDataSet.Tables["Parameters"].Rows.Count;
+                    for (int row = 0; row < row_count; row++)
+                    {
+                        MainDataSet.Tables["Parameters"].Rows[row]["AssocWithCat"] = isCatHasParam(int.Parse(MainDataSet.Tables["Parameters"].Rows[row]["id"].ToString()) ,icid);
+                    }
+                }
+                catch (Exception exc)
+                {
+                    DialogResult dlgres = MessageBox.Show(exc.Message, "ошибка", MessageBoxButtons.RetryCancel);
+                    switch (dlgres)
+                    {
+                        case DialogResult.Cancel:
+                            return;
+                        case DialogResult.Retry:
+                            goto lbl_try_fill_params;
+                    }
+                }
+                finally
+                {
+                    clb_params.Update();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите категорию");
+            }
+        }
 
-            //    }
-            //    catch (Exception exc)
-            //    {
-            //        DialogResult dlgres = MessageBox.Show(exc.Message, "Ошибка", MessageBoxButtons.RetryCancel);
-            //        switch (dlgres)
-            //        {
-            //            case DialogResult.Cancel:
-            //                return;
-            //            case DialogResult.Retry:
-            //                goto try_get_param_list;
-            //        }
-            //    }
-            //    finally
-            //    {
-            //        if (rdr != null)
-            //            rdr.Dispose();
-            //        sqlCMD.Parameters.Clear();
-            //    }
+        private void associateParameterToCategory()
+        {
+        }
+        private bool isCatHasParam(int pcid, int icid)
+        {
+            int count = 0;
+            sqlCMD.CommandText = sqlcmd_commstr_CatHasParam_INCOMPLETE;
+            sqlCMD.Parameters.Add(new SqlParameter("pcid", pcid));
+            sqlCMD.Parameters.Add(new SqlParameter("icid", icid));
+            try
+            {
+
+                count = int.Parse(sqlCMD.ExecuteScalar().ToString());
+            }
+            catch (Exception exc)
+            {
+                MessageBox.Show(exc.Message);
+                return false;
+            }
+            finally
+            {
+                sqlCMD.Parameters.Clear();
+            }
+            return count == 1;
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)
@@ -222,26 +272,15 @@ END";
             }
         }
 
-        private void tb_name_TextChanged(object sender, EventArgs e)
-        {
-            if (tb_name.Text.ToString().Length == 0)
-            {
-                btn_addPar.Enabled = false;
-            }
-            else
-            {
-                btn_addPar.Enabled = true;
-            }
-        }
-
         private void cb_cat_SelectedIndexChanged(object sender, EventArgs e)
-        { 
+        {
             RefillItemTable();
+            RefillParameterTable();
         }
 
-        private void tb_itemDesignation_TextChanged(object sender, EventArgs e)
+        private void tb_newItemDesignation_TextChanged(object sender, EventArgs e)
         {
-            if (tb_itemDesignation.Text.ToString().Length == 0)
+            if (tb_newItemDesignation.Text.ToString().Length == 0)
             {
                 btn_addItem.Enabled = false;
             }
@@ -264,23 +303,33 @@ END";
                 string format = string.Format("name = '{0}'", cb_cat.Text);
                 int catid = int.Parse(MainDataSet.Tables["Categories"].Select(string.Format("name = '{0}'", cb_cat.SelectedText))[0]["id"].ToString());
                 sqlCMD.CommandText = sqlcmd_commstr_ItemParameter_Insert_INCOMPLETE;
-                sqlCMD.Parameters.Add(new SqlParameter("name", tb_name.Text.ToString()));
-                sqlCMD.Parameters.Add(new SqlParameter("catID", catid));
-                    try
+                sqlCMD.Parameters.Add(new SqlParameter("name", tb_newParamName.Text.ToString()));
+                try
+                {
+                    sqlTRS = dbConnection.BeginTransaction("Inserting parameter for category");
+                    sqlCMD.Transaction = sqlTRS;
+                    if (sqlCMD.ExecuteNonQuery() < 1)
                     {
-                        sqlTRS = dbConnection.BeginTransaction("Inserting parameter for category");
-                        sqlCMD.Transaction = sqlTRS;
-                        if (sqlCMD.ExecuteNonQuery() < 1)
-                        {
-                            MessageBox.Show("Такой параметр");
+                        MessageBox.Show("Такой параметр уже есть");
                     }
-                catch
+                    sqlTRS.Commit();
+                }
+                catch (Exception exc)
+                {
+                    sqlTRS.Rollback();
+                    DialogResult dlgres = MessageBox.Show(exc.Message, "Ошибка базы данных", MessageBoxButtons.RetryCancel);
+                    switch (dlgres)
                     {
+                        case DialogResult.Cancel:
+                            return;
+                        case DialogResult.Retry:
+                            goto lbl_try_insert_cat;
+                    }
                 }
                 finally
-                    {
-                        sqlCMD.Parameters.Clear();
-                    }
+                {
+                    sqlCMD.Parameters.Clear();
+                }
             }
 
             else
@@ -289,5 +338,17 @@ END";
             }
         }
 
+
+        private void tb_newParamName_TextChanged(object sender, EventArgs e)
+        {
+            if (tb_newParamName.Text.ToString().Length == 0)
+            {
+                btn_addPar.Enabled = false;
+            }
+            else
+            {
+                btn_addPar.Enabled = true;
+            }
+        }
     }
 }
