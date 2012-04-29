@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.label1 = new System.Windows.Forms.Label();
-            this.tb_name = new System.Windows.Forms.TextBox();
+            this.tb_newParamName = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cb_cat = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
@@ -39,10 +39,10 @@
             this.btn_addPar = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.tb_itemDesignation = new System.Windows.Forms.TextBox();
+            this.tb_newItemDesignation = new System.Windows.Forms.TextBox();
             this.btn_addItem = new System.Windows.Forms.Button();
             this.btn_editItem = new System.Windows.Forms.Button();
-            this.cb_designationOfItem = new System.Windows.Forms.ComboBox();
+            this.cb_existingItem = new System.Windows.Forms.ComboBox();
             this.label5 = new System.Windows.Forms.Label();
             this.DGV_itemParameters = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
@@ -50,11 +50,14 @@
             this.btn_addCat = new System.Windows.Forms.Button();
             this.tb_catName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.clb_params = new System.Windows.Forms.CheckedListBox();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_itemParameters)).BeginInit();
             this.groupBox2.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -66,23 +69,22 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Название";
             // 
-            // tb_name
+            // tb_newParamName
             // 
-            this.tb_name.Location = new System.Drawing.Point(7, 32);
-            this.tb_name.Name = "tb_name";
-            this.tb_name.Size = new System.Drawing.Size(308, 20);
-            this.tb_name.TabIndex = 1;
-            this.tb_name.TextChanged += new System.EventHandler(this.tb_name_TextChanged);
+            this.tb_newParamName.Location = new System.Drawing.Point(7, 32);
+            this.tb_newParamName.Name = "tb_newParamName";
+            this.tb_newParamName.Size = new System.Drawing.Size(327, 20);
+            this.tb_newParamName.TabIndex = 1;
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.groupBox5);
             this.groupBox1.Controls.Add(this.cb_cat);
-            this.groupBox1.Controls.Add(this.groupBox4);
             this.groupBox1.Controls.Add(this.groupBox3);
             this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Location = new System.Drawing.Point(12, 98);
+            this.groupBox1.Location = new System.Drawing.Point(12, 179);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(381, 456);
+            this.groupBox1.Size = new System.Drawing.Size(381, 439);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Изменить категорию товаров";
@@ -101,17 +103,17 @@
             // groupBox4
             // 
             this.groupBox4.Controls.Add(this.rb_binary);
-            this.groupBox4.Controls.Add(this.tb_name);
+            this.groupBox4.Controls.Add(this.tb_newParamName);
             this.groupBox4.Controls.Add(this.rb_text);
             this.groupBox4.Controls.Add(this.label1);
             this.groupBox4.Controls.Add(this.rb_numeric);
             this.groupBox4.Controls.Add(this.btn_addPar);
-            this.groupBox4.Location = new System.Drawing.Point(7, 59);
+            this.groupBox4.Text = "Новый параметр категории";
+            this.groupBox4.Location = new System.Drawing.Point(12, 97);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(368, 79);
+            this.groupBox4.Size = new System.Drawing.Size(381, 79);
             this.groupBox4.TabIndex = 8;
             this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Новый параметр категории";
             // 
             // rb_binary
             // 
@@ -149,7 +151,7 @@
             // btn_addPar
             // 
             this.btn_addPar.Enabled = false;
-            this.btn_addPar.Location = new System.Drawing.Point(327, 30);
+            this.btn_addPar.Location = new System.Drawing.Point(340, 30);
             this.btn_addPar.Name = "btn_addPar";
             this.btn_addPar.Size = new System.Drawing.Size(35, 23);
             this.btn_addPar.TabIndex = 4;
@@ -160,15 +162,15 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.label4);
-            this.groupBox3.Controls.Add(this.tb_itemDesignation);
+            this.groupBox3.Controls.Add(this.tb_newItemDesignation);
             this.groupBox3.Controls.Add(this.btn_addItem);
             this.groupBox3.Controls.Add(this.btn_editItem);
-            this.groupBox3.Controls.Add(this.cb_designationOfItem);
+            this.groupBox3.Controls.Add(this.cb_existingItem);
             this.groupBox3.Controls.Add(this.label5);
             this.groupBox3.Controls.Add(this.DGV_itemParameters);
-            this.groupBox3.Location = new System.Drawing.Point(7, 144);
+            this.groupBox3.Location = new System.Drawing.Point(7, 188);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(368, 306);
+            this.groupBox3.Size = new System.Drawing.Size(368, 241);
             this.groupBox3.TabIndex = 4;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Товары категории";
@@ -185,10 +187,9 @@
             // tb_itemDesignation
             // 
             this.tb_itemDesignation.Location = new System.Drawing.Point(7, 36);
-            this.tb_itemDesignation.Name = "tb_itemDesignation";
+            this.tb_newItemDesignation.Name = "tb_newItemDesignation";
             this.tb_itemDesignation.Size = new System.Drawing.Size(308, 20);
             this.tb_itemDesignation.TabIndex = 7;
-            this.tb_itemDesignation.TextChanged += new System.EventHandler(this.tb_itemDesignation_TextChanged);
             // 
             // btn_addItem
             // 
@@ -209,14 +210,13 @@
             this.btn_editItem.Text = "Редактировать";
             this.btn_editItem.UseVisualStyleBackColor = true;
             // 
-            // cb_designationOfItem
+            // cb_existingItem
             // 
-            this.cb_designationOfItem.FormattingEnabled = true;
-            this.cb_designationOfItem.Location = new System.Drawing.Point(10, 86);
-            this.cb_designationOfItem.Name = "cb_designationOfItem";
-            this.cb_designationOfItem.Size = new System.Drawing.Size(247, 21);
-            this.cb_designationOfItem.TabIndex = 4;
-            this.cb_designationOfItem.SelectedIndexChanged += new System.EventHandler(this.cb_designationOfItem_SelectedIndexChanged);
+            this.cb_existingItem.FormattingEnabled = true;
+            this.cb_existingItem.Location = new System.Drawing.Point(10, 86);
+            this.cb_existingItem.Name = "cb_existingItem";
+            this.cb_existingItem.Size = new System.Drawing.Size(247, 21);
+            this.cb_existingItem.TabIndex = 4;
             // 
             // label5
             // 
@@ -230,9 +230,9 @@
             // DGV_itemParameters
             // 
             this.DGV_itemParameters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DGV_itemParameters.Location = new System.Drawing.Point(6, 113);
+            this.DGV_itemParameters.Location = new System.Drawing.Point(10, 112);
             this.DGV_itemParameters.Name = "DGV_itemParameters";
-            this.DGV_itemParameters.Size = new System.Drawing.Size(351, 187);
+            this.DGV_itemParameters.Size = new System.Drawing.Size(351, 122);
             this.DGV_itemParameters.TabIndex = 0;
             // 
             // label2
@@ -258,14 +258,12 @@
             // 
             // btn_addCat
             // 
-            this.btn_addCat.Enabled = false;
             this.btn_addCat.Location = new System.Drawing.Point(340, 41);
             this.btn_addCat.Name = "btn_addCat";
             this.btn_addCat.Size = new System.Drawing.Size(35, 23);
             this.btn_addCat.TabIndex = 2;
             this.btn_addCat.Text = "+";
             this.btn_addCat.UseVisualStyleBackColor = true;
-            this.btn_addCat.Click += new System.EventHandler(this.btn_addCat_Click);
             // 
             // tb_catName
             // 
@@ -284,12 +282,32 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Название";
             // 
+            // groupBox5
+            // 
+            this.groupBox5.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBox5.Controls.Add(this.clb_params);
+            this.groupBox5.Location = new System.Drawing.Point(7, 60);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(368, 122);
+            this.groupBox5.TabIndex = 5;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Параметры категории";
+            // 
+            // clb_params
+            // 
+            this.clb_params.FormattingEnabled = true;
+            this.clb_params.Location = new System.Drawing.Point(7, 20);
+            this.clb_params.Name = "clb_params";
+            this.clb_params.Size = new System.Drawing.Size(355, 94);
+            this.clb_params.TabIndex = 0;
+            // 
             // FormEditCategories
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(401, 559);
+            this.ClientSize = new System.Drawing.Size(401, 620);
             this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.groupBox4);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
@@ -305,6 +323,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.DGV_itemParameters)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -312,7 +331,7 @@
         #endregion
 
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox tb_name;
+        private System.Windows.Forms.TextBox tb_newParamName;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button btn_addPar;
@@ -327,11 +346,13 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button btn_addItem;
         private System.Windows.Forms.Button btn_editItem;
-        private System.Windows.Forms.ComboBox cb_designationOfItem;
+        private System.Windows.Forms.ComboBox cb_existingItem;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.DataGridView DGV_itemParameters;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox tb_itemDesignation;
+        private System.Windows.Forms.TextBox tb_newItemDesignation;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.CheckedListBox clb_params;
     }
 }
