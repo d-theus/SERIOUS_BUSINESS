@@ -89,6 +89,7 @@
             // 
             // cb_cat
             // 
+            this.cb_cat.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
             this.cb_cat.FormattingEnabled = true;
             this.cb_cat.Location = new System.Drawing.Point(13, 32);
             this.cb_cat.Name = "cb_cat";
@@ -154,6 +155,7 @@
             this.btn_addPar.TabIndex = 4;
             this.btn_addPar.Text = "+";
             this.btn_addPar.UseVisualStyleBackColor = true;
+            this.btn_addPar.Click += new System.EventHandler(this.btn_addPar_Click);
             // 
             // groupBox3
             // 

@@ -22,8 +22,13 @@ namespace SERIOUS_BUSINESS
         private const string sqlcmd_commstr_ItemCategory_List = "SELECT * FROM ItemCategorySet";
         private const string sqlcmd_commstr_Item_List_INCOMPLETE = "SELECT * FROM ItemSet INNER JOIN ItemParameterSet ON [ItemParameterSet].[itemID] = ItemSet.id WHERE [catID] = @catID";
         private const string sqlcmd_commstr_Item_DesignationList_INCOMPLETE = "SELECT ItemSet.id, valueTxt FROM ItemSet INNER JOIN ItemParameterSet ON [ItemParameterSet].[itemID] = ItemSet.id WHERE [catID] = @catID AND paramCatID = (SELECT id FROM ParameterCategorySet WHERE name = 'Наименование')";
-        private const string sqlcmd_commstr_ItemParameter_IsExist_INCOMPLETE = "SELECT COUNT(*) FROM ";
-        private const string sqlcmd_commstr_ItemParameter_Insert_INCOMPLETE = "";
+        private const string sqlcmd_commstr_ItemParameter_Insert_INCOMPLETE = @"IF (SELECT COUNT(*) FROM ParameterCategorySet WHERE name = @name) = 0 
+BEGIN
+	INSERT  INTO ParameterCategorySet	
+	VALUES (@name)
+	INSERT INTO pureJoin_IPcatsSet VALUES
+	(@catID, IDENT_CURRENT('ParameterCategorySet')) 
+END";
         private const string sqlcmd_commstr_Item_Insert_INCOMPLETE = "";
         private const string sqlcmd_commstr_ItemParameter_ListForCurItem_INCOMPLETE = "SELECT name, valueTxt, valueDbl, valueBool FROM ItemParameterSetINNER JOIN ParameterCategorySet ON ParameterCategorySet.id = ItemParameterSet.paramCatID";
         #endregion
@@ -58,9 +63,7 @@ namespace SERIOUS_BUSINESS
             getCurrentCategories:
                 try
                 {
-                    if (MainDataSet.Tables["Categories"].Columns.Count != 0)
-                        sda.Update(MainDataSet.Tables["Categories"]);
-                    else
+                        MainDataSet.Tables["Categories"].Clear();
                         sda.Fill(MainDataSet.Tables["Categories"]);
                 }
                 catch (Exception exc)
@@ -83,24 +86,24 @@ namespace SERIOUS_BUSINESS
 
         private void RefillItemTable()
         {
-            MainDataSet.Tables["Items"].Clear();
-            MainDataSet.Tables["Designations"].Clear();
             if (cb_cat.SelectedIndex >= 0)
             {
             getcurrentitems:
                 string format = string.Format("name = '{0}'", cb_cat.Text);
-            MessageBox.Show(format);
-                int catid = int.Parse(MainDataSet.Tables["Categories"].Select(string.Format("name = '{0}'",cb_cat.SelectedText))[0]["id"].ToString());
+                int catid = int.Parse(MainDataSet.Tables["Categories"].Select(string.Format("name = '{0}'", cb_cat.SelectedText))[0]["id"].ToString());
                 sqlCMD.CommandText = sqlcmd_commstr_Item_List_INCOMPLETE;
                 sqlCMD.Parameters.Add(new SqlParameter("catid", catid));
                 try
                 {
+                    MainDataSet.Tables["Items"].Clear();
+                    MainDataSet.Tables["Designations"].Clear();
+
                     using (SqlDataAdapter sda = new SqlDataAdapter(sqlCMD))
-                            sda.Fill(MainDataSet.Tables["Items"]);
+                        sda.Fill(MainDataSet.Tables["Items"]);
 
                     sqlCMD.CommandText = sqlcmd_commstr_Item_DesignationList_INCOMPLETE;
                     using (SqlDataAdapter sda = new SqlDataAdapter(sqlCMD))
-                            sda.Fill(MainDataSet.Tables["Designations"]);
+                        sda.Fill(MainDataSet.Tables["Designations"]);
                 }
                 catch (Exception exc)
                 {
@@ -120,6 +123,10 @@ namespace SERIOUS_BUSINESS
                     cb_designationOfItem.ValueMember = "id";
                     cb_designationOfItem.Update();
                 }
+            }
+            else
+            {
+                MessageBox.Show("Выберите категорию");
             }
         }
 
@@ -177,11 +184,12 @@ namespace SERIOUS_BUSINESS
                 sqlCMD.ExecuteNonQuery();
                 sqlTRS.Commit();
                 RefillCategoriesTable();
+                tb_catName.Clear();
             }
             catch (SqlException exc)
             {
                 sqlTRS.Rollback();
-                DialogResult dlgres = MessageBox.Show(exc.Message, "Ошибка", MessageBoxButtons.RetryCancel);
+                DialogResult dlgres = MessageBox.Show(exc.Message, "Ошибка базы данных", MessageBoxButtons.RetryCancel);
                 switch (dlgres)
                 {
                     case DialogResult.Cancel:
@@ -247,5 +255,39 @@ namespace SERIOUS_BUSINESS
         private void cb_designationOfItem_SelectedIndexChanged(object sender, EventArgs e)
         {
         }
+
+        private void btn_addPar_Click(object sender, EventArgs e)
+        {
+            if (cb_cat.SelectedIndex >= 0)
+            {
+            lbl_try_insert_cat:
+                string format = string.Format("name = '{0}'", cb_cat.Text);
+                int catid = int.Parse(MainDataSet.Tables["Categories"].Select(string.Format("name = '{0}'", cb_cat.SelectedText))[0]["id"].ToString());
+                sqlCMD.CommandText = sqlcmd_commstr_ItemParameter_Insert_INCOMPLETE;
+                sqlCMD.Parameters.Add(new SqlParameter("name", tb_name.Text.ToString()));
+                sqlCMD.Parameters.Add(new SqlParameter("catID", catid));
+                    try
+                    {
+                        sqlTRS = dbConnection.BeginTransaction("Inserting parameter for category");
+                        sqlCMD.Transaction = sqlTRS;
+                        if (sqlCMD.ExecuteNonQuery() < 1)
+                        {
+                            MessageBox.Show("Такой параметр");
+                    }
+                catch
+                    {
+                }
+                finally
+                    {
+                        sqlCMD.Parameters.Clear();
+                    }
+            }
+
+            else
+            {
+                MessageBox.Show("Выберите категорию");
+            }
+        }
+
     }
 }
