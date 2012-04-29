@@ -32,6 +32,13 @@
             this.tb_newParamName = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.btn_accParams = new System.Windows.Forms.Button();
+            this.DGV_catParameters = new System.Windows.Forms.DataGridView();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.rb_binary = new System.Windows.Forms.RadioButton();
+            this.rb_text = new System.Windows.Forms.RadioButton();
+            this.rb_numeric = new System.Windows.Forms.RadioButton();
+            this.btn_addPar = new System.Windows.Forms.Button();
             this.cb_cat = new System.Windows.Forms.ComboBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.label4 = new System.Windows.Forms.Label();
@@ -42,24 +49,17 @@
             this.label5 = new System.Windows.Forms.Label();
             this.DGV_itemParameters = new System.Windows.Forms.DataGridView();
             this.label2 = new System.Windows.Forms.Label();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.rb_binary = new System.Windows.Forms.RadioButton();
-            this.rb_text = new System.Windows.Forms.RadioButton();
-            this.rb_numeric = new System.Windows.Forms.RadioButton();
-            this.btn_addPar = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btn_addCat = new System.Windows.Forms.Button();
             this.tb_catName = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.DGV_catParameters = new System.Windows.Forms.DataGridView();
-            this.btn_accParams = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.DGV_catParameters)).BeginInit();
+            this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_itemParameters)).BeginInit();
-            this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DGV_catParameters)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -103,6 +103,87 @@
             this.groupBox5.TabIndex = 5;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Параметры категории";
+            // 
+            // btn_accParams
+            // 
+            this.btn_accParams.Location = new System.Drawing.Point(263, 120);
+            this.btn_accParams.Name = "btn_accParams";
+            this.btn_accParams.Size = new System.Drawing.Size(93, 23);
+            this.btn_accParams.TabIndex = 1;
+            this.btn_accParams.Text = "Применить";
+            this.btn_accParams.UseVisualStyleBackColor = true;
+            // 
+            // DGV_catParameters
+            // 
+            this.DGV_catParameters.AllowUserToAddRows = false;
+            this.DGV_catParameters.AllowUserToDeleteRows = false;
+            this.DGV_catParameters.AllowUserToResizeColumns = false;
+            this.DGV_catParameters.AllowUserToResizeRows = false;
+            this.DGV_catParameters.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.DGV_catParameters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DGV_catParameters.Location = new System.Drawing.Point(10, 20);
+            this.DGV_catParameters.Name = "DGV_catParameters";
+            this.DGV_catParameters.Size = new System.Drawing.Size(351, 94);
+            this.DGV_catParameters.TabIndex = 0;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.rb_binary);
+            this.groupBox4.Controls.Add(this.tb_newParamName);
+            this.groupBox4.Controls.Add(this.rb_text);
+            this.groupBox4.Controls.Add(this.label1);
+            this.groupBox4.Controls.Add(this.rb_numeric);
+            this.groupBox4.Controls.Add(this.btn_addPar);
+            this.groupBox4.Location = new System.Drawing.Point(0, 59);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(375, 79);
+            this.groupBox4.TabIndex = 8;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Новый параметр категории";
+            // 
+            // rb_binary
+            // 
+            this.rb_binary.AutoSize = true;
+            this.rb_binary.Location = new System.Drawing.Point(174, 59);
+            this.rb_binary.Name = "rb_binary";
+            this.rb_binary.Size = new System.Drawing.Size(77, 17);
+            this.rb_binary.TabIndex = 7;
+            this.rb_binary.TabStop = true;
+            this.rb_binary.Text = "Двоичный";
+            this.rb_binary.UseVisualStyleBackColor = true;
+            // 
+            // rb_text
+            // 
+            this.rb_text.AutoSize = true;
+            this.rb_text.Location = new System.Drawing.Point(87, 59);
+            this.rb_text.Name = "rb_text";
+            this.rb_text.Size = new System.Drawing.Size(81, 17);
+            this.rb_text.TabIndex = 6;
+            this.rb_text.TabStop = true;
+            this.rb_text.Text = "Текстовый";
+            this.rb_text.UseVisualStyleBackColor = true;
+            // 
+            // rb_numeric
+            // 
+            this.rb_numeric.AutoSize = true;
+            this.rb_numeric.Location = new System.Drawing.Point(6, 59);
+            this.rb_numeric.Name = "rb_numeric";
+            this.rb_numeric.Size = new System.Drawing.Size(75, 17);
+            this.rb_numeric.TabIndex = 5;
+            this.rb_numeric.TabStop = true;
+            this.rb_numeric.Text = "Числовой";
+            this.rb_numeric.UseVisualStyleBackColor = true;
+            // 
+            // btn_addPar
+            // 
+            this.btn_addPar.Enabled = false;
+            this.btn_addPar.Location = new System.Drawing.Point(334, 30);
+            this.btn_addPar.Name = "btn_addPar";
+            this.btn_addPar.Size = new System.Drawing.Size(35, 23);
+            this.btn_addPar.TabIndex = 4;
+            this.btn_addPar.Text = "+";
+            this.btn_addPar.UseVisualStyleBackColor = true;
+            this.btn_addPar.Click += new System.EventHandler(this.btn_addPar_Click);
             // 
             // cb_cat
             // 
@@ -201,65 +282,6 @@
             this.label2.TabIndex = 3;
             this.label2.Text = "Категория";
             // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.rb_binary);
-            this.groupBox4.Controls.Add(this.tb_newParamName);
-            this.groupBox4.Controls.Add(this.rb_text);
-            this.groupBox4.Controls.Add(this.label1);
-            this.groupBox4.Controls.Add(this.rb_numeric);
-            this.groupBox4.Controls.Add(this.btn_addPar);
-            this.groupBox4.Location = new System.Drawing.Point(0, 59);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(375, 79);
-            this.groupBox4.TabIndex = 8;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Новый параметр категории";
-            // 
-            // rb_binary
-            // 
-            this.rb_binary.AutoSize = true;
-            this.rb_binary.Location = new System.Drawing.Point(174, 59);
-            this.rb_binary.Name = "rb_binary";
-            this.rb_binary.Size = new System.Drawing.Size(77, 17);
-            this.rb_binary.TabIndex = 7;
-            this.rb_binary.TabStop = true;
-            this.rb_binary.Text = "Двоичный";
-            this.rb_binary.UseVisualStyleBackColor = true;
-            // 
-            // rb_text
-            // 
-            this.rb_text.AutoSize = true;
-            this.rb_text.Location = new System.Drawing.Point(87, 59);
-            this.rb_text.Name = "rb_text";
-            this.rb_text.Size = new System.Drawing.Size(81, 17);
-            this.rb_text.TabIndex = 6;
-            this.rb_text.TabStop = true;
-            this.rb_text.Text = "Текстовый";
-            this.rb_text.UseVisualStyleBackColor = true;
-            // 
-            // rb_numeric
-            // 
-            this.rb_numeric.AutoSize = true;
-            this.rb_numeric.Location = new System.Drawing.Point(6, 59);
-            this.rb_numeric.Name = "rb_numeric";
-            this.rb_numeric.Size = new System.Drawing.Size(75, 17);
-            this.rb_numeric.TabIndex = 5;
-            this.rb_numeric.TabStop = true;
-            this.rb_numeric.Text = "Числовой";
-            this.rb_numeric.UseVisualStyleBackColor = true;
-            // 
-            // btn_addPar
-            // 
-            this.btn_addPar.Enabled = false;
-            this.btn_addPar.Location = new System.Drawing.Point(334, 30);
-            this.btn_addPar.Name = "btn_addPar";
-            this.btn_addPar.Size = new System.Drawing.Size(35, 23);
-            this.btn_addPar.TabIndex = 4;
-            this.btn_addPar.Text = "+";
-            this.btn_addPar.UseVisualStyleBackColor = true;
-            this.btn_addPar.Click += new System.EventHandler(this.btn_addPar_Click);
-            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.btn_addCat);
@@ -274,6 +296,7 @@
             // 
             // btn_addCat
             // 
+            this.btn_addCat.Enabled = false;
             this.btn_addCat.Location = new System.Drawing.Point(334, 41);
             this.btn_addCat.Name = "btn_addCat";
             this.btn_addCat.Size = new System.Drawing.Size(35, 23);
@@ -299,24 +322,6 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Название";
             // 
-            // DGV_catParameters
-            // 
-            this.DGV_catParameters.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.DGV_catParameters.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DGV_catParameters.Location = new System.Drawing.Point(10, 20);
-            this.DGV_catParameters.Name = "DGV_catParameters";
-            this.DGV_catParameters.Size = new System.Drawing.Size(351, 94);
-            this.DGV_catParameters.TabIndex = 0;
-            // 
-            // btn_accParams
-            // 
-            this.btn_accParams.Location = new System.Drawing.Point(263, 120);
-            this.btn_accParams.Name = "btn_accParams";
-            this.btn_accParams.Size = new System.Drawing.Size(93, 23);
-            this.btn_accParams.TabIndex = 1;
-            this.btn_accParams.Text = "Применить";
-            this.btn_accParams.UseVisualStyleBackColor = true;
-            // 
             // FormEditCategories
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -332,14 +337,14 @@
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.DGV_catParameters)).EndInit();
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGV_itemParameters)).EndInit();
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.DGV_catParameters)).EndInit();
             this.ResumeLayout(false);
 
         }

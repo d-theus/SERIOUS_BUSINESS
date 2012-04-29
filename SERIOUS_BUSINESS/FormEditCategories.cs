@@ -53,11 +53,10 @@ WHERE ICID = @icid AND PCID = @pcid";
             DGV_itemParameters.DataSource = MainDataSet.Tables["Parameters"];
             cb_cat.DataSource = MainDataSet.Tables["Categories"];
             cb_existingItem.DataSource = MainDataSet.Tables["Designations"];
-            clb_params.DataSource = MainDataSet.Tables["Parameters"];
+            DGV_catParameters.DataSource = MainDataSet.Tables["Parameters"];
 
             RefillCategoriesTable();
             cb_cat.DisplayMember = "name";
-            clb_params.DisplayMember = "name";
         }
 
         private void RefillCategoriesTable()
@@ -171,10 +170,6 @@ WHERE ICID = @icid AND PCID = @pcid";
                         case DialogResult.Retry:
                             goto lbl_try_fill_params;
                     }
-                }
-                finally
-                {
-                    clb_params.Update();
                 }
             }
             else
