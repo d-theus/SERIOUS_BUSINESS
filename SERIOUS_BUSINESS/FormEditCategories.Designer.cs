@@ -169,6 +169,7 @@
             this.tb_newItemDesignation.Name = "tb_newItemDesignation";
             this.tb_newItemDesignation.Size = new System.Drawing.Size(301, 20);
             this.tb_newItemDesignation.TabIndex = 9;
+            this.tb_newItemDesignation.TextChanged += new System.EventHandler(this.tb_newItemDesignation_TextChanged_1);
             // 
             // btn_addItem
             // 
@@ -179,6 +180,7 @@
             this.btn_addItem.TabIndex = 6;
             this.btn_addItem.Text = "+";
             this.btn_addItem.UseVisualStyleBackColor = true;
+            this.btn_addItem.Click += new System.EventHandler(this.btn_addItem_Click);
             // 
             // btn_accItem
             // 

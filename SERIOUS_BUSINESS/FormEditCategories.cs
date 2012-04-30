@@ -20,15 +20,19 @@ namespace SERIOUS_BUSINESS
         private const string sqlcmd_commstr_ItemCategory_IsExist_INCOMPLETE = "SELECT COUNT(*) FROM ItemCategorySet WHERE name = @name";
         private const string sqlcmd_commstr_ItemCategory_Insert_INCOMPLETE = "INSERT INTO ItemCategorySet (name) VALUES (@name)";
         private const string sqlcmd_commstr_ItemCategory_List = "SELECT * FROM ItemCategorySet";
+
         private const string sqlcmd_commstr_Item_List_INCOMPLETE = "SELECT * FROM ItemSet INNER JOIN ItemParameterSet ON [ItemParameterSet].[itemID] = ItemSet.id WHERE [catID] = @catID";
+        private const string sqlcmd_commstr_Item_Insert = "EXEC sp_InsertNewItem @catID, @designation";
+        private const string sqlcmd_commstr_Item_CheckForSameDes = "EXEC sp_CheckForSameDesignation @designation";
         private const string sqlcmd_commstr_Item_DesignationList_INCOMPLETE = "SELECT ItemSet.id, valueTxt FROM ItemSet INNER JOIN ItemParameterSet ON [ItemParameterSet].[itemID] = ItemSet.id WHERE [catID] = @catID AND paramCatID = (SELECT id FROM ParameterCategorySet WHERE name = 'Наименование')";
-        private const string sqlcmd_commstr_ItemParameter_Insert_INCOMPLETE = @"IF (SELECT COUNT(*) FROM ParameterCategorySet WHERE name = @name) = 0 
+        private const string sqlcmd_commstr_ItemParameterCategory_Insert_INCOMPLETE = @"IF (SELECT COUNT(*) FROM ParameterCategorySet WHERE name = @name) = 0 
 BEGIN
 	INSERT  INTO ParameterCategorySet	
 	VALUES (@name, @type)
 END";
-        private const string sqlcmd_commstr_ItemParameter_ListForCurItem_INCOMPLETE = "SELECT name, valueTxt, valueDbl, valueBool FROM ItemParameterSetINNER JOIN ParameterCategorySet ON ParameterCategorySet.id = ItemParameterSet.paramCatID";
+        private const string sqlcmd_commstr_ItemParameter_ListForCurItem_INCOMPLETE = "SELECT name, valueTxt, valueDbl, valueBool FROM ItemParameterSet INNER JOIN ParameterCategorySet ON ParameterCategorySet.id = ItemParameterSet.paramCatID";
         private const string sqlcmd_commstr_ItemParameter_List = "SELECT * FROM ParameterCategorySet";
+        private const string sqlcmd_commstr_ItemParameter_Insert = "INSERT INTO ItemParameterSet";
         private const string sqlcmd_commstr_CatHasParam_INCOMPLETE = @"SELECT COUNT(*) FROM 
 pureJoin_IPcatsSet
 WHERE ICID = @icid AND PCID = @pcid";
@@ -50,7 +54,7 @@ WHERE ICID = @icid AND PCID = @pcid";
             MainDataSet.Tables.Add(new DataTable("Designations"));
             MainDataSet.Tables.Add(new DataTable("Parameters"));
             MainDataSet.Tables["Parameters"].Columns.Add("AssocWithCat", Type.GetType("System.Boolean"));
-            MainDataSet.Tables.Add(new DataTable("ICPC"));
+            MainDataSet.Tables.Add(new DataTable("CurrentItemParameters"));
             #endregion
             dbConnection = _dbConnection;
             sqlCMD = dbConnection.CreateCommand();
@@ -156,11 +160,8 @@ WHERE ICID = @icid AND PCID = @pcid";
                 {
                     using (SqlDataAdapter sda = new SqlDataAdapter(sqlCMD))
                     {
-                        //MainDataSet.Tables["Parameters"].Clear();
-                        if (MainDataSet.Tables["Parameters"].Columns.Count < 2)
-                            sda.Fill(MainDataSet.Tables["Parameters"]);
-                        else
-                            sda.Update(MainDataSet.Tables["Parameters"]);
+                        MainDataSet.Tables["Parameters"].Clear();
+                        sda.Fill(MainDataSet.Tables["Parameters"]);
                     }
                     int row_count = MainDataSet.Tables["Parameters"].Rows.Count;
                     for (int row = 0; row < row_count; row++)
@@ -188,30 +189,30 @@ WHERE ICID = @icid AND PCID = @pcid";
             }
         }
 
-        private void RefillICPC()
-        {
-        lbl_try_fill_ICPC:
-            sqlCMD.CommandText = sqlcmd_commstr_ICPC_Select;
-            try
-            {
-                using (SqlDataAdapter sda = new SqlDataAdapter(sqlCMD))
-                {
-                    MainDataSet.Tables["ICPC"].Clear();
-                    sda.Fill(MainDataSet.Tables["ICPC"]);
-                }
-            }
-            catch (Exception exc)
-            {
-                DialogResult dlgres = MessageBox.Show(exc.Message, "Ошибка", MessageBoxButtons.RetryCancel);
-                switch (dlgres)
-                {
-                    case DialogResult.Cancel:
-                        return;
-                    case DialogResult.Retry:
-                        goto lbl_try_fill_ICPC;
-                }
-            }
-        }
+        //private void RefillICPC()
+        //{
+        //lbl_try_fill_ICPC:
+        //    sqlCMD.CommandText = sqlcmd_commstr_ICPC_Select;
+        //    try
+        //    {
+        //        using (SqlDataAdapter sda = new SqlDataAdapter(sqlCMD))
+        //        {
+        //            MainDataSet.Tables["ICPC"].Clear();
+        //            sda.Fill(MainDataSet.Tables["ICPC"]);
+        //        }
+        //    }
+        //    catch (Exception exc)
+        //    {
+        //        DialogResult dlgres = MessageBox.Show(exc.Message, "Ошибка", MessageBoxButtons.RetryCancel);
+        //        switch (dlgres)
+        //        {
+        //            case DialogResult.Cancel:
+        //                return;
+        //            case DialogResult.Retry:
+        //                goto lbl_try_fill_ICPC;
+        //        }
+        //    }
+        //}
 
         private void associateParameterToCategory()
         {
@@ -343,7 +344,7 @@ WHERE ICID = @icid AND PCID = @pcid";
                 if (apprvmnt == DialogResult.No)
                     return;
             lbl_try_insert_cat:
-                sqlCMD.CommandText = sqlcmd_commstr_ItemParameter_Insert_INCOMPLETE;
+                sqlCMD.CommandText = sqlcmd_commstr_ItemParameterCategory_Insert_INCOMPLETE;
                 sqlCMD.Parameters.Add(new SqlParameter("name", tb_newParamName.Text.ToString()));
                 sqlCMD.Parameters.Add(new SqlParameter("type", ptype));
                 try
@@ -415,8 +416,6 @@ WHERE ICID = @icid AND PCID = @pcid";
                 try
                 {
                     int cnt = sqlCMD.ExecuteNonQuery();
-                 //   if (cnt < 1)
-                 //       throw new Exception("No rows was changed");
                     sqlCMD.Parameters.Clear();
                 }
                 catch (Exception exc)
@@ -434,6 +433,85 @@ WHERE ICID = @icid AND PCID = @pcid";
                 }
             }
             sqlTRS.Commit();
+        }
+
+        private void tb_newItemDesignation_TextChanged_1(object sender, EventArgs e)
+        {
+            if (tb_newItemDesignation.Text.ToString().Length == 0)
+            {
+                btn_addItem.Enabled = false;
+            }
+            else
+            {
+                btn_addItem.Enabled = true;
+            }
+        }
+
+        private void btn_addItem_Click(object sender, EventArgs e)
+        {
+
+            if (cb_cat.SelectedIndex >= 0)
+            {
+            DataRow[] selectRes = MainDataSet.Tables["Categories"].Select(string.Format("name = '{0}'", cb_cat.Text));
+            int icid = int.Parse(selectRes[0]["id"].ToString());
+            DialogResult appmnt = MessageBox.Show(String.Format("Вы точно хотите добавить предмет {0} в категорию {1}", tb_newItemDesignation.Text, cb_cat.Text), "Добавить предмет к категории?", MessageBoxButtons.YesNo);
+            if (appmnt == DialogResult.No)
+                return;
+            sqlCMD.CommandText = sqlcmd_commstr_Item_CheckForSameDes;
+            sqlCMD.Parameters.AddRange(new SqlParameter[] { new SqlParameter("catID", icid), new SqlParameter("designation", tb_newItemDesignation.Text) });
+            lbl_try_insert_item:
+                try
+                {
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter sda = new SqlDataAdapter(sqlCMD);
+                    sda.Fill(dt);
+                    if (dt.Rows.Count > 0)
+                    {
+                        string messageContents = "";
+                        foreach (DataRow ent in dt.Rows)
+                        {
+                            messageContents += "\n" + ent[0];
+                        }
+                        DialogResult dlgres = MessageBox.Show("Товары с таким наименованием уже есть в следующих категориях: " + messageContents + "\n Продолжить?", "Возможно дублирование", MessageBoxButtons.YesNo);
+                        if (dlgres == DialogResult.No)
+                        {
+                            sqlCMD.Parameters.Clear();
+                            dt.Dispose();
+                            sda.Dispose();
+                            return;
+                        }       
+                    }
+                    sqlCMD.Parameters.Clear();
+                    sqlCMD.Parameters.AddRange(new SqlParameter[] { new SqlParameter("catID", icid), new SqlParameter("designation", tb_newItemDesignation.Text) });
+                    sqlCMD.CommandText = sqlcmd_commstr_Item_Insert;
+                    sqlTRS = dbConnection.BeginTransaction();
+                    sqlCMD.Transaction = sqlTRS;
+                    sqlCMD.ExecuteNonQuery();
+                    sqlTRS.Commit();
+                }
+                catch (Exception exc)
+                {
+                    sqlTRS.Rollback();
+                    DialogResult dlgres = MessageBox.Show(exc.Message, "Ошибка базы данных", MessageBoxButtons.RetryCancel);
+                    switch (dlgres)
+                    {
+                        case DialogResult.Cancel:
+                            return;
+                        case DialogResult.Retry:
+                            goto lbl_try_insert_item;
+                    }
+                }
+                finally
+                {
+                    sqlCMD.Parameters.Clear();
+                    RefillItemTable();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Выберите категорию");
+                return;
+            }
         }
     }
 }
