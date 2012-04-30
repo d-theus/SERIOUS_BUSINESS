@@ -77,6 +77,7 @@
             this.tb_newParamName.Name = "tb_newParamName";
             this.tb_newParamName.Size = new System.Drawing.Size(307, 20);
             this.tb_newParamName.TabIndex = 1;
+            this.tb_newParamName.TextChanged += new System.EventHandler(this.tb_newParamName_TextChanged);
             // 
             // groupBox1
             // 
@@ -111,6 +112,7 @@
             this.btn_accParams.TabIndex = 1;
             this.btn_accParams.Text = "Применить";
             this.btn_accParams.UseVisualStyleBackColor = true;
+            this.btn_accParams.Click += new System.EventHandler(this.btn_accParams_Click);
             // 
             // DGV_catParameters
             // 

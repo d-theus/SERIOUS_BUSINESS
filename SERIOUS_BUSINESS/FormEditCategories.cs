@@ -32,6 +32,10 @@ END";
         private const string sqlcmd_commstr_CatHasParam_INCOMPLETE = @"SELECT COUNT(*) FROM 
 pureJoin_IPcatsSet
 WHERE ICID = @icid AND PCID = @pcid";
+        private const string sqlcmd_commstr_Parameters_Update = "UPDATE ParameterCategorySet SET name = @name, type = @type WHERE id = @id";
+        private const string sqlcmd_commstr_ICPC_Insert = "IF (SELECT COUNT(*) FROM pureJoin_IPcatsSet WHERE ICID = @icid AND PCID = @pcid) = 0 BEGIN INSERT INTO pureJoin_IPcatsSet (ICID, PCID) VALUES (@icid, @pcid) END";
+        private const string sqlcmd_commstr_ICPC_Delete = "DELETE FROM pureJoin_IPcatsSet WHERE ICID = @icid AND PCID = @pcid";
+        private const string sqlcmd_commstr_ICPC_Select = "SELECT * FROM pureJoin_IPcatsSet";
         #endregion
         DataSet MainDataSet;
 
@@ -46,6 +50,7 @@ WHERE ICID = @icid AND PCID = @pcid";
             MainDataSet.Tables.Add(new DataTable("Designations"));
             MainDataSet.Tables.Add(new DataTable("Parameters"));
             MainDataSet.Tables["Parameters"].Columns.Add("AssocWithCat", Type.GetType("System.Boolean"));
+            MainDataSet.Tables.Add(new DataTable("ICPC"));
             #endregion
             dbConnection = _dbConnection;
             sqlCMD = dbConnection.CreateCommand();
@@ -84,7 +89,7 @@ WHERE ICID = @icid AND PCID = @pcid";
                 }
                 finally
                 {
-                    MainDataSet.Tables["Categories"].PrimaryKey = new DataColumn[] {MainDataSet.Tables["Categories"].Columns["name"]};
+                    MainDataSet.Tables["Categories"].PrimaryKey = new DataColumn[] { MainDataSet.Tables["Categories"].Columns["name"] };
                     cb_cat.Update();
                 }
             }
@@ -151,14 +156,19 @@ WHERE ICID = @icid AND PCID = @pcid";
                 {
                     using (SqlDataAdapter sda = new SqlDataAdapter(sqlCMD))
                     {
-                        MainDataSet.Tables["Parameters"].Clear();
-                        sda.Fill(MainDataSet.Tables["Parameters"]);
+                        //MainDataSet.Tables["Parameters"].Clear();
+                        if (MainDataSet.Tables["Parameters"].Columns.Count < 2)
+                            sda.Fill(MainDataSet.Tables["Parameters"]);
+                        else
+                            sda.Update(MainDataSet.Tables["Parameters"]);
                     }
                     int row_count = MainDataSet.Tables["Parameters"].Rows.Count;
                     for (int row = 0; row < row_count; row++)
                     {
-                        MainDataSet.Tables["Parameters"].Rows[row]["AssocWithCat"] = isCatHasParam(int.Parse(MainDataSet.Tables["Parameters"].Rows[row]["id"].ToString()) ,icid);
+                        MainDataSet.Tables["Parameters"].Rows[row]["AssocWithCat"] = isCatHasParam(int.Parse(MainDataSet.Tables["Parameters"].Rows[row]["id"].ToString()), icid);
                     }
+                    MainDataSet.Tables["Parameters"].Columns["name"].ReadOnly = true;
+                    MainDataSet.Tables["Parameters"].Columns["id"].ReadOnly = true;
                 }
                 catch (Exception exc)
                 {
@@ -178,9 +188,35 @@ WHERE ICID = @icid AND PCID = @pcid";
             }
         }
 
+        private void RefillICPC()
+        {
+        lbl_try_fill_ICPC:
+            sqlCMD.CommandText = sqlcmd_commstr_ICPC_Select;
+            try
+            {
+                using (SqlDataAdapter sda = new SqlDataAdapter(sqlCMD))
+                {
+                    MainDataSet.Tables["ICPC"].Clear();
+                    sda.Fill(MainDataSet.Tables["ICPC"]);
+                }
+            }
+            catch (Exception exc)
+            {
+                DialogResult dlgres = MessageBox.Show(exc.Message, "Ошибка", MessageBoxButtons.RetryCancel);
+                switch (dlgres)
+                {
+                    case DialogResult.Cancel:
+                        return;
+                    case DialogResult.Retry:
+                        goto lbl_try_fill_ICPC;
+                }
+            }
+        }
+
         private void associateParameterToCategory()
         {
         }
+
         private bool isCatHasParam(int pcid, int icid)
         {
             int count = 0;
@@ -285,7 +321,6 @@ WHERE ICID = @icid AND PCID = @pcid";
             }
         }
 
-
         private void cb_designationOfItem_SelectedIndexChanged(object sender, EventArgs e)
         {
         }
@@ -293,25 +328,27 @@ WHERE ICID = @icid AND PCID = @pcid";
         private void btn_addPar_Click(object sender, EventArgs e)
         {
             short ptype = 0;
-            if (rb_text.Checked) ptype = 1;
-            else if (rb_numeric.Checked) ptype = 2;
-            else if (rb_binary.Checked) ptype = 3;
-            else 
+            string ptype_name = "";
+            if (rb_text.Checked) { ptype = 1; ptype_name = "Текстовый"; }
+            else if (rb_numeric.Checked) { ptype = 2; ptype_name = "Числовой"; }
+            else if (rb_binary.Checked) { ptype = 3; ptype_name = "Двоичный"; }
+            else
             {
                 MessageBox.Show("Выберите тип нового параметра");
                 return;
             }
             if (cb_cat.SelectedIndex >= 0)
             {
+                DialogResult apprvmnt = MessageBox.Show(string.Format("Добавить новый {0} параметр {1}?", ptype_name, tb_newParamName.Text), "Продложить?", MessageBoxButtons.YesNo);
+                if (apprvmnt == DialogResult.No)
+                    return;
             lbl_try_insert_cat:
-                string format = string.Format("name = '{0}'", cb_cat.Text);
-                int catid = int.Parse(MainDataSet.Tables["Categories"].Select(string.Format("name = '{0}'", cb_cat.SelectedText))[0]["id"].ToString());
                 sqlCMD.CommandText = sqlcmd_commstr_ItemParameter_Insert_INCOMPLETE;
                 sqlCMD.Parameters.Add(new SqlParameter("name", tb_newParamName.Text.ToString()));
                 sqlCMD.Parameters.Add(new SqlParameter("type", ptype));
                 try
                 {
-                    sqlTRS = dbConnection.BeginTransaction("Inserting parameter for category");
+                    sqlTRS = dbConnection.BeginTransaction("Inserting parameter");
                     sqlCMD.Transaction = sqlTRS;
                     if (sqlCMD.ExecuteNonQuery() < 1)
                     {
@@ -343,7 +380,6 @@ WHERE ICID = @icid AND PCID = @pcid";
             }
         }
 
-
         private void tb_newParamName_TextChanged(object sender, EventArgs e)
         {
             if (tb_newParamName.Text.ToString().Length == 0)
@@ -354,6 +390,50 @@ WHERE ICID = @icid AND PCID = @pcid";
             {
                 btn_addPar.Enabled = true;
             }
+        }
+
+        private void btn_accParams_Click(object sender, EventArgs e)
+        {
+        lbl_try_update_rows:
+            DataTable changesT = MainDataSet.Tables["Parameters"].GetChanges();
+            DataRow[] selectRes = MainDataSet.Tables["Categories"].Select(string.Format("name = '{0}'", cb_cat.Text));
+            int icid = int.Parse(selectRes[0]["id"].ToString());
+            sqlTRS = dbConnection.BeginTransaction("Updating ParameterCategorySet");
+            sqlCMD.Transaction = sqlTRS;
+            foreach (DataRow ent in changesT.Rows)
+            {
+                int pcid = int.Parse(ent["id"].ToString());
+                sqlCMD.Parameters.AddRange(new SqlParameter[] { new SqlParameter("icid", icid), new SqlParameter("pcid", pcid) });
+                if (bool.Parse(ent["AssocWithCat"].ToString()))
+                {
+                    sqlCMD.CommandText = sqlcmd_commstr_ICPC_Insert;
+                }
+                else
+                {
+                    sqlCMD.CommandText = sqlcmd_commstr_ICPC_Delete;
+                }
+                try
+                {
+                    int cnt = sqlCMD.ExecuteNonQuery();
+                 //   if (cnt < 1)
+                 //       throw new Exception("No rows was changed");
+                    sqlCMD.Parameters.Clear();
+                }
+                catch (Exception exc)
+                {
+                    sqlTRS.Rollback();
+                    sqlCMD.Parameters.Clear();
+                    DialogResult dlgres = MessageBox.Show(exc.Message, "Ошибка", MessageBoxButtons.RetryCancel);
+                    switch (dlgres)
+                    {
+                        case DialogResult.Cancel:
+                            return;
+                        case DialogResult.Retry:
+                            goto lbl_try_update_rows;
+                    }
+                }
+            }
+            sqlTRS.Commit();
         }
     }
 }
