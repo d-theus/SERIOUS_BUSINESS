@@ -37,8 +37,8 @@ END";
 pureJoin_IPcatsSet
 WHERE ICID = @icid AND PCID = @pcid";
         private const string sqlcmd_commstr_Parameters_Update = "UPDATE ParameterCategorySet SET name = @name, type = @type WHERE id = @id";
-        private const string sqlcmd_commstr_ICPC_Insert = "IF (SELECT COUNT(*) FROM pureJoin_IPcatsSet WHERE ICID = @icid AND PCID = @pcid) = 0 BEGIN INSERT INTO pureJoin_IPcatsSet (ICID, PCID) VALUES (@icid, @pcid) END";
-        private const string sqlcmd_commstr_ICPC_Delete = "DELETE FROM pureJoin_IPcatsSet WHERE ICID = @icid AND PCID = @pcid";
+        private const string sqlcmd_commstr_ICPC_Insert = "IF (SELECT COUNT(*) FROM pureJoin_IPcatsSet WHERE ICID = @icid AND PCID = @pcid) = 0 BEGIN INSERT INTO pureJoin_IPcatsSet (ICID, PCID) VALUES (@icid, @pcid) END";//causes trigger to add new parameters to all items
+        private const string sqlcmd_commstr_ICPC_Delete = "EXEC sp_DeleteFromICPC @pcid, @icid"; //also deletes all associated parameters
         private const string sqlcmd_commstr_ICPC_Select = "SELECT * FROM pureJoin_IPcatsSet";
         #endregion
         DataSet MainDataSet;
@@ -395,44 +395,54 @@ WHERE ICID = @icid AND PCID = @pcid";
 
         private void btn_accParams_Click(object sender, EventArgs e)
         {
+            DialogResult dlgres = MessageBox.Show("Изменения повлекут добавление или удаление параметров. Продолжить?", "Внимание", MessageBoxButtons.YesNo);
+            if (dlgres == DialogResult.No)
+            {
+                return;
+            }  
         lbl_try_update_rows:
             DataTable changesT = MainDataSet.Tables["Parameters"].GetChanges();
             DataRow[] selectRes = MainDataSet.Tables["Categories"].Select(string.Format("name = '{0}'", cb_cat.Text));
             int icid = int.Parse(selectRes[0]["id"].ToString());
-            sqlTRS = dbConnection.BeginTransaction("Updating ParameterCategorySet");
-            sqlCMD.Transaction = sqlTRS;
             foreach (DataRow ent in changesT.Rows)
             {
+                sqlTRS = dbConnection.BeginTransaction("Updating ParameterCategorySet");
+                sqlCMD.Transaction = sqlTRS;
                 int pcid = int.Parse(ent["id"].ToString());
                 sqlCMD.Parameters.AddRange(new SqlParameter[] { new SqlParameter("icid", icid), new SqlParameter("pcid", pcid) });
                 if (bool.Parse(ent["AssocWithCat"].ToString()))
                 {
+                    MessageBox.Show("Inserting into ICPC");
                     sqlCMD.CommandText = sqlcmd_commstr_ICPC_Insert;
                 }
                 else
                 {
+                    MessageBox.Show("Deleting from ICPC");
                     sqlCMD.CommandText = sqlcmd_commstr_ICPC_Delete;
                 }
                 try
                 {
                     int cnt = sqlCMD.ExecuteNonQuery();
-                    sqlCMD.Parameters.Clear();
+                    sqlTRS.Commit();
                 }
                 catch (Exception exc)
                 {
                     sqlTRS.Rollback();
-                    sqlCMD.Parameters.Clear();
-                    DialogResult dlgres = MessageBox.Show(exc.Message, "Ошибка", MessageBoxButtons.RetryCancel);
+                    dlgres = MessageBox.Show(exc.Message, "Ошибка", MessageBoxButtons.RetryCancel);
                     switch (dlgres)
                     {
                         case DialogResult.Cancel:
+                            sqlCMD.Parameters.Clear();
                             return;
                         case DialogResult.Retry:
                             goto lbl_try_update_rows;
                     }
                 }
+                finally
+                {
+                    sqlCMD.Parameters.Clear();
+                }
             }
-            sqlTRS.Commit();
         }
 
         private void tb_newItemDesignation_TextChanged_1(object sender, EventArgs e)
