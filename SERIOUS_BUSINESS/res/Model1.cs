@@ -2041,11 +2041,13 @@ namespace SERIOUS_BUSINESS.res
         /// </summary>
         /// <param name="iCID">Initial value of the ICID property.</param>
         /// <param name="pCID">Initial value of the PCID property.</param>
-        public static pureJoin_IPcats CreatepureJoin_IPcats(global::System.Int32 iCID, global::System.Int32 pCID)
+        /// <param name="id">Initial value of the id property.</param>
+        public static pureJoin_IPcats CreatepureJoin_IPcats(global::System.Int32 iCID, global::System.Int32 pCID, global::System.Int32 id)
         {
             pureJoin_IPcats pureJoin_IPcats = new pureJoin_IPcats();
             pureJoin_IPcats.ICID = iCID;
             pureJoin_IPcats.PCID = pCID;
+            pureJoin_IPcats.id = id;
             return pureJoin_IPcats;
         }
 
@@ -2105,6 +2107,33 @@ namespace SERIOUS_BUSINESS.res
         private global::System.Int32 _PCID;
         partial void OnPCIDChanging(global::System.Int32 value);
         partial void OnPCIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 id
+        {
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                if (_id != value)
+                {
+                    OnidChanging(value);
+                    ReportPropertyChanging("id");
+                    _id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("id");
+                    OnidChanged();
+                }
+            }
+        }
+        private global::System.Int32 _id;
+        partial void OnidChanging(global::System.Int32 value);
+        partial void OnidChanged();
 
         #endregion
     

@@ -131,6 +131,7 @@
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="type" Type="smallint" Nullable="false" />
   </EntityType>
   <EntityType Name="pureJoin_IPcatsSet">
     <Key>

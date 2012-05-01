@@ -219,6 +219,7 @@
     <NavigationProperty Name="ItemParameter" Relationship="Model1.ParameterCategoryItemParameter" FromRole="ParameterCategory" ToRole="ItemParameter" />
     <Property Type="String" Name="name" Nullable="false" />
     <NavigationProperty Name="pureJoin_IPcats" Relationship="Model1.ParameterCategorypureJoin_IPcats" FromRole="ParameterCategory" ToRole="pureJoin_IPcats" />
+    <Property Type="Int16" Name="type" Nullable="false" />
   </EntityType>
   <Association Name="ParameterCategoryItemParameter">
     <End Type="Model1.ParameterCategory" Role="ParameterCategory" Multiplicity="1" />

@@ -142,9 +142,11 @@
     <Key>
       <PropertyRef Name="ICID" />
       <PropertyRef Name="PCID" />
+      <PropertyRef Name="id" />
     </Key>
     <Property Name="ICID" Type="int" Nullable="false" />
     <Property Name="PCID" Type="int" Nullable="false" />
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
   <Association Name="StoreItem">
     <End Role="Store" Type="Model1.Store.ItemCategorySet" Multiplicity="1" />
@@ -519,11 +521,13 @@
           <Key>
             <PropertyRef Name="ICID" />
             <PropertyRef Name="PCID" />
+            <PropertyRef Name="id" />
           </Key>
           <Property Type="Int32" Name="ICID" Nullable="false" annotation:StoreGeneratedPattern="None" />
           <Property Type="Int32" Name="PCID" Nullable="false" />
           <NavigationProperty Name="ItemCategory" Relationship="Model1.ItemCategorypureJoin_IPcats" FromRole="pureJoin_IPcats" ToRole="ItemCategory" />
           <NavigationProperty Name="ParameterCategory" Relationship="Model1.ParameterCategorypureJoin_IPcats" FromRole="pureJoin_IPcats" ToRole="ParameterCategory" />
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
         </EntityType>
         <Association Name="ItemCategorypureJoin_IPcats">
           <End Type="Model1.ItemCategory" Role="ItemCategory" Multiplicity="1" />
@@ -650,6 +654,7 @@
         <MappingFragment StoreEntitySet="pureJoin_IPcatsSet">
           <ScalarProperty Name="ICID" ColumnName="ICID" />
           <ScalarProperty Name="PCID" ColumnName="PCID" />
+          <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -716,7 +721,7 @@
           <ConnectorPoint PointX="9.125" PointY="4.4612939453125" />
           <ConnectorPoint PointX="10.375" PointY="4.4612939453125" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="Model1.pureJoin_IPcats" Width="1.5" PointX="10.125" PointY="1.25" Height="1.4033821614583331" />
+        <EntityTypeShape EntityType="Model1.pureJoin_IPcats" Width="1.5" PointX="10.125" PointY="1.25" Height="1.9802864583333331" />
         <AssociationConnector Association="Model1.ItemCategorypureJoin_IPcats">
           <ConnectorPoint PointX="9.125" PointY="1.7689925130208333" />
           <ConnectorPoint PointX="10.125" PointY="1.7689925130208333" />
