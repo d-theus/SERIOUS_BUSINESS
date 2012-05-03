@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Data.EntityModel;
 using System.Text;
 using System.Windows.Forms;
+using System.Linq;
 
 namespace SERIOUS_BUSINESS
 {
@@ -17,12 +18,14 @@ namespace SERIOUS_BUSINESS
         private SqlCommand sqlCMD;
         private SqlTransaction sqlTRS;
 
-        private const string sqlcmd_commstr_ItemCategory_IsExist_INCOMPLETE = "SELECT COUNT(*) FROM ItemCategorySet WHERE name = @name";
-        private const string sqlcmd_commstr_ItemCategory_Insert_INCOMPLETE = "INSERT INTO ItemCategorySet (name) VALUES (@name)";
-        private const string sqlcmd_commstr_ItemCategory_List = "SELECT * FROM ItemCategorySet";
+        //!!! Insert/Delete procedures may have an impact on other tables !!!
 
+        private const string sqlcmd_commstr_ItemCategory_IsExist_INCOMPLETE = "SELECT COUNT(*) FROM ItemCategorySet WHERE name = @name";
+        private const string sqlcmd_commstr_ItemCategory_Insert_INCOMPLETE = "EXEC sp_ItemCategory_INSERT @name"; 
+        //+ICPC - creates designation as default property
+        private const string sqlcmd_commstr_ItemCategory_List = "SELECT * FROM ItemCategorySet";
         private const string sqlcmd_commstr_Item_List_INCOMPLETE = "SELECT * FROM ItemSet INNER JOIN ItemParameterSet ON [ItemParameterSet].[itemID] = ItemSet.id WHERE [catID] = @catID";
-        private const string sqlcmd_commstr_Item_Insert = "EXEC sp_InsertNewItem @catID, @designation";
+        private const string sqlcmd_commstr_Item_Insert = "EXEC sp_Item_INSERT @catID, @designation";
         private const string sqlcmd_commstr_Item_CheckForSameDes = "EXEC sp_CheckForSameDesignation @designation";
         private const string sqlcmd_commstr_Item_DesignationList_INCOMPLETE = "SELECT ItemSet.id, valueTxt FROM ItemSet INNER JOIN ItemParameterSet ON [ItemParameterSet].[itemID] = ItemSet.id WHERE [catID] = @catID AND paramCatID = (SELECT id FROM ParameterCategorySet WHERE name = 'Наименование')";
         private const string sqlcmd_commstr_ItemParameterCategory_Insert_INCOMPLETE = @"IF (SELECT COUNT(*) FROM ParameterCategorySet WHERE name = @name) = 0 
@@ -32,13 +35,10 @@ BEGIN
 END";
         private const string sqlcmd_commstr_ItemParameter_ListForCurItem_INCOMPLETE = "SELECT name, valueTxt, valueDbl, valueBool FROM ItemParameterSet INNER JOIN ParameterCategorySet ON ParameterCategorySet.id = ItemParameterSet.paramCatID";
         private const string sqlcmd_commstr_ItemParameter_List = "SELECT * FROM ParameterCategorySet";
-        private const string sqlcmd_commstr_ItemParameter_Insert = "INSERT INTO ItemParameterSet";
-        private const string sqlcmd_commstr_CatHasParam_INCOMPLETE = @"SELECT COUNT(*) FROM 
-pureJoin_IPcatsSet
-WHERE ICID = @icid AND PCID = @pcid";
+        private const string sqlcmd_commstr_CatHasParam_INCOMPLETE = "SELECT dbo.sf_ICPC_Is_Associated(@icid, @pcid) AS RES";
         private const string sqlcmd_commstr_Parameters_Update = "UPDATE ParameterCategorySet SET name = @name, type = @type WHERE id = @id";
-        private const string sqlcmd_commstr_ICPC_Insert = "IF (SELECT COUNT(*) FROM pureJoin_IPcatsSet WHERE ICID = @icid AND PCID = @pcid) = 0 BEGIN INSERT INTO pureJoin_IPcatsSet (ICID, PCID) VALUES (@icid, @pcid) END";//causes trigger to add new parameters to all items
-        private const string sqlcmd_commstr_ICPC_Delete = "EXEC sp_DeleteFromICPC @pcid, @icid"; //also deletes all associated parameters
+        private const string sqlcmd_commstr_ICPC_Insert = "EXEC sp_ICPC_DELETE @pcid, @icid"; //also creates all associated parameters
+        private const string sqlcmd_commstr_ICPC_Delete = "EXEC sp_ICPC_DELETE @pcid, @icid"; //also deletes all associated parameters
         private const string sqlcmd_commstr_ICPC_Select = "SELECT * FROM pureJoin_IPcatsSet";
         #endregion
         DataSet MainDataSet;
@@ -49,7 +49,6 @@ WHERE ICID = @icid AND PCID = @pcid";
             #region main data set
             MainDataSet = new DataSet();
             MainDataSet.Tables.Add(new DataTable("Categories"));
-
             MainDataSet.Tables.Add(new DataTable("Items"));
             MainDataSet.Tables.Add(new DataTable("Designations"));
             MainDataSet.Tables.Add(new DataTable("Parameters"));
@@ -95,6 +94,7 @@ WHERE ICID = @icid AND PCID = @pcid";
                 {
                     MainDataSet.Tables["Categories"].PrimaryKey = new DataColumn[] { MainDataSet.Tables["Categories"].Columns["name"] };
                     cb_cat.Update();
+                    cb_cat.SelectedIndex = 0;
                 }
             }
         }
@@ -189,45 +189,15 @@ WHERE ICID = @icid AND PCID = @pcid";
             }
         }
 
-        //private void RefillICPC()
-        //{
-        //lbl_try_fill_ICPC:
-        //    sqlCMD.CommandText = sqlcmd_commstr_ICPC_Select;
-        //    try
-        //    {
-        //        using (SqlDataAdapter sda = new SqlDataAdapter(sqlCMD))
-        //        {
-        //            MainDataSet.Tables["ICPC"].Clear();
-        //            sda.Fill(MainDataSet.Tables["ICPC"]);
-        //        }
-        //    }
-        //    catch (Exception exc)
-        //    {
-        //        DialogResult dlgres = MessageBox.Show(exc.Message, "Ошибка", MessageBoxButtons.RetryCancel);
-        //        switch (dlgres)
-        //        {
-        //            case DialogResult.Cancel:
-        //                return;
-        //            case DialogResult.Retry:
-        //                goto lbl_try_fill_ICPC;
-        //        }
-        //    }
-        //}
-
-        private void associateParameterToCategory()
-        {
-        }
-
         private bool isCatHasParam(int pcid, int icid)
         {
-            int count = 0;
+            bool count = false;
             sqlCMD.CommandText = sqlcmd_commstr_CatHasParam_INCOMPLETE;
             sqlCMD.Parameters.Add(new SqlParameter("pcid", pcid));
             sqlCMD.Parameters.Add(new SqlParameter("icid", icid));
             try
             {
-
-                count = int.Parse(sqlCMD.ExecuteScalar().ToString());
+                count = bool.Parse(sqlCMD.ExecuteScalar().ToString());
             }
             catch (Exception exc)
             {
@@ -238,7 +208,7 @@ WHERE ICID = @icid AND PCID = @pcid";
             {
                 sqlCMD.Parameters.Clear();
             }
-            return count == 1;
+            return count;
         }
 
         private void btn_cancel_Click(object sender, EventArgs e)
@@ -338,8 +308,6 @@ WHERE ICID = @icid AND PCID = @pcid";
                 MessageBox.Show("Выберите тип нового параметра");
                 return;
             }
-            if (cb_cat.SelectedIndex >= 0)
-            {
                 DialogResult apprvmnt = MessageBox.Show(string.Format("Добавить новый {0} параметр {1}?", ptype_name, tb_newParamName.Text), "Продложить?", MessageBoxButtons.YesNo);
                 if (apprvmnt == DialogResult.No)
                     return;
@@ -373,12 +341,6 @@ WHERE ICID = @icid AND PCID = @pcid";
                 {
                     sqlCMD.Parameters.Clear();
                 }
-            }
-
-            else
-            {
-                MessageBox.Show("Выберите категорию");
-            }
         }
 
         private void tb_newParamName_TextChanged(object sender, EventArgs e)
@@ -402,8 +364,9 @@ WHERE ICID = @icid AND PCID = @pcid";
             }  
         lbl_try_update_rows:
             DataTable changesT = MainDataSet.Tables["Parameters"].GetChanges();
-            DataRow[] selectRes = MainDataSet.Tables["Categories"].Select(string.Format("name = '{0}'", cb_cat.Text));
-            int icid = int.Parse(selectRes[0]["id"].ToString());
+            var selectRes = MainDataSet.Tables["Categories"].AsEnumerable()
+                            .Where(cat => cat.Field<string>("name").Equals(cb_cat.Text.ToString()));//Select(string.Format("name = '{0}'", cb_cat.Text));
+            int icid = selectRes.ElementAt(0).Field<int>("id");
             foreach (DataRow ent in changesT.Rows)
             {
                 sqlTRS = dbConnection.BeginTransaction("Updating ParameterCategorySet");
@@ -468,7 +431,7 @@ WHERE ICID = @icid AND PCID = @pcid";
             if (appmnt == DialogResult.No)
                 return;
             sqlCMD.CommandText = sqlcmd_commstr_Item_CheckForSameDes;
-            sqlCMD.Parameters.AddRange(new SqlParameter[] { new SqlParameter("catID", icid), new SqlParameter("designation", tb_newItemDesignation.Text) });
+            sqlCMD.Parameters.AddRange(new SqlParameter[] { new SqlParameter("catID", icid), new SqlParameter("designation", tb_newItemDesignation.Text.ToString()) });
             lbl_try_insert_item:
                 try
                 {
@@ -492,7 +455,7 @@ WHERE ICID = @icid AND PCID = @pcid";
                         }       
                     }
                     sqlCMD.Parameters.Clear();
-                    sqlCMD.Parameters.AddRange(new SqlParameter[] { new SqlParameter("catID", icid), new SqlParameter("designation", tb_newItemDesignation.Text) });
+                    sqlCMD.Parameters.AddRange(new SqlParameter[] { new SqlParameter("catID", icid), new SqlParameter("designation", tb_newItemDesignation.Text.ToString()) });
                     sqlCMD.CommandText = sqlcmd_commstr_Item_Insert;
                     sqlTRS = dbConnection.BeginTransaction();
                     sqlCMD.Transaction = sqlTRS;
