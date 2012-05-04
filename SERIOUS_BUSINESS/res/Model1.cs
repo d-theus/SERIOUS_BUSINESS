@@ -238,6 +238,38 @@ namespace SERIOUS_BUSINESS.res
             }
         }
         private ObjectSet<pureJoin_IPcats> _pureJoin_IPcatsSet;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<Available_tables> Available_tables
+        {
+            get
+            {
+                if ((_Available_tables == null))
+                {
+                    _Available_tables = base.CreateObjectSet<Available_tables>("Available_tables");
+                }
+                return _Available_tables;
+            }
+        }
+        private ObjectSet<Available_tables> _Available_tables;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<ItemPatameterList> ItemPatameterList
+        {
+            get
+            {
+                if ((_ItemPatameterList == null))
+                {
+                    _ItemPatameterList = base.CreateObjectSet<ItemPatameterList>("ItemPatameterList");
+                }
+                return _ItemPatameterList;
+            }
+        }
+        private ObjectSet<ItemPatameterList> _ItemPatameterList;
 
         #endregion
         #region AddTo Methods
@@ -320,6 +352,22 @@ namespace SERIOUS_BUSINESS.res
         public void AddTopureJoin_IPcatsSet(pureJoin_IPcats pureJoin_IPcats)
         {
             base.AddObject("pureJoin_IPcatsSet", pureJoin_IPcats);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the Available_tables EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToAvailable_tables(Available_tables available_tables)
+        {
+            base.AddObject("Available_tables", available_tables);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the ItemPatameterList EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToItemPatameterList(ItemPatameterList itemPatameterList)
+        {
+            base.AddObject("ItemPatameterList", itemPatameterList);
         }
 
         #endregion
@@ -458,6 +506,61 @@ namespace SERIOUS_BUSINESS.res
         }
 
         #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="Model1", Name="Available_tables")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Available_tables : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Available_tables object.
+        /// </summary>
+        /// <param name="name">Initial value of the name property.</param>
+        public static Available_tables CreateAvailable_tables(global::System.String name)
+        {
+            Available_tables available_tables = new Available_tables();
+            available_tables.name = name;
+            return available_tables;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                if (_name != value)
+                {
+                    OnnameChanging(value);
+                    ReportPropertyChanging("name");
+                    _name = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("name");
+                    OnnameChanged();
+                }
+            }
+        }
+        private global::System.String _name;
+        partial void OnnameChanging(global::System.String value);
+        partial void OnnameChanged();
+
+        #endregion
+    
     }
     
     /// <summary>
@@ -1420,6 +1523,162 @@ namespace SERIOUS_BUSINESS.res
         }
 
         #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="Model1", Name="ItemPatameterList")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class ItemPatameterList : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new ItemPatameterList object.
+        /// </summary>
+        /// <param name="name">Initial value of the name property.</param>
+        /// <param name="iCID">Initial value of the ICID property.</param>
+        public static ItemPatameterList CreateItemPatameterList(global::System.String name, global::System.Int32 iCID)
+        {
+            ItemPatameterList itemPatameterList = new ItemPatameterList();
+            itemPatameterList.name = name;
+            itemPatameterList.ICID = iCID;
+            return itemPatameterList;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                if (_name != value)
+                {
+                    OnnameChanging(value);
+                    ReportPropertyChanging("name");
+                    _name = StructuralObject.SetValidValue(value, false);
+                    ReportPropertyChanged("name");
+                    OnnameChanged();
+                }
+            }
+        }
+        private global::System.String _name;
+        partial void OnnameChanging(global::System.String value);
+        partial void OnnameChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 ICID
+        {
+            get
+            {
+                return _ICID;
+            }
+            set
+            {
+                if (_ICID != value)
+                {
+                    OnICIDChanging(value);
+                    ReportPropertyChanging("ICID");
+                    _ICID = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("ICID");
+                    OnICIDChanged();
+                }
+            }
+        }
+        private global::System.Int32 _ICID;
+        partial void OnICIDChanging(global::System.Int32 value);
+        partial void OnICIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String valueTxt
+        {
+            get
+            {
+                return _valueTxt;
+            }
+            set
+            {
+                OnvalueTxtChanging(value);
+                ReportPropertyChanging("valueTxt");
+                _valueTxt = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("valueTxt");
+                OnvalueTxtChanged();
+            }
+        }
+        private global::System.String _valueTxt;
+        partial void OnvalueTxtChanging(global::System.String value);
+        partial void OnvalueTxtChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Boolean> valueBool
+        {
+            get
+            {
+                return _valueBool;
+            }
+            set
+            {
+                OnvalueBoolChanging(value);
+                ReportPropertyChanging("valueBool");
+                _valueBool = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("valueBool");
+                OnvalueBoolChanged();
+            }
+        }
+        private Nullable<global::System.Boolean> _valueBool;
+        partial void OnvalueBoolChanging(Nullable<global::System.Boolean> value);
+        partial void OnvalueBoolChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Double> valueDbl
+        {
+            get
+            {
+                return _valueDbl;
+            }
+            set
+            {
+                OnvalueDblChanging(value);
+                ReportPropertyChanging("valueDbl");
+                _valueDbl = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("valueDbl");
+                OnvalueDblChanged();
+            }
+        }
+        private Nullable<global::System.Double> _valueDbl;
+        partial void OnvalueDblChanging(Nullable<global::System.Double> value);
+        partial void OnvalueDblChanged();
+
+        #endregion
+    
     }
     
     /// <summary>

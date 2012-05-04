@@ -190,6 +190,7 @@
             this.btn_accItem.TabIndex = 5;
             this.btn_accItem.Text = "Применить";
             this.btn_accItem.UseVisualStyleBackColor = true;
+            this.btn_accItem.Click += new System.EventHandler(this.btn_accItem_Click);
             // 
             // cb_existingItem
             // 
@@ -198,6 +199,7 @@
             this.cb_existingItem.Name = "cb_existingItem";
             this.cb_existingItem.Size = new System.Drawing.Size(247, 21);
             this.cb_existingItem.TabIndex = 4;
+            this.cb_existingItem.SelectedIndexChanged += new System.EventHandler(this.cb_existingItem_SelectedIndexChanged);
             // 
             // label5
             // 

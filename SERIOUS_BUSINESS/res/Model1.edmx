@@ -5,270 +5,352 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="Model1.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
-  <EntityContainer Name="Model1StoreContainer">
-    <EntitySet Name="OrderSet" EntityType="Model1.Store.OrderSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="EmployeeSet" EntityType="Model1.Store.EmployeeSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ConsumerSet" EntityType="Model1.Store.ConsumerSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ItemCategorySet" EntityType="Model1.Store.ItemCategorySet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ItemSet" EntityType="Model1.Store.ItemSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="PositionSet" EntityType="Model1.Store.PositionSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="AppointmentSet" EntityType="Model1.Store.AppointmentSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ItemParameterSet" EntityType="Model1.Store.ItemParameterSet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="ParameterCategorySet" EntityType="Model1.Store.ParameterCategorySet" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="pureJoin_IPcatsSet" EntityType="Model1.Store.pureJoin_IPcatsSet" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="StoreItem" Association="Model1.Store.StoreItem">
-      <End Role="Store" EntitySet="ItemCategorySet" />
-      <End Role="Item" EntitySet="ItemSet" />
-    </AssociationSet>
-    <AssociationSet Name="ConsumerOrder" Association="Model1.Store.ConsumerOrder">
-      <End Role="Consumer" EntitySet="ConsumerSet" />
-      <End Role="Order" EntitySet="OrderSet" />
-    </AssociationSet>
-    <AssociationSet Name="EmployeeOrder" Association="Model1.Store.EmployeeOrder">
-      <End Role="Employee" EntitySet="EmployeeSet" />
-      <End Role="Order" EntitySet="OrderSet" />
-    </AssociationSet>
-    <AssociationSet Name="OrderPosition" Association="Model1.Store.OrderPosition">
-      <End Role="Order" EntitySet="OrderSet" />
-      <End Role="Position" EntitySet="PositionSet" />
-    </AssociationSet>
-    <AssociationSet Name="AppointmentEmployee" Association="Model1.Store.AppointmentEmployee">
-      <End Role="Appointment" EntitySet="AppointmentSet" />
-      <End Role="Employee" EntitySet="EmployeeSet" />
-    </AssociationSet>
-    <AssociationSet Name="PositionItem" Association="Model1.Store.PositionItem">
-      <End Role="Position" EntitySet="PositionSet" />
-      <End Role="Item" EntitySet="ItemSet" />
-    </AssociationSet>
-    <AssociationSet Name="ParameterCategoryItemParameter" Association="Model1.Store.ParameterCategoryItemParameter">
-      <End Role="ParameterCategory" EntitySet="ParameterCategorySet" />
-      <End Role="ItemParameter" EntitySet="ItemParameterSet" />
-    </AssociationSet>
-    <AssociationSet Name="ItemItemParameter" Association="Model1.Store.ItemItemParameter">
-      <End Role="Item" EntitySet="ItemSet" />
-      <End Role="ItemParameter" EntitySet="ItemParameterSet" />
-    </AssociationSet>
-    <AssociationSet Name="ItemCategorypureJoin_IPcats" Association="Model1.Store.ItemCategorypureJoin_IPcats">
-      <End Role="ItemCategory" EntitySet="ItemCategorySet" />
-      <End Role="pureJoin_IPcats" EntitySet="pureJoin_IPcatsSet" />
-    </AssociationSet>
-    <AssociationSet Name="ParameterCategorypureJoin_IPcats" Association="Model1.Store.ParameterCategorypureJoin_IPcats">
-      <End Role="ParameterCategory" EntitySet="ParameterCategorySet" />
-      <End Role="pureJoin_IPcats" EntitySet="pureJoin_IPcatsSet" />
-    </AssociationSet>
-  </EntityContainer>
-  <EntityType Name="OrderSet">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="date" Type="datetime" Nullable="false" />
-    <Property Name="status" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="consID" Type="int" Nullable="false" />
-    <Property Name="emplID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="EmployeeSet">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="login" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="password" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="aptID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ConsumerSet">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="name" Type="nvarchar(max)" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="phone" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="email" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ItemCategorySet">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ItemSet">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="storeResidue" Type="int" Nullable="false" />
-    <Property Name="demand" Type="int" Nullable="false" />
-    <Property Name="catID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="PositionSet">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="orderID" Type="int" Nullable="false" />
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="count" Type="int" Nullable="false" />
-    <Property Name="itemID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="AppointmentSet">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="accessModifier" Type="smallint" Nullable="false" DefaultValue="0" />
-    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ItemParameterSet">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="valueDbl" Type="float" Nullable="true" />
-    <Property Name="valueBool" Type="bit" Nullable="true" />
-    <Property Name="valueTxt" Type="nvarchar(max)" Nullable="true" />
-    <Property Name="itemID" Type="int" Nullable="false" />
-    <Property Name="paramCatID" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="ParameterCategorySet">
-    <Key>
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="type" Type="smallint" Nullable="false" />
-  </EntityType>
-  <EntityType Name="pureJoin_IPcatsSet">
-    <Key>
-      <PropertyRef Name="ICID" />
-      <PropertyRef Name="PCID" />
-      <PropertyRef Name="id" />
-    </Key>
-    <Property Name="ICID" Type="int" Nullable="false" />
-    <Property Name="PCID" Type="int" Nullable="false" />
-    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-  </EntityType>
-  <Association Name="StoreItem">
-    <End Role="Store" Type="Model1.Store.ItemCategorySet" Multiplicity="1" />
-    <End Role="Item" Type="Model1.Store.ItemSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Store">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Item">
-        <PropertyRef Name="catID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ConsumerOrder">
-    <End Role="Consumer" Type="Model1.Store.ConsumerSet" Multiplicity="1" />
-    <End Role="Order" Type="Model1.Store.OrderSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Consumer">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Order">
-        <PropertyRef Name="consID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="EmployeeOrder">
-    <End Role="Employee" Type="Model1.Store.EmployeeSet" Multiplicity="1" />
-    <End Role="Order" Type="Model1.Store.OrderSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Employee">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Order">
-        <PropertyRef Name="emplID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="OrderPosition">
-    <End Role="Order" Type="Model1.Store.OrderSet" Multiplicity="1" />
-    <End Role="Position" Type="Model1.Store.PositionSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Order">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Position">
-        <PropertyRef Name="orderID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="AppointmentEmployee">
-    <End Role="Appointment" Type="Model1.Store.AppointmentSet" Multiplicity="1" />
-    <End Role="Employee" Type="Model1.Store.EmployeeSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Appointment">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Employee">
-        <PropertyRef Name="aptID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="PositionItem">
-    <End Role="Position" Type="Model1.Store.PositionSet" Multiplicity="*" />
-    <End Role="Item" Type="Model1.Store.ItemSet" Multiplicity="1" />
-    <ReferentialConstraint>
-      <Principal Role="Item">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="Position">
-        <PropertyRef Name="itemID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ParameterCategoryItemParameter">
-    <End Role="ParameterCategory" Type="Model1.Store.ParameterCategorySet" Multiplicity="1" />
-    <End Role="ItemParameter" Type="Model1.Store.ItemParameterSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ParameterCategory">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="ItemParameter">
-        <PropertyRef Name="paramCatID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ItemItemParameter">
-    <End Role="Item" Type="Model1.Store.ItemSet" Multiplicity="1" />
-    <End Role="ItemParameter" Type="Model1.Store.ItemParameterSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Item">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="ItemParameter">
-        <PropertyRef Name="itemID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ItemCategorypureJoin_IPcats">
-    <End Role="ItemCategory" Type="Model1.Store.ItemCategorySet" Multiplicity="1" />
-    <End Role="pureJoin_IPcats" Type="Model1.Store.pureJoin_IPcatsSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ItemCategory">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="pureJoin_IPcats">
-        <PropertyRef Name="ICID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="ParameterCategorypureJoin_IPcats">
-    <End Role="ParameterCategory" Type="Model1.Store.ParameterCategorySet" Multiplicity="1" />
-    <End Role="pureJoin_IPcats" Type="Model1.Store.pureJoin_IPcatsSet" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="ParameterCategory">
-        <PropertyRef Name="id" />
-      </Principal>
-      <Dependent Role="pureJoin_IPcats">
-        <PropertyRef Name="PCID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-</Schema></edmx:StorageModels>
+        <EntityContainer Name="Model1StoreContainer">
+          <EntitySet Name="AppointmentSet" EntityType="Model1.Store.AppointmentSet" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ConsumerSet" EntityType="Model1.Store.ConsumerSet" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="EmployeeSet" EntityType="Model1.Store.EmployeeSet" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ItemCategorySet" EntityType="Model1.Store.ItemCategorySet" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ItemParameterSet" EntityType="Model1.Store.ItemParameterSet" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ItemSet" EntityType="Model1.Store.ItemSet" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="OrderSet" EntityType="Model1.Store.OrderSet" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ParameterCategorySet" EntityType="Model1.Store.ParameterCategorySet" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="PositionSet" EntityType="Model1.Store.PositionSet" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="pureJoin_IPcatsSet" EntityType="Model1.Store.pureJoin_IPcatsSet" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="Available tables" EntityType="Model1.Store.Available tables" store:Type="Views" store:Schema="dbo" store:Name="Available tables">
+            <DefiningQuery>SELECT 
+      [Available tables].[name] AS [name]
+      FROM [dbo].[Available tables] AS [Available tables]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ItemPatameterList" EntityType="Model1.Store.ItemPatameterList" store:Type="Views" store:Schema="dbo" store:Name="ItemPatameterList">
+            <DefiningQuery>SELECT 
+      [ItemPatameterList].[name] AS [name], 
+      [ItemPatameterList].[ICID] AS [ICID], 
+      [ItemPatameterList].[valueTxt] AS [valueTxt], 
+      [ItemPatameterList].[valueBool] AS [valueBool], 
+      [ItemPatameterList].[valueDbl] AS [valueDbl]
+      FROM [dbo].[ItemPatameterList] AS [ItemPatameterList]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_AppointmentEmployee" Association="Model1.Store.FK_AppointmentEmployee">
+            <End Role="AppointmentSet" EntitySet="AppointmentSet" />
+            <End Role="EmployeeSet" EntitySet="EmployeeSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ConsumerOrder" Association="Model1.Store.FK_ConsumerOrder">
+            <End Role="ConsumerSet" EntitySet="ConsumerSet" />
+            <End Role="OrderSet" EntitySet="OrderSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeeOrder" Association="Model1.Store.FK_EmployeeOrder">
+            <End Role="EmployeeSet" EntitySet="EmployeeSet" />
+            <End Role="OrderSet" EntitySet="OrderSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemCategorypureJoin_IPcats" Association="Model1.Store.FK_ItemCategorypureJoin_IPcats">
+            <End Role="ItemCategorySet" EntitySet="ItemCategorySet" />
+            <End Role="pureJoin_IPcatsSet" EntitySet="pureJoin_IPcatsSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ItemItemParameter" Association="Model1.Store.FK_ItemItemParameter">
+            <End Role="ItemSet" EntitySet="ItemSet" />
+            <End Role="ItemParameterSet" EntitySet="ItemParameterSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_OrderPosition" Association="Model1.Store.FK_OrderPosition">
+            <End Role="OrderSet" EntitySet="OrderSet" />
+            <End Role="PositionSet" EntitySet="PositionSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ParameterCategoryItemParameter" Association="Model1.Store.FK_ParameterCategoryItemParameter">
+            <End Role="ParameterCategorySet" EntitySet="ParameterCategorySet" />
+            <End Role="ItemParameterSet" EntitySet="ItemParameterSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ParameterCategorypureJoin_IPcats" Association="Model1.Store.FK_ParameterCategorypureJoin_IPcats">
+            <End Role="ParameterCategorySet" EntitySet="ParameterCategorySet" />
+            <End Role="pureJoin_IPcatsSet" EntitySet="pureJoin_IPcatsSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_PositionItem" Association="Model1.Store.FK_PositionItem">
+            <End Role="ItemSet" EntitySet="ItemSet" />
+            <End Role="PositionSet" EntitySet="PositionSet" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StoreItem" Association="Model1.Store.FK_StoreItem">
+            <End Role="ItemCategorySet" EntitySet="ItemCategorySet" />
+            <End Role="ItemSet" EntitySet="ItemSet" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AppointmentSet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="accessModifier" Type="smallint" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ConsumerSet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="phone" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="email" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="EmployeeSet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="login" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="password" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="aptID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ItemCategorySet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <EntityType Name="ItemParameterSet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="valueDbl" Type="float" />
+          <Property Name="valueBool" Type="bit" />
+          <Property Name="valueTxt" Type="nvarchar(max)" />
+          <Property Name="itemID" Type="int" Nullable="false" />
+          <Property Name="paramCatID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ItemSet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="storeResidue" Type="int" Nullable="false" />
+          <Property Name="demand" Type="int" Nullable="false" />
+          <Property Name="catID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="OrderSet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="date" Type="datetime" Nullable="false" />
+          <Property Name="status" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="consID" Type="int" Nullable="false" />
+          <Property Name="emplID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ParameterCategorySet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="type" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PositionSet">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="orderID" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="count" Type="int" Nullable="false" />
+          <Property Name="itemID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="pureJoin_IPcatsSet">
+          <Key>
+            <PropertyRef Name="ICID" />
+            <PropertyRef Name="PCID" />
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="ICID" Type="int" Nullable="false" />
+          <Property Name="PCID" Type="int" Nullable="false" />
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'C:\PROGRAM FILES\MICROSOFT SQL SERVER\MSSQL10_50.MSSQLSERVER\MSSQL\DATA\DATABASE.MDF.dbo.Available tables' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="Available tables">
+          <Key>
+            <PropertyRef Name="name" />
+          </Key>
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'C:\PROGRAM FILES\MICROSOFT SQL SERVER\MSSQL10_50.MSSQLSERVER\MSSQL\DATA\DATABASE.MDF.dbo.ItemPatameterList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <EntityType Name="ItemPatameterList">
+          <Key>
+            <PropertyRef Name="name" />
+            <PropertyRef Name="ICID" />
+          </Key>
+          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ICID" Type="int" Nullable="false" />
+          <Property Name="valueTxt" Type="nvarchar(max)" />
+          <Property Name="valueBool" Type="bit" />
+          <Property Name="valueDbl" Type="float" />
+        </EntityType>
+        <!--Errors Found During Generation:
+      warning 6002: The table/view 'C:\PROGRAM FILES\MICROSOFT SQL SERVER\MSSQL10_50.MSSQLSERVER\MSSQL\DATA\DATABASE.MDF.dbo.ParForCat' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      -->
+        <Association Name="FK_AppointmentEmployee">
+          <End Role="AppointmentSet" Type="Model1.Store.AppointmentSet" Multiplicity="1" />
+          <End Role="EmployeeSet" Type="Model1.Store.EmployeeSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AppointmentSet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="EmployeeSet">
+              <PropertyRef Name="aptID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ConsumerOrder">
+          <End Role="ConsumerSet" Type="Model1.Store.ConsumerSet" Multiplicity="1" />
+          <End Role="OrderSet" Type="Model1.Store.OrderSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ConsumerSet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="OrderSet">
+              <PropertyRef Name="consID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeeOrder">
+          <End Role="EmployeeSet" Type="Model1.Store.EmployeeSet" Multiplicity="1" />
+          <End Role="OrderSet" Type="Model1.Store.OrderSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EmployeeSet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="OrderSet">
+              <PropertyRef Name="emplID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemCategorypureJoin_IPcats">
+          <End Role="ItemCategorySet" Type="Model1.Store.ItemCategorySet" Multiplicity="1" />
+          <End Role="pureJoin_IPcatsSet" Type="Model1.Store.pureJoin_IPcatsSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ItemCategorySet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="pureJoin_IPcatsSet">
+              <PropertyRef Name="ICID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ItemItemParameter">
+          <End Role="ItemSet" Type="Model1.Store.ItemSet" Multiplicity="1" />
+          <End Role="ItemParameterSet" Type="Model1.Store.ItemParameterSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ItemSet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ItemParameterSet">
+              <PropertyRef Name="itemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_OrderPosition">
+          <End Role="OrderSet" Type="Model1.Store.OrderSet" Multiplicity="1" />
+          <End Role="PositionSet" Type="Model1.Store.PositionSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="OrderSet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PositionSet">
+              <PropertyRef Name="orderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ParameterCategoryItemParameter">
+          <End Role="ParameterCategorySet" Type="Model1.Store.ParameterCategorySet" Multiplicity="1" />
+          <End Role="ItemParameterSet" Type="Model1.Store.ItemParameterSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParameterCategorySet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ItemParameterSet">
+              <PropertyRef Name="paramCatID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ParameterCategorypureJoin_IPcats">
+          <End Role="ParameterCategorySet" Type="Model1.Store.ParameterCategorySet" Multiplicity="1" />
+          <End Role="pureJoin_IPcatsSet" Type="Model1.Store.pureJoin_IPcatsSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ParameterCategorySet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="pureJoin_IPcatsSet">
+              <PropertyRef Name="PCID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_PositionItem">
+          <End Role="ItemSet" Type="Model1.Store.ItemSet" Multiplicity="1" />
+          <End Role="PositionSet" Type="Model1.Store.PositionSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ItemSet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="PositionSet">
+              <PropertyRef Name="itemID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_StoreItem">
+          <End Role="ItemCategorySet" Type="Model1.Store.ItemCategorySet" Multiplicity="1" />
+          <End Role="ItemSet" Type="Model1.Store.ItemSet" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ItemCategorySet">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ItemSet">
+              <PropertyRef Name="catID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="sf_ICPC_Is_Associated" ReturnType="bit" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="icid" Type="int" Mode="In" />
+          <Parameter Name="pcid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_CheckForSameDesignation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="designation" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_DeleteItemParameters" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="itemID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_ICPC_DELETE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pcid" Type="int" Mode="In" />
+          <Parameter Name="catid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_ICPC_INSERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="pcid" Type="int" Mode="In" />
+          <Parameter Name="catid" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_INITIALIZE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <Function Name="sp_Item_DELETE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="itemID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_Item_INSERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="arg_catID" Type="int" Mode="In" />
+          <Parameter Name="arg_designation" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_ItemCategory_DELETE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_ItemCategory_INSERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_ParameterCategory_DELETE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_ParameterCategory_INSERT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="arg_property_name" Type="varchar" Mode="In" />
+          <Parameter Name="arg_property_type" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_Select_Item_Parameters" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="itemID" Type="int" Mode="In" />
+        </Function>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Model1" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
@@ -323,6 +405,8 @@
             <End Role="ParameterCategory" EntitySet="ParameterCategorySet" />
             <End Role="pureJoin_IPcats" EntitySet="pureJoin_IPcatsSet" />
           </AssociationSet>
+          <EntitySet Name="Available_tables" EntityType="Model1.Available_tables" />
+          <EntitySet Name="ItemPatameterList" EntityType="Model1.ItemPatameterList" />
           </EntityContainer>
         <EntityType Name="Order">
           <Key>
@@ -553,6 +637,23 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Available_tables">
+          <Key>
+            <PropertyRef Name="name" />
+          </Key>
+          <Property Type="String" Name="name" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ItemPatameterList">
+          <Key>
+            <PropertyRef Name="name" />
+            <PropertyRef Name="ICID" />
+          </Key>
+          <Property Type="String" Name="name" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="ICID" Nullable="false" />
+          <Property Type="String" Name="valueTxt" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="valueBool" />
+          <Property Type="Double" Name="valueDbl" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -658,6 +759,24 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+          <EntitySetMapping Name="Available_tables">
+            <EntityTypeMapping TypeName="Model1.Available_tables">
+              <MappingFragment StoreEntitySet="Available tables">
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ItemPatameterList">
+            <EntityTypeMapping TypeName="Model1.ItemPatameterList">
+              <MappingFragment StoreEntitySet="ItemPatameterList">
+                <ScalarProperty Name="valueDbl" ColumnName="valueDbl" />
+                <ScalarProperty Name="valueBool" ColumnName="valueBool" />
+                <ScalarProperty Name="valueTxt" ColumnName="valueTxt" />
+                <ScalarProperty Name="ICID" ColumnName="ICID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
@@ -673,6 +792,7 @@
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
         <DesignerProperty Name="EnablePluralization" Value="False" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
       </DesignerInfoPropertySet>
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
@@ -730,6 +850,8 @@
           <ConnectorPoint PointX="12.5" PointY="1.8651432291666668" />
           <ConnectorPoint PointX="11.625" PointY="1.8651432291666668" />
         </AssociationConnector>
+        <EntityTypeShape EntityType="Model1.Available_tables" Width="1.5" PointX="5.75" PointY="6.75" Height="1.2110807291666674" />
+        <EntityTypeShape EntityType="Model1.ItemPatameterList" Width="1.5" PointX="7.75" PointY="6.75" Height="1.9802864583333317" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

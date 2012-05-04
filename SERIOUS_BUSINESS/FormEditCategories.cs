@@ -33,15 +33,29 @@ BEGIN
 	INSERT  INTO ParameterCategorySet	
 	VALUES (@name, @type)
 END";
-        private const string sqlcmd_commstr_ItemParameter_ListForCurItem_INCOMPLETE = "SELECT name, valueTxt, valueDbl, valueBool FROM ItemParameterSet INNER JOIN ParameterCategorySet ON ParameterCategorySet.id = ItemParameterSet.paramCatID";
-        private const string sqlcmd_commstr_ItemParameter_List = "SELECT * FROM ParameterCategorySet";
+        private const string sqlcmd_commstr_ItemParameter_ListForCurItem_INCOMPLETE = "SELECT ItemParameterSet.id, name, type, valueTxt, valueDbl, valueBool FROM ItemParameterSet INNER JOIN ParameterCategorySet ON ParameterCategorySet.id = ItemParameterSet.paramCatID WHERE itemID = @itemID";
+        private const string sqlcmd_commstr_ItemParameter_List = "SELECT id, name AS [Название], type FROM ParameterCategorySet";
+        private const string sqlcmd_commstr_ItemParameter_UPDATE = "UPDATE ItemParameterSet SET [<field>] = @value WHERE id = @pid";
         private const string sqlcmd_commstr_CatHasParam_INCOMPLETE = "SELECT dbo.sf_ICPC_Is_Associated(@icid, @pcid) AS RES";
         private const string sqlcmd_commstr_Parameters_Update = "UPDATE ParameterCategorySet SET name = @name, type = @type WHERE id = @id";
-        private const string sqlcmd_commstr_ICPC_Insert = "EXEC sp_ICPC_DELETE @pcid, @icid"; //also creates all associated parameters
+        private const string sqlcmd_commstr_ICPC_Insert = "EXEC sp_ICPC_INSERT @pcid, @icid"; //also creates all associated parameters
         private const string sqlcmd_commstr_ICPC_Delete = "EXEC sp_ICPC_DELETE @pcid, @icid"; //also deletes all associated parameters
         private const string sqlcmd_commstr_ICPC_Select = "SELECT * FROM pureJoin_IPcatsSet";
         #endregion
         DataSet MainDataSet;
+        public struct NamedItem
+        {
+            public int id
+            {
+                get;
+                set;
+            }
+            public string name
+            {
+                get;
+                set;
+            }
+        }
 
         public FormEditCategories(SqlConnection _dbConnection)
         {
@@ -52,13 +66,13 @@ END";
             MainDataSet.Tables.Add(new DataTable("Items"));
             MainDataSet.Tables.Add(new DataTable("Designations"));
             MainDataSet.Tables.Add(new DataTable("Parameters"));
-            MainDataSet.Tables["Parameters"].Columns.Add("AssocWithCat", Type.GetType("System.Boolean"));
+            MainDataSet.Tables["Parameters"].Columns.Add("Ассоциация с кат.", Type.GetType("System.Boolean"));
             MainDataSet.Tables.Add(new DataTable("CurrentItemParameters"));
             #endregion
             dbConnection = _dbConnection;
             sqlCMD = dbConnection.CreateCommand();
 
-            DGV_itemParameters.DataSource = MainDataSet.Tables["Parameters"];
+            DGV_itemParameters.DataSource = MainDataSet.Tables["CurrentItemParameters"];
             cb_cat.DataSource = MainDataSet.Tables["Categories"];
             cb_existingItem.DataSource = MainDataSet.Tables["Designations"];
             DGV_catParameters.DataSource = MainDataSet.Tables["Parameters"];
@@ -94,7 +108,6 @@ END";
                 {
                     MainDataSet.Tables["Categories"].PrimaryKey = new DataColumn[] { MainDataSet.Tables["Categories"].Columns["name"] };
                     cb_cat.Update();
-                    cb_cat.SelectedIndex = 0;
                 }
             }
         }
@@ -166,9 +179,9 @@ END";
                     int row_count = MainDataSet.Tables["Parameters"].Rows.Count;
                     for (int row = 0; row < row_count; row++)
                     {
-                        MainDataSet.Tables["Parameters"].Rows[row]["AssocWithCat"] = isCatHasParam(int.Parse(MainDataSet.Tables["Parameters"].Rows[row]["id"].ToString()), icid);
+                        MainDataSet.Tables["Parameters"].Rows[row]["Ассоциация с кат."] = isCatHasParam(int.Parse(MainDataSet.Tables["Parameters"].Rows[row]["id"].ToString()), icid);
                     }
-                    MainDataSet.Tables["Parameters"].Columns["name"].ReadOnly = true;
+                    MainDataSet.Tables["Parameters"].Columns["Название"].ReadOnly = true;
                     MainDataSet.Tables["Parameters"].Columns["id"].ReadOnly = true;
                 }
                 catch (Exception exc)
@@ -187,6 +200,79 @@ END";
             {
                 MessageBox.Show("Выберите категорию");
             }
+            DGV_SetMask(DGV_catParameters);
+        }
+
+        private void RefillItemParameterTable()
+        {
+            if (cb_existingItem.Text.ToString().Length == 0)
+            {
+                MainDataSet.Tables["CurrentItemParameters"].Clear();
+                return;
+            }
+            int itemID = -1;
+            itemID = MainDataSet.Tables["Items"].AsEnumerable().AsQueryable().
+                                            First<DataRow>(row => row["valueTxt"].Equals(cb_existingItem.Text.ToString())).Field<int>("id"); 
+            using (DataTable dt = new DataTable())
+            {
+                using (SqlDataAdapter sda = new SqlDataAdapter(sqlCMD))
+                {
+                    sqlCMD.CommandText = sqlcmd_commstr_ItemParameter_ListForCurItem_INCOMPLETE;
+                    sqlCMD.Parameters.Add(new SqlParameter("@itemID", itemID));
+                    sda.Fill(dt);
+                }
+                MainDataSet.Tables["CurrentItemParameters"].Clear();
+                DataTable valuesT = new DataTable();
+                valuesT.Columns.AddRange(new DataColumn[]  
+                                            { new DataColumn("Параметр", Type.GetType("System.String")), 
+                                              new DataColumn("type", Type.GetType("System.Int16")),
+                                              new DataColumn("id", Type.GetType("System.Int32")),
+                                              new DataColumn("Значение", Type.GetType("System.String"))
+                                            });
+                var parameters = dt.AsEnumerable().AsQueryable();
+                foreach (var row in parameters)
+                {
+                    DataRow newrow = valuesT.NewRow();
+                    short type = row.Field<short>("type");
+                    try
+                    {
+                        switch (type)
+                        {
+                            case 1:
+                                newrow["Значение"] = row.Field<string>("valueTxt");
+                                break;
+                            case 2:
+                                newrow["Значение"] = row.Field<double>("valueDbl");
+                                break;
+                            case 3:
+                                newrow["Значение"] = row.Field<bool>("valueBool");
+                                break;
+                        }
+                    }
+                    catch (InvalidCastException ice)
+                    {
+                        switch (type)
+                        {
+                            case 1:
+                                newrow["Значение"] = "";
+                                break;
+                            case 2:
+                                newrow["Значение"] = 0.0d;
+                                break;
+                            case 3:
+                                newrow["Значение"] = false;
+                                break;
+                        }
+                    }
+                    newrow["Параметр"] = row.Field<string>("name");
+                    newrow["type"] = row.Field<Int16>("type");
+                    newrow["id"] = row.Field<int>("id");
+                    valuesT.Rows.Add(newrow);
+                }
+                MainDataSet.Tables["CurrentItemParameters"].Merge(valuesT);
+            }
+            sqlCMD.Parameters.Clear();
+            DGV_SetMask(DGV_itemParameters);
         }
 
         private bool isCatHasParam(int pcid, int icid)
@@ -340,6 +426,7 @@ END";
                 finally
                 {
                     sqlCMD.Parameters.Clear();
+                    RefillItemParameterTable();
                 }
         }
 
@@ -369,18 +456,22 @@ END";
             int icid = selectRes.ElementAt(0).Field<int>("id");
             foreach (DataRow ent in changesT.Rows)
             {
+                if (ent.Field<string>("name").Equals("Наименование") && ent.Field<bool>("Ассоциация с кат.").Equals(false))
+                {
+                    MessageBox.Show("Попытка удалить наименование, действие не будет выполнено", "Внимание");
+                    MainDataSet.Tables["Parameters"].AsEnumerable().AsQueryable().First<DataRow>(row => row.Field<string>("name").Equals("Наименование"))["Ассоциация с кат."] = true;
+                    return;
+                }
                 sqlTRS = dbConnection.BeginTransaction("Updating ParameterCategorySet");
                 sqlCMD.Transaction = sqlTRS;
-                int pcid = int.Parse(ent["id"].ToString());
+                int pcid = ent.Field<int>("id");
                 sqlCMD.Parameters.AddRange(new SqlParameter[] { new SqlParameter("icid", icid), new SqlParameter("pcid", pcid) });
-                if (bool.Parse(ent["AssocWithCat"].ToString()))
+                if (bool.Parse(ent["Ассоциация с кат."].ToString()))
                 {
-                    MessageBox.Show("Inserting into ICPC");
                     sqlCMD.CommandText = sqlcmd_commstr_ICPC_Insert;
                 }
                 else
                 {
-                    MessageBox.Show("Deleting from ICPC");
                     sqlCMD.CommandText = sqlcmd_commstr_ICPC_Delete;
                 }
                 try
@@ -484,6 +575,88 @@ END";
             {
                 MessageBox.Show("Выберите категорию");
                 return;
+            }
+        }
+
+        private void cb_existingItem_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            RefillItemParameterTable();
+        }
+
+        private void btn_accItem_Click(object sender, EventArgs e)
+        {
+            DialogResult appmnt = MessageBox.Show("Применить изменения параметров?", "Внимание", MessageBoxButtons.YesNo);
+            if (appmnt == DialogResult.No)
+            {
+                return;
+            }
+            if (isDesignationEmpty(MainDataSet.Tables["CurrentItemParameters"]))
+            {
+                MessageBox.Show("Невозможно присвоить товару пустое наименование", "Ошибка");
+                return;
+            }
+        lbl_try_update_params:
+            DataTable changesT = MainDataSet.Tables["CurrentItemParameters"].GetChanges();
+            foreach (DataRow ent in changesT.Rows)
+            {
+                string field = "";
+                Int16 type = ent.Field<Int16>("type");
+                switch (type)
+                {
+                    case 1:
+                        field = "valueTxt";
+                        sqlCMD.Parameters.Add(new SqlParameter("value", ent.Field<string>("Значение")));
+                        break;
+                    case 2:
+                        field = "valueDbl";
+                        sqlCMD.Parameters.Add(new SqlParameter("value",Double.Parse(ent.Field<string>("Значение"))));
+                        break;
+                    case 3:
+                        field = "valueBool";
+                        sqlCMD.Parameters.Add(new SqlParameter("value", Boolean.Parse(ent.Field<string>("Значение"))));
+                        break;
+                }
+                int pid = ent.Field<int>("id");
+                sqlCMD.Parameters.Add(new SqlParameter("pid", pid));
+                sqlCMD.CommandText = sqlcmd_commstr_ItemParameter_UPDATE.Replace("<field>", field);
+                try
+                {
+                    sqlTRS = dbConnection.BeginTransaction();
+                    sqlCMD.Transaction = sqlTRS;
+                    sqlCMD.ExecuteNonQuery();
+                    sqlTRS.Commit();
+                    sqlCMD.Parameters.Clear();
+                }
+                catch (Exception exc)
+                {
+                    sqlTRS.Rollback();
+                    sqlCMD.Parameters.Clear();
+                    DialogResult dlgres = MessageBox.Show(exc.Message, "Ошибка базы данных", MessageBoxButtons.RetryCancel);
+                    switch (dlgres)
+                    {
+                        case DialogResult.Cancel:
+                            return;
+                        case DialogResult.Retry:
+                            goto lbl_try_update_params;
+                    }
+                }
+            }
+        }
+
+        private bool isDesignationEmpty(DataTable tbl)
+        {
+            DataRow designation_row= tbl.AsEnumerable().AsQueryable().First<DataRow>(row => row.Field<string>("Параметр") == "Наименование");
+            return designation_row.Field<string>("Значение").Length == 0;
+        }
+
+        private void DGV_SetMask(DataGridView DGV)
+        {
+            System.Text.RegularExpressions.Regex regexp = new System.Text.RegularExpressions.Regex("^[A-Z, a-z]+$");
+            int cnt = DGV.Columns.Count, i = 0;
+            while (i < cnt)
+            {
+                if (regexp.IsMatch(DGV.Columns[i].Name)) DGV.Columns[i].Visible = false;
+                i++;
             }
         }
     }
