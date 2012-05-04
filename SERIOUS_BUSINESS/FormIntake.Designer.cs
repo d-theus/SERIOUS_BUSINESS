@@ -32,8 +32,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.num_count = new System.Windows.Forms.NumericUpDown();
-            this.cmb_designation = new System.Windows.Forms.ComboBox();
-            this.cmb_type = new System.Windows.Forms.ComboBox();
+            this.cb_designation = new System.Windows.Forms.ComboBox();
+            this.cb_type = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.btn_accept = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.num_count)).BeginInit();
@@ -72,22 +72,24 @@
             this.num_count.Name = "num_count";
             this.num_count.Size = new System.Drawing.Size(120, 20);
             this.num_count.TabIndex = 3;
+            this.num_count.ValueChanged += new System.EventHandler(this.num_count_ValueChanged);
             // 
-            // cmb_designation
+            // cb_designation
             // 
-            this.cmb_designation.FormattingEnabled = true;
-            this.cmb_designation.Location = new System.Drawing.Point(12, 94);
-            this.cmb_designation.Name = "cmb_designation";
-            this.cmb_designation.Size = new System.Drawing.Size(365, 21);
-            this.cmb_designation.TabIndex = 4;
+            this.cb_designation.FormattingEnabled = true;
+            this.cb_designation.Location = new System.Drawing.Point(12, 94);
+            this.cb_designation.Name = "cb_designation";
+            this.cb_designation.Size = new System.Drawing.Size(365, 21);
+            this.cb_designation.TabIndex = 4;
             // 
-            // cmb_type
+            // cb_type
             // 
-            this.cmb_type.FormattingEnabled = true;
-            this.cmb_type.Location = new System.Drawing.Point(12, 54);
-            this.cmb_type.Name = "cmb_type";
-            this.cmb_type.Size = new System.Drawing.Size(365, 21);
-            this.cmb_type.TabIndex = 5;
+            this.cb_type.FormattingEnabled = true;
+            this.cb_type.Location = new System.Drawing.Point(12, 54);
+            this.cb_type.Name = "cb_type";
+            this.cb_type.Size = new System.Drawing.Size(365, 21);
+            this.cb_type.TabIndex = 5;
+            this.cb_type.SelectedIndexChanged += new System.EventHandler(this.cb_type_SelectedIndexChanged);
             // 
             // label4
             // 
@@ -107,6 +109,7 @@
             this.btn_accept.TabIndex = 7;
             this.btn_accept.Text = "Занести данные";
             this.btn_accept.UseVisualStyleBackColor = true;
+            this.btn_accept.Click += new System.EventHandler(this.btn_accept_Click);
             // 
             // FormIntake
             // 
@@ -115,16 +118,17 @@
             this.ClientSize = new System.Drawing.Size(385, 161);
             this.Controls.Add(this.btn_accept);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.cmb_type);
-            this.Controls.Add(this.cmb_designation);
+            this.Controls.Add(this.cb_type);
+            this.Controls.Add(this.cb_designation);
             this.Controls.Add(this.num_count);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.MinimizeBox = false;
+            this.MaximizeBox = false;
             this.Name = "FormIntake";
             this.Text = "Новые поступления";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormIntake_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.num_count)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -137,8 +141,8 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown num_count;
-        private System.Windows.Forms.ComboBox cmb_designation;
-        private System.Windows.Forms.ComboBox cmb_type;
+        private System.Windows.Forms.ComboBox cb_designation;
+        private System.Windows.Forms.ComboBox cb_type;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Button btn_accept;
 
