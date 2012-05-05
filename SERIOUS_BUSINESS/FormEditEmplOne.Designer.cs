@@ -116,6 +116,7 @@
             this.btn_passwdChange.TabIndex = 6;
             this.btn_passwdChange.Text = "Сменить";
             this.btn_passwdChange.UseVisualStyleBackColor = true;
+            this.btn_passwdChange.Click += new System.EventHandler(this.btn_passwdChange_Click);
             // 
             // groupBox1
             // 
@@ -153,6 +154,7 @@
             this.btn_loginChange.TabIndex = 1;
             this.btn_loginChange.Text = "Сменить";
             this.btn_loginChange.UseVisualStyleBackColor = true;
+            this.btn_loginChange.Click += new System.EventHandler(this.btn_loginChange_Click);
             // 
             // label5
             // 
@@ -169,6 +171,7 @@
             this.tb_login.Name = "tb_login";
             this.tb_login.Size = new System.Drawing.Size(173, 20);
             this.tb_login.TabIndex = 0;
+            this.tb_login.TextChanged += new System.EventHandler(this.tb_login_TextChanged);
             // 
             // lbl_username
             // 

@@ -71,6 +71,11 @@ namespace SERIOUS_BUSINESS
 
         private void btn_accept_Click(object sender, EventArgs e)
         {
+            if (((string)cb_designation.Text).Length == 0)
+            {
+                MessageBox.Show("Выберите товар из списка", "Ошибка");
+                return;
+            }
             DialogResult appmnt = MessageBox.Show(string.Format("Действительно занести данные о поступлении {0} единиц товара '{1}'", (Int32)num_count.Value, (string)cb_designation.Text), "Внимание", MessageBoxButtons.YesNo);
             if (appmnt == DialogResult.No) return;
             int selected_id = -1;

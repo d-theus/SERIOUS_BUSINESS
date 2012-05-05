@@ -30,6 +30,7 @@ namespace SERIOUS_BUSINESS
                     this.currentUser = formLogin.usr;
                     this.Text = Settings.AppTitle + " - " + currentUser.login;
                     this.currentUser = formLogin.usr;
+                    currentUser.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(this.user_prop_changed);
 
 #region DB - establish connection
                     try
@@ -86,7 +87,7 @@ ON EmployeeSet.aptID = AppointmentSet.id";
         #region Account settings
         private void редактированиеПароляToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormEditEmplOne emplDlg = new FormEditEmplOne(this.currentUser);
+            FormEditEmplOne emplDlg = new FormEditEmplOne(ref this.currentUser);
             emplDlg.ShowDialog();
         }
         #endregion
@@ -154,5 +155,9 @@ ON EmployeeSet.aptID = AppointmentSet.id";
             formEmplSet.ShowDialog();
         }
         #endregion
+        private void user_prop_changed(Object sender, EventArgs e)
+        {
+            this.Text = Settings.AppTitle + " - " + currentUser.login;
+        }
     }
 }
