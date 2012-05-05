@@ -34,8 +34,8 @@
             this.tb_login = new System.Windows.Forms.TextBox();
             this.btn_ok = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.rb_store = new System.Windows.Forms.RadioButton();
+            this.rb_ord = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -74,12 +74,14 @@
             // 
             // btn_ok
             // 
+            this.btn_ok.Enabled = false;
             this.btn_ok.Location = new System.Drawing.Point(191, 139);
             this.btn_ok.Name = "btn_ok";
             this.btn_ok.Size = new System.Drawing.Size(92, 23);
             this.btn_ok.TabIndex = 4;
             this.btn_ok.Text = "Добавить";
             this.btn_ok.UseVisualStyleBackColor = true;
+            this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
             // 
             // label3
             // 
@@ -90,32 +92,32 @@
             this.label3.TabIndex = 6;
             this.label3.Text = "Справка: пароль по умолчанию такой же, как логин.";
             // 
-            // radioButton1
+            // rb_store
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Location = new System.Drawing.Point(7, 16);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(56, 17);
-            this.radioButton1.TabIndex = 7;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Склад";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.rb_store.AutoSize = true;
+            this.rb_store.Location = new System.Drawing.Point(7, 16);
+            this.rb_store.Name = "rb_store";
+            this.rb_store.Size = new System.Drawing.Size(56, 17);
+            this.rb_store.TabIndex = 7;
+            this.rb_store.TabStop = true;
+            this.rb_store.Text = "Склад";
+            this.rb_store.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // rb_ord
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Location = new System.Drawing.Point(69, 16);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(64, 17);
-            this.radioButton2.TabIndex = 8;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Заказы";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.rb_ord.AutoSize = true;
+            this.rb_ord.Location = new System.Drawing.Point(69, 16);
+            this.rb_ord.Name = "rb_ord";
+            this.rb_ord.Size = new System.Drawing.Size(64, 17);
+            this.rb_ord.TabIndex = 8;
+            this.rb_ord.TabStop = true;
+            this.rb_ord.Text = "Заказы";
+            this.rb_ord.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.radioButton1);
-            this.groupBox1.Controls.Add(this.radioButton2);
+            this.groupBox1.Controls.Add(this.rb_store);
+            this.groupBox1.Controls.Add(this.rb_ord);
             this.groupBox1.Location = new System.Drawing.Point(12, 123);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(137, 39);
@@ -154,8 +156,8 @@
         private System.Windows.Forms.TextBox tb_login;
         private System.Windows.Forms.Button btn_ok;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton rb_store;
+        private System.Windows.Forms.RadioButton rb_ord;
         private System.Windows.Forms.GroupBox groupBox1;
     }
 }
