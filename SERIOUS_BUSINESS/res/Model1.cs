@@ -1135,6 +1135,28 @@ namespace SERIOUS_BUSINESS.res
                 }
             }
         }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Model1", "PositionItem", "Position")]
+        public EntityCollection<Position> Position
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Position>("Model1.PositionItem", "Position");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Position>("Model1.PositionItem", "Position", value);
+                }
+            }
+        }
 
         #endregion
     }
@@ -1912,6 +1934,28 @@ namespace SERIOUS_BUSINESS.res
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Employee>("Model1.EmployeeOrder", "Employee", value);
+                }
+            }
+        }
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Model1", "OrderPosition", "Position")]
+        public EntityCollection<Position> Position
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Position>("Model1.OrderPosition", "Position");
+            }
+            set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Position>("Model1.OrderPosition", "Position", value);
                 }
             }
         }

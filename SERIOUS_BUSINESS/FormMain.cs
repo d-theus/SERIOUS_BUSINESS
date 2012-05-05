@@ -96,11 +96,8 @@ ON EmployeeSet.aptID = AppointmentSet.id";
         {
             if (currentAccess == (int)accessModifiers.acc_mgr || currentAccess == (int)accessModifiers.acc_adm)
             {
-                FormEditOrder formOrder = new FormEditOrder(this.dbConnection, this.currentUser);
-                if (formOrder.isOk)
-                    formOrder.ShowDialog();
-                else
-                    formOrder.Close();
+                FormEditOrder formOrder = new FormEditOrder(ref currentUser);
+                formOrder.Show();
             }
             else
             {

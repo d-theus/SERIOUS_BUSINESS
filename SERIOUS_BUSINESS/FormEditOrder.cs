@@ -13,271 +13,210 @@ namespace SERIOUS_BUSINESS
 {
     public partial class FormEditOrder : Form
     {
-        #region sql conn & commands & transactions
+        private res.Model1Container database;
+        private IQueryable<res.ItemCategory> Categories;
+        private IQueryable<res.Item> Items;
+        private List<res.Position> curPositions;
+        private res.Position newPos = null;
+        private res.Item selItem = null;
+        private res.Employee curEmployee;
+        private res.Consumer curConsumer;
+        private res.Order curOrder;
 
-        private SqlConnection dbConnection = null;
-        private res.Employee curUsr = null;
-        private res.Consumer curCons = null;
-        private res.Order curOrder = null;
-        
-        
-        const string sqlcmd_comstr_ItemParameters_GetDesignations_INCOMPLETE = "SELECT [valueTxt] AS [designation] FROM ItemParameterSet INNER JOIN ItemSet ON ItemParameterSet.itemID = ItemSet.id AND [valueTxt] != '' AND ItemSet.catID = (SELECT [id] FROM ItemCategorySet WHERE [name] = @ItemCategoryName";
-        const string sqlcmd_comstr_ItemCategories_GetNames = "SELECT [name] FROM ItemCategorySet";
-        const string sqlcmd_comstr_Positions_List = "SELECT [dbo].[PositionSet].[id] AS [Номер],[dbo].[PositionSet].[itemID] AS [Артикул] , [valueTxt] AS [Наименование], [count] AS [Количество] FROM PositionSet INNER JOIN ItemParameterSet ON ItemParameterSet.itemID = PositionSet.itemID AND ItemParameterSet.paramCatID = (SELECT [id] FROM ParameterCategorySet WHERE name = 'Наименование')";
-        const string sqlcmd_comstr_Consumers_GetCount = "SELECT COUNT(*) FROM ConsumerSet";
-        const string sqlcmd_comstr_Orders_Insert_INCOMPLETE = "INSERT INTO [OrderSet] ([date], [status], [consID], [emplID]) VALUES (@date, 'Обрабатывается', @consumerID, @emplID)";
-        const string sqlcmd_comstr_Consumers_Insert_INCOMPLETE = "INSERT INTO ConsumerSet (id, name, phone, email) VALUES (@id,@name , @phone, @email)";
-        const string sqlcmd_comstr_Orders_GetCurrId_INCOMPLETE = "SELECT [id] FROM OrderSet WHERE date = @date";
-        const string sqlcmd_comstr_Positions_Insert_INCOMPLETE = "INSERT INTO PositionSet (id,orderID,itemID,[count]) VALUES (@orderID, @itemID, @count)";
-
-
-        SqlCommand sqlCMD = null;
-        SqlTransaction sqlTRS;
-        
-        #endregion
-
-        public bool isOk = false;
-        public DialogResult dlgResult;
-
-        private DataSet tables = new DataSet();
-        public FormEditOrder(SqlConnection _dbConnection, res.Employee _curUsr)
+        private DataTable DGV_contentsT;
+        public FormEditOrder(ref res.Employee curEmpl)
         {
             InitializeComponent();
-            curUsr = _curUsr;
-retry:
-            try
-            {
-                #region Init connection and commands
-                dbConnection = _dbConnection;
-                sqlCMD = dbConnection.CreateCommand();
-                #endregion
+            curEmployee = curEmpl;
+            DGV_contentsT_Init();
+            #region database context & entities filling
+            database = new res.Model1Container();
+            curPositions = new List<res.Position>();
+            curOrder = res.Order.CreateOrder(-1, DateTime.Now, "Обработка", -1, -1);
+            Items = from it in database.ItemSet select it;
+            Categories = from cat in database.ItemCategorySet select cat;
+            #endregion
+            #region data sources
+            cb_itemType.DataSource = Categories.ToArray();
+            cb_itemType.DisplayMember = "name";
+            cb_itemType.ValueMember = "id";
 
-                #region Filling check boxes using DB
-                //Order number
-                this.lbl_num.Text = "Новый";
-                //Check box with item categories
-                sqlCMD.CommandText = sqlcmd_comstr_ItemCategories_GetNames;
-                SqlDataReader drd = sqlCMD.ExecuteReader();
-                while (drd.Read())
-                {
-                    this.cb_itemType.Items.Add(drd["name"]);
-                }
-                drd.Dispose();
-                #endregion
-
-                #region Positions table initializing
-                sqlCMD.CommandText = sqlcmd_comstr_Positions_List + "WHERE [dbo].[PositionSet].[id] = -1"; //empty table as columns source
-                SqlDataAdapter dad = new SqlDataAdapter(sqlCMD);
-                dad.Fill(tables);
-                this.DGV.DataSource = tables.Tables[0];
-                DGV.Refresh();
-
-                #endregion
-            }
-            catch (Exception ex)
-            {
-                DialogResult dlgres = MessageBox.Show(ex.Message, "Ошибка", MessageBoxButtons.RetryCancel);
-                switch (dlgres)
-                {
-                    case DialogResult.Cancel:
-                        break;
-                    case DialogResult.Retry:
-                        goto retry;
-                }
-            }
-            this.isOk = true;
+            DGV.DataSource = DGV_contentsT;
+            #endregion
+            #region event_bindings
+            cb_itemType.SelectedValueChanged += new EventHandler(btn_addPos_check);
+            cb_itemDesignation.SelectedValueChanged += new EventHandler(btn_addPos_check);
+            cb_itemDesignation.SelectedValueChanged += new EventHandler(num_itemCount_anull);
+            num_itemCount.ValueChanged += new EventHandler(btn_addPos_check);
+            num_itemCount.ValueChanged += new EventHandler(num_itemCount_ValueChanged);
+            btn_addItem.Click += new EventHandler(btn_rmItem_check);
+            btn_rmItem.Click += new EventHandler(btn_rmItem_check);
+            btn_addItem.Click += new EventHandler(DGV_contentsT_Refill);
+            btn_rmItem.Click += new EventHandler(DGV_contentsT_Refill);
+            DGV.SelectionChanged += new EventHandler(btn_rmItem_check);
+            #endregion
         }
 
-
-        private void cb_itemDesignation_SelectedIndexChanged(object sender, EventArgs e)
+        void num_itemCount_check(object sender, EventArgs e)
         {
+            num_itemCount.Enabled = newPos != null;
+        }
 
+        void num_itemCount_ValueChanged(object sender, EventArgs e)
+        {
+            if (selItem != null && newPos != null)
+            {
+                if (num_itemCount.Value > selItem.storeResidue) num_itemCount.Value = selItem.storeResidue;
+                newPos.count = (int)num_itemCount.Value;
+            }
+        }
+
+        void btn_addPos_check(object sender, EventArgs e)
+        {
+            btn_addItem.Enabled = cb_itemDesignation.Text != "" && cb_itemType.Text != "" && (int)num_itemCount.Value > 0;
+        }
+
+        void cb_itemDesignation_Refill()
+        {
+            if (cb_itemType.Text != "")
+            {
+                try
+                {
+                    cb_itemDesignation.DataSource = (from item in database.ItemSet
+                                                     join designation in database.ItemParameterSet
+                                                     on item.id equals designation.itemID
+                                                     where designation.ParameterCategory.name == "Наименование" && item.catID == (int)cb_itemType.SelectedValue
+                                                     select designation).ToArray();
+                    cb_itemDesignation.ValueMember = "itemID";
+                    cb_itemDesignation.DisplayMember = "valueTxt";
+                }
+                catch (System.InvalidCastException)
+                {
+                    return;
+                }
+            }
         }
 
         private void cb_itemType_SelectedIndexChanged(object sender, EventArgs e)
         {
-            cb_itemDesignation.Items.Clear();
-            cb_itemDesignation.Text = "";
-            //sqlCMD.CommandText = sqlcmd_comstr_Positions_List.Replace("<ItemCategoryName>", cb_itemType.Text.ToString());
-            sqlCMD.Parameters.Add(new SqlParameter ("ItemCategoryName", cb_itemType.Text.ToString()));
+            cb_itemDesignation_Refill();
+        }
+
+        private void cb_itemDesignation_SelectedIndexChanged(object sender, EventArgs e)
+        {
             try
             {
-                SqlDataReader drd = sqlCMD.ExecuteReader();
-                while (drd.Read())
-                {
-                    cb_itemDesignation.Items.Add(drd["designation"]);
-                }
-                drd.Dispose();
+                selItem = Items.Single(it => it.id == (int)cb_itemDesignation.SelectedValue);
+                if (selItem != null)
+                    newPos = res.Position.CreatePosition(-1, -1, 0, selItem.id);
             }
-            catch (Exception ex)
+            catch (System.InvalidCastException)
             {
-                MessageBox.Show(ex.Message, "Ошибка базы данных");
+                selItem = null;
+                newPos = null;
             }
             finally
             {
-                sqlCMD.Parameters.Clear();
+                num_itemCount_check(null, null);
             }
-        }
-
-        private void btn_ok_Click(object sender, EventArgs e)
-        {
-
-            if (tables.Tables[0].Rows.Count > 0 && !tb_Name.Text.ToString().Equals("") && !tb_phone.Text.ToString().Equals(""))
-            {
-                #region consumer
-            try_create_consumer:
-                sqlTRS = dbConnection.BeginTransaction("Transaction : New consumer");
-                sqlCMD.Transaction = sqlTRS;
-                try
-                {
-                    sqlCMD.CommandText = sqlcmd_comstr_Consumers_GetCount;
-                    curCons = res.Consumer.CreateConsumer(tb_Name.Text.ToString(), tb_phone.Text.ToString(), tb_email.Text.ToString(), int.Parse(sqlCMD.ExecuteScalar().ToString()));
-                    //sqlCMD.CommandText = sqlcmd_comstr_Consumers_Insert_INCOMPLETE.Replace("<id>", curCons.id.ToString()).Replace("<name>", curCons.name.ToString()).Replace("<phone>", curCons.phone.ToString()).Replace("<email>", curCons.email.ToString());
-                    sqlCMD.Parameters.Add(new SqlParameter("id", curCons.id.ToString()));
-                    sqlCMD.Parameters.Add(new SqlParameter("name", curCons.name.ToString()));
-                    sqlCMD.Parameters.Add(new SqlParameter("phone", curCons.phone.ToString()));
-                    sqlCMD.Parameters.Add(new SqlParameter("email", curCons.email.ToString()));
-                    sqlCMD.ExecuteNonQuery();
-                    sqlTRS.Commit();
-                }
-                catch (Exception exc)
-                {
-                    sqlTRS.Rollback();
-                    DialogResult result = MessageBox.Show(exc.Message, "Ошибка добавления клиента в базу данных", MessageBoxButtons.RetryCancel);
-                    switch (result)
-                    {
-                        case DialogResult.Cancel:
-                            return;
-                        case DialogResult.Retry:
-                            goto try_create_consumer;
-                    }
-                }
-                finally
-                {
-                    sqlCMD.Parameters.Clear();
-                }
-                #endregion
-                #region order
-                curOrder = res.Order.CreateOrder(-1, DateTime.Now, "Набор", curCons.id, curUsr.id);
-            try_create_order:
-                //sqlCMD.CommandText = sqlcmd_comstr_Orders_Insert_INCOMPLETE.Replace("<consumerID>", curCons.id.ToString()).Replace("<emplId>", curUsr.id.ToString());
-                sqlCMD.Parameters.Add(new SqlParameter("consumerID", curCons.id.ToString()));
-                sqlCMD.Parameters.Add(new SqlParameter("emplId", curUsr.id.ToString()));
-                sqlTRS = dbConnection.BeginTransaction("Transaction : New order");
-                sqlCMD.Transaction = sqlTRS;
-                try
-                {
-                    sqlCMD.ExecuteNonQuery();
-                    //sqlCMD.CommandText = sqlcmd_comstr_Orders_GetCurrId_INCOMPLETE.Replace("<date>", curOrder.date.ToString());
-                    sqlCMD.Parameters.Add(new SqlParameter("date", curOrder.date.ToString()));
-                    curOrder.id = int.Parse(sqlCMD.ExecuteScalar().ToString());
-                    sqlTRS.Commit();
-                }
-                catch (Exception exc)
-                {
-                    sqlTRS.Rollback();
-                    DialogResult result = MessageBox.Show(exc.Message, "Ошибка добавления заказа в базу данных", MessageBoxButtons.RetryCancel);
-                    switch (result)
-                    {
-                        case DialogResult.Cancel:
-                            return;
-                        case DialogResult.Retry:
-                            goto try_create_order;
-                    }
-                }
-                finally
-                {
-                    sqlCMD.Parameters.Clear();
-                }
-                #endregion
-                #region positions
-            try_create_positions_set:
-                sqlTRS = dbConnection.BeginTransaction("Transaction : New order");
-                sqlCMD.Transaction = sqlTRS;
-                try
-                {
-                    foreach (DataRow entry in tables.Tables[0].Rows)
-                    {
-                        // sqlCMD.CommandText = sqlcmd_comstr_Positions_Insert_INCOMPLETE.Replace("<orderID>", curOrder.id.ToString()).Replace("<count>", entry["Количество"].ToString()).Replace("<itemID>", entry["Артикул"].ToString());
-                        sqlCMD.Parameters.Add(new SqlParameter("orderID", curOrder.id.ToString()));
-                        sqlCMD.Parameters.Add(new SqlParameter("count", entry["Количество"].ToString()));
-                        sqlCMD.Parameters.Add(new SqlParameter("itemID", entry["Артикул"].ToString()));
-                        sqlCMD.ExecuteNonQuery();
-                    }
-                    sqlTRS.Commit();
-                }
-                catch (Exception exc)
-                {
-                    sqlTRS.Rollback();
-                    DialogResult result = MessageBox.Show(exc.Message, "Ошибка добавления заказа в базу данных", MessageBoxButtons.RetryCancel);
-                    switch (result)
-                    {
-                        case DialogResult.Cancel:
-                            return;
-                        case DialogResult.Retry:
-                            goto try_create_positions_set;
-                    }
-                }
-                finally
-                {
-                    sqlCMD.Parameters.Clear();
-                }
-                #endregion
-                this.dlgResult = DialogResult.OK;
-                this.Close();
-            }
-            else
-            {
-                MessageBox.Show("Есть незаполненные обязательные поля с данными и заказчике");
-                return;
-            }
-        }
-
-        private void btn_cancel_Click(object sender, EventArgs e)
-        {
-            this.dlgResult = DialogResult.Cancel;
-            this.Close();
         }
 
         private void btn_addItem_Click(object sender, EventArgs e)
         {
-            if (cb_itemDesignation.Text.ToString().Length != 0 && num_itemCount.Value > 0)
+            #region check for same
+            if (curPositions.Any(pos => pos.itemID == newPos.itemID))
             {
-                tables.Tables[0].BeginLoadData();
-                DataRow drow = tables.Tables[0].NewRow();
-                drow[0] = tables.Tables[0].Rows.Count +1;
-                drow[1] = cb_itemDesignation.SelectedItem.ToString();
-                drow[2] = num_itemCount.Value;
-                tables.Tables[0].Rows.Add(drow);
-                tables.Tables[0].EndLoadData();
-
-                DGV_DataSourceChanged(this, EventArgs.Empty);
+                MessageBox.Show("Позиция с таким товаром уже есть в списке заказа", "Ошибка добавления позиции");
+                return;
             }
+            #endregion
             else
             {
-                MessageBox.Show("Не выбран товар или количество выбранных товаров равно нулю");
+                curPositions.Add(res.Position.CreatePosition(-1, -1, newPos.count, newPos.itemID));
             }
         }
 
-        private void DGV_DataSourceChanged(object sender, EventArgs e)
+        private void num_itemCount_anull(object sender, EventArgs e)
         {
-            if (tables.Tables[0].Rows.Count > 0)
-                this.btn_rmItem.Enabled = true;
-            else
-                this.btn_rmItem.Enabled = false;
-            this.Refresh();
+            num_itemCount.Value = 0;
+        }
+
+        private void btn_rmItem_check(object sender, EventArgs e)
+        {
+            btn_rmItem.Enabled = curPositions.Count > 0 && DGV.SelectedRows.Count > 0;
+        }
+
+        private void DGV_contentsT_Init()
+        {
+            DGV_contentsT = new DataTable();
+            DGV_contentsT.Columns.Add(new DataColumn("Наименование", "".GetType()));
+            DGV_contentsT.Columns["Наименование"].ReadOnly = true;
+            DGV_contentsT.Columns.Add(new DataColumn("Количество", 1.GetType()));
+        }
+
+        private void DGV_contentsT_Refill(object sender, EventArgs e)
+        {
+            DGV_contentsT.Clear();
+            foreach (var ent in curPositions)
+            {
+                DataRow newrow = DGV_contentsT.NewRow();
+                newrow["Наименование"] = Items.Single(item => item.id == newPos.itemID).ItemParameter.Single(param => param.ParameterCategory.name == "Наименование").valueTxt;
+                newrow["Количество"] = ent.count;
+                DGV_contentsT.Rows.Add(newrow);
+            }
         }
 
         private void btn_rmItem_Click(object sender, EventArgs e)
         {
-            tables.Tables[0].Rows.RemoveAt(tables.Tables[0].Rows.Count -1);
-            DGV_DataSourceChanged(this, EventArgs.Empty);
+            foreach (DataGridViewRow row in DGV.SelectedRows)
+            {
+                curPositions.RemoveAt(row.Index);
+            }
         }
 
-        private void FormEditOrder_FormClosing(object sender, FormClosingEventArgs e)
+        private void btn_accept_check(object sender, EventArgs e)
         {
-
+            btn_accept.Enabled = tb_Name.Text != "" && tb_phone.Text != "" && curPositions.Count > 0;
         }
 
+        private void btn_accept_Click(object sender, EventArgs e)
+        {
+            #region check if items still available
+            foreach (res.Position pos in curPositions)
+            {
+                if (pos.count > (from item in database.ItemSet where item.id == pos.itemID select item.storeResidue).Single())
+                {
+                    Items = from it in database.ItemSet select it;
+                    string message = string.Format("Во время составления заказа на складе стало нехватать предметов {0}. Данные об изменении занесены, перезаполните поля.", pos.Item.ItemParameter.Single(par => par.ParameterCategory.name == "Наименование"));
+                    MessageBox.Show(message, "Внимание");
+                    return;
+                }
+            }
+            #endregion
+
+            #region confirmation
+            DialogResult cnf = MessageBox.Show("Подтвердить заказ?", "Подтверждение", MessageBoxButtons.YesNo);
+            if (cnf == DialogResult.No)
+            {
+                return;
+            }
+            
+            #endregion
+
+            #region add order and positions, decrease stock residues
+            newPos = null;
+            database.AddToOrderSet(curOrder);
+            curConsumer = res.Consumer.CreateConsumer(tb_Name.Text, tb_phone.Text, tb_email.Text, -1);
+            curOrder.emplID = curEmployee.id;
+            curOrder.Consumer = curConsumer;
+            foreach (var ent in curPositions)
+            {
+                Items.Single(item => item.id == ent.itemID).storeResidue -= ent.count;
+                curOrder.Position.Add(ent);
+            }
+            database.SaveChanges();
+            this.Close();
+            #endregion
+        }
     }
 }
