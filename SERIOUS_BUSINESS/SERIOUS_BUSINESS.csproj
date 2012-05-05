@@ -82,12 +82,6 @@
     <Compile Include="FormEditEmplSet.Designer.cs">
       <DependentUpon>FormEditEmplSet.cs</DependentUpon>
     </Compile>
-    <Compile Include="FormEditItem.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="FormEditItem.Designer.cs">
-      <DependentUpon>FormEditItem.cs</DependentUpon>
-    </Compile>
     <Compile Include="FormIntake.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -143,9 +137,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormEditEmplSet.resx">
       <DependentUpon>FormEditEmplSet.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="FormEditItem.resx">
-      <DependentUpon>FormEditItem.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormIntake.resx">
       <DependentUpon>FormIntake.cs</DependentUpon>

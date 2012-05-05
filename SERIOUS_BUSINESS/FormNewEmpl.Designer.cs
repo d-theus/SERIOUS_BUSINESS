@@ -33,7 +33,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.tb_login = new System.Windows.Forms.TextBox();
             this.btn_ok = new System.Windows.Forms.Button();
-            this.btn_cancel = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
@@ -75,22 +74,12 @@
             // 
             // btn_ok
             // 
-            this.btn_ok.Location = new System.Drawing.Point(155, 149);
+            this.btn_ok.Location = new System.Drawing.Point(191, 139);
             this.btn_ok.Name = "btn_ok";
-            this.btn_ok.Size = new System.Drawing.Size(75, 23);
+            this.btn_ok.Size = new System.Drawing.Size(92, 23);
             this.btn_ok.TabIndex = 4;
-            this.btn_ok.Text = "OK";
+            this.btn_ok.Text = "Добавить";
             this.btn_ok.UseVisualStyleBackColor = true;
-            // 
-            // btn_cancel
-            // 
-            this.btn_cancel.Location = new System.Drawing.Point(231, 149);
-            this.btn_cancel.Name = "btn_cancel";
-            this.btn_cancel.Size = new System.Drawing.Size(75, 23);
-            this.btn_cancel.TabIndex = 5;
-            this.btn_cancel.Text = "Отмена";
-            this.btn_cancel.UseVisualStyleBackColor = true;
-            this.btn_cancel.Click += new System.EventHandler(this.btn_cancel_Click);
             // 
             // label3
             // 
@@ -138,10 +127,9 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(318, 177);
+            this.ClientSize = new System.Drawing.Size(302, 171);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.btn_cancel);
             this.Controls.Add(this.btn_ok);
             this.Controls.Add(this.tb_login);
             this.Controls.Add(this.label2);
@@ -165,7 +153,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox tb_login;
         private System.Windows.Forms.Button btn_ok;
-        private System.Windows.Forms.Button btn_cancel;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.RadioButton radioButton1;
         private System.Windows.Forms.RadioButton radioButton2;
