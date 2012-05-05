@@ -33,15 +33,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.tb_search = new System.Windows.Forms.TextBox();
             this.gb_access = new System.Windows.Forms.GroupBox();
-            this.rb_adm = new System.Windows.Forms.RadioButton();
-            this.rb_mgr = new System.Windows.Forms.RadioButton();
-            this.rb_store = new System.Windows.Forms.RadioButton();
-            this.rb_none = new System.Windows.Forms.RadioButton();
+            this.cb_app = new System.Windows.Forms.ComboBox();
             this.gb_info = new System.Windows.Forms.GroupBox();
-            this.lbl_apptment = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
+            this.lbl_id = new System.Windows.Forms.Label();
+            this.lbl_name = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.btc_accept = new System.Windows.Forms.Button();
@@ -64,12 +59,14 @@
             // 
             // btn_search
             // 
+            this.btn_search.Enabled = false;
             this.btn_search.Location = new System.Drawing.Point(151, 62);
             this.btn_search.Name = "btn_search";
             this.btn_search.Size = new System.Drawing.Size(75, 23);
             this.btn_search.TabIndex = 2;
             this.btn_search.Text = "Найти";
             this.btn_search.UseVisualStyleBackColor = true;
+            this.btn_search.Click += new System.EventHandler(this.btn_search_Click);
             // 
             // label1
             // 
@@ -86,115 +83,54 @@
             this.tb_search.Name = "tb_search";
             this.tb_search.Size = new System.Drawing.Size(220, 20);
             this.tb_search.TabIndex = 0;
+            this.tb_search.TextChanged += new System.EventHandler(this.tb_search_TextChanged);
             // 
             // gb_access
             // 
-            this.gb_access.Controls.Add(this.rb_adm);
-            this.gb_access.Controls.Add(this.rb_mgr);
-            this.gb_access.Controls.Add(this.rb_store);
-            this.gb_access.Controls.Add(this.rb_none);
-            this.gb_access.Location = new System.Drawing.Point(6, 216);
+            this.gb_access.Controls.Add(this.cb_app);
+            this.gb_access.Location = new System.Drawing.Point(6, 191);
             this.gb_access.Name = "gb_access";
-            this.gb_access.Size = new System.Drawing.Size(232, 115);
+            this.gb_access.Size = new System.Drawing.Size(232, 49);
             this.gb_access.TabIndex = 1;
             this.gb_access.TabStop = false;
             this.gb_access.Text = "Доступ";
             // 
-            // rb_adm
+            // cb_app
             // 
-            this.rb_adm.AutoSize = true;
-            this.rb_adm.Location = new System.Drawing.Point(7, 92);
-            this.rb_adm.Name = "rb_adm";
-            this.rb_adm.Size = new System.Drawing.Size(65, 17);
-            this.rb_adm.TabIndex = 3;
-            this.rb_adm.TabStop = true;
-            this.rb_adm.Text = "Полный";
-            this.rb_adm.UseVisualStyleBackColor = true;
-            // 
-            // rb_mgr
-            // 
-            this.rb_mgr.AutoSize = true;
-            this.rb_mgr.Location = new System.Drawing.Point(7, 68);
-            this.rb_mgr.Name = "rb_mgr";
-            this.rb_mgr.Size = new System.Drawing.Size(129, 17);
-            this.rb_mgr.TabIndex = 2;
-            this.rb_mgr.TabStop = true;
-            this.rb_mgr.Text = "Частичный (Заказы)";
-            this.rb_mgr.UseVisualStyleBackColor = true;
-            // 
-            // rb_store
-            // 
-            this.rb_store.AutoSize = true;
-            this.rb_store.Location = new System.Drawing.Point(7, 44);
-            this.rb_store.Name = "rb_store";
-            this.rb_store.Size = new System.Drawing.Size(121, 17);
-            this.rb_store.TabIndex = 1;
-            this.rb_store.TabStop = true;
-            this.rb_store.Text = "Частичный (Склад)";
-            this.rb_store.UseVisualStyleBackColor = true;
-            // 
-            // rb_none
-            // 
-            this.rb_none.AutoSize = true;
-            this.rb_none.Location = new System.Drawing.Point(7, 20);
-            this.rb_none.Name = "rb_none";
-            this.rb_none.Size = new System.Drawing.Size(87, 17);
-            this.rb_none.TabIndex = 0;
-            this.rb_none.TabStop = true;
-            this.rb_none.Text = "Нет (убрать)";
-            this.rb_none.UseVisualStyleBackColor = true;
+            this.cb_app.FormattingEnabled = true;
+            this.cb_app.Location = new System.Drawing.Point(6, 19);
+            this.cb_app.Name = "cb_app";
+            this.cb_app.Size = new System.Drawing.Size(220, 21);
+            this.cb_app.TabIndex = 0;
             // 
             // gb_info
             // 
-            this.gb_info.Controls.Add(this.lbl_apptment);
-            this.gb_info.Controls.Add(this.label6);
-            this.gb_info.Controls.Add(this.label5);
-            this.gb_info.Controls.Add(this.label4);
+            this.gb_info.Controls.Add(this.lbl_id);
+            this.gb_info.Controls.Add(this.lbl_name);
             this.gb_info.Controls.Add(this.label3);
             this.gb_info.Controls.Add(this.label2);
             this.gb_info.Location = new System.Drawing.Point(6, 119);
             this.gb_info.Name = "gb_info";
-            this.gb_info.Size = new System.Drawing.Size(232, 91);
+            this.gb_info.Size = new System.Drawing.Size(232, 66);
             this.gb_info.TabIndex = 2;
             this.gb_info.TabStop = false;
             this.gb_info.Text = "Информация";
             // 
-            // lbl_apptment
+            // lbl_id
             // 
-            this.lbl_apptment.AutoSize = true;
-            this.lbl_apptment.Location = new System.Drawing.Point(102, 68);
-            this.lbl_apptment.Name = "lbl_apptment";
-            this.lbl_apptment.Size = new System.Drawing.Size(86, 13);
-            this.lbl_apptment.TabIndex = 5;
-            this.lbl_apptment.Text = "Администратор";
+            this.lbl_id.AutoSize = true;
+            this.lbl_id.Location = new System.Drawing.Point(104, 43);
+            this.lbl_id.Name = "lbl_id";
+            this.lbl_id.Size = new System.Drawing.Size(0, 13);
+            this.lbl_id.TabIndex = 3;
             // 
-            // label6
+            // lbl_name
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label6.Location = new System.Drawing.Point(10, 66);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(86, 15);
-            this.label6.TabIndex = 4;
-            this.label6.Text = "Должность:";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(104, 43);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(37, 13);
-            this.label5.TabIndex = 3;
-            this.label5.Text = "11111";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(104, 16);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(27, 13);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "фио";
+            this.lbl_name.AutoSize = true;
+            this.lbl_name.Location = new System.Drawing.Point(104, 16);
+            this.lbl_name.Name = "lbl_name";
+            this.lbl_name.Size = new System.Drawing.Size(0, 13);
+            this.lbl_name.TabIndex = 2;
             // 
             // label3
             // 
@@ -218,18 +154,19 @@
             // 
             // btc_accept
             // 
-            this.btc_accept.Location = new System.Drawing.Point(41, 332);
+            this.btc_accept.Location = new System.Drawing.Point(40, 246);
             this.btc_accept.Name = "btc_accept";
             this.btc_accept.Size = new System.Drawing.Size(166, 23);
             this.btc_accept.TabIndex = 3;
             this.btc_accept.Text = "Применить";
             this.btc_accept.UseVisualStyleBackColor = true;
+            this.btc_accept.Click += new System.EventHandler(this.btc_accept_Click);
             // 
             // FormEditEmplSet
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(250, 357);
+            this.ClientSize = new System.Drawing.Size(250, 272);
             this.Controls.Add(this.btc_accept);
             this.Controls.Add(this.gb_info);
             this.Controls.Add(this.gb_access);
@@ -241,7 +178,6 @@
             this.gb_search.ResumeLayout(false);
             this.gb_search.PerformLayout();
             this.gb_access.ResumeLayout(false);
-            this.gb_access.PerformLayout();
             this.gb_info.ResumeLayout(false);
             this.gb_info.PerformLayout();
             this.ResumeLayout(false);
@@ -255,17 +191,12 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tb_search;
         private System.Windows.Forms.GroupBox gb_access;
-        private System.Windows.Forms.RadioButton rb_adm;
-        private System.Windows.Forms.RadioButton rb_mgr;
-        private System.Windows.Forms.RadioButton rb_store;
-        private System.Windows.Forms.RadioButton rb_none;
         private System.Windows.Forms.GroupBox gb_info;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label lbl_id;
+        private System.Windows.Forms.Label lbl_name;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label lbl_apptment;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button btc_accept;
+        private System.Windows.Forms.ComboBox cb_app;
     }
 }
