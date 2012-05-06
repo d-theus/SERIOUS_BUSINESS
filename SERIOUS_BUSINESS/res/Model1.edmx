@@ -16,19 +16,12 @@
           <EntitySet Name="ParameterCategorySet" EntityType="Model1.Store.ParameterCategorySet" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="PositionSet" EntityType="Model1.Store.PositionSet" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="pureJoin_IPcatsSet" EntityType="Model1.Store.pureJoin_IPcatsSet" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Available tables" EntityType="Model1.Store.Available tables" store:Type="Views" store:Schema="dbo" store:Name="Available tables">
+          <EntitySet Name="Stock_for_Stock" EntityType="Model1.Store.Stock_for_Stock" store:Type="Views" store:Schema="dbo" store:Name="Stock_for_Stock">
             <DefiningQuery>SELECT 
-      [Available tables].[name] AS [name]
-      FROM [dbo].[Available tables] AS [Available tables]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="ItemPatameterList" EntityType="Model1.Store.ItemPatameterList" store:Type="Views" store:Schema="dbo" store:Name="ItemPatameterList">
-            <DefiningQuery>SELECT 
-      [ItemPatameterList].[name] AS [name], 
-      [ItemPatameterList].[ICID] AS [ICID], 
-      [ItemPatameterList].[valueTxt] AS [valueTxt], 
-      [ItemPatameterList].[valueBool] AS [valueBool], 
-      [ItemPatameterList].[valueDbl] AS [valueDbl]
-      FROM [dbo].[ItemPatameterList] AS [ItemPatameterList]</DefiningQuery>
+      [Stock_for_Stock].[Наименование] AS [Наименование], 
+      [Stock_for_Stock].[Спрос] AS [Спрос], 
+      [Stock_for_Stock].[Остаток] AS [Остаток]
+      FROM [dbo].[Stock_for_Stock] AS [Stock_for_Stock]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="FK_AppointmentEmployee" Association="Model1.Store.FK_AppointmentEmployee">
             <End Role="AppointmentSet" EntitySet="AppointmentSet" />
@@ -163,31 +156,17 @@
           <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'C:\PROGRAM FILES\MICROSOFT SQL SERVER\MSSQL10_50.MSSQLSERVER\MSSQL\DATA\DATABASE.MDF.dbo.Available tables' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'DATABASE.dbo.Stock_for_Stock' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
-        <EntityType Name="Available tables">
+        <EntityType Name="Stock_for_Stock">
           <Key>
-            <PropertyRef Name="name" />
+            <PropertyRef Name="Спрос" />
+            <PropertyRef Name="Остаток" />
           </Key>
-          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="Наименование" Type="nvarchar(max)" />
+          <Property Name="Спрос" Type="int" Nullable="false" />
+          <Property Name="Остаток" Type="int" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-      warning 6002: The table/view 'C:\PROGRAM FILES\MICROSOFT SQL SERVER\MSSQL10_50.MSSQLSERVER\MSSQL\DATA\DATABASE.MDF.dbo.ItemPatameterList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
-        <EntityType Name="ItemPatameterList">
-          <Key>
-            <PropertyRef Name="name" />
-            <PropertyRef Name="ICID" />
-          </Key>
-          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="ICID" Type="int" Nullable="false" />
-          <Property Name="valueTxt" Type="nvarchar(max)" />
-          <Property Name="valueBool" Type="bit" />
-          <Property Name="valueDbl" Type="float" />
-        </EntityType>
-        <!--Errors Found During Generation:
-      warning 6002: The table/view 'C:\PROGRAM FILES\MICROSOFT SQL SERVER\MSSQL10_50.MSSQLSERVER\MSSQL\DATA\DATABASE.MDF.dbo.ParForCat' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
-      -->
         <Association Name="FK_AppointmentEmployee">
           <End Role="AppointmentSet" Type="Model1.Store.AppointmentSet" Multiplicity="1" />
           <End Role="EmployeeSet" Type="Model1.Store.EmployeeSet" Multiplicity="*" />
@@ -405,8 +384,7 @@
             <End Role="ParameterCategory" EntitySet="ParameterCategorySet" />
             <End Role="pureJoin_IPcats" EntitySet="pureJoin_IPcatsSet" />
           </AssociationSet>
-          <EntitySet Name="Available_tables" EntityType="Model1.Available_tables" />
-          <EntitySet Name="ItemPatameterList" EntityType="Model1.ItemPatameterList" />
+          <EntitySet Name="Stock_for_Stock" EntityType="Model1.Stock_for_Stock" />
           </EntityContainer>
         <EntityType Name="Order">
           <Key>
@@ -639,22 +617,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Available_tables">
+        <EntityType Name="Stock_for_Stock">
           <Key>
-            <PropertyRef Name="name" />
+            <PropertyRef Name="Спрос" />
+            <PropertyRef Name="Остаток" />
           </Key>
-          <Property Type="String" Name="name" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="ItemPatameterList">
-          <Key>
-            <PropertyRef Name="name" />
-            <PropertyRef Name="ICID" />
-          </Key>
-          <Property Type="String" Name="name" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="ICID" Nullable="false" />
-          <Property Type="String" Name="valueTxt" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="Boolean" Name="valueBool" />
-          <Property Type="Double" Name="valueDbl" />
+          <Property Type="String" Name="Наименование" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="Int32" Name="Спрос" Nullable="false" />
+          <Property Type="Int32" Name="Остаток" Nullable="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -761,21 +731,12 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-          <EntitySetMapping Name="Available_tables">
-            <EntityTypeMapping TypeName="Model1.Available_tables">
-              <MappingFragment StoreEntitySet="Available tables">
-                <ScalarProperty Name="name" ColumnName="name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ItemPatameterList">
-            <EntityTypeMapping TypeName="Model1.ItemPatameterList">
-              <MappingFragment StoreEntitySet="ItemPatameterList">
-                <ScalarProperty Name="valueDbl" ColumnName="valueDbl" />
-                <ScalarProperty Name="valueBool" ColumnName="valueBool" />
-                <ScalarProperty Name="valueTxt" ColumnName="valueTxt" />
-                <ScalarProperty Name="ICID" ColumnName="ICID" />
-                <ScalarProperty Name="name" ColumnName="name" />
+          <EntitySetMapping Name="Stock_for_Stock">
+            <EntityTypeMapping TypeName="Model1.Stock_for_Stock">
+              <MappingFragment StoreEntitySet="Stock_for_Stock">
+                <ScalarProperty Name="Остаток" ColumnName="Остаток" />
+                <ScalarProperty Name="Спрос" ColumnName="Спрос" />
+                <ScalarProperty Name="Наименование" ColumnName="Наименование" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -852,8 +813,7 @@
           <ConnectorPoint PointX="12.5" PointY="1.8651432291666668" />
           <ConnectorPoint PointX="11.625" PointY="1.8651432291666668" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="Model1.Available_tables" Width="1.5" PointX="5.75" PointY="6.75" Height="1.2110807291666674" />
-        <EntityTypeShape EntityType="Model1.ItemPatameterList" Width="1.5" PointX="7.75" PointY="6.75" Height="1.9802864583333317" />
+        <EntityTypeShape EntityType="Model1.Stock_for_Stock" Width="1.5" PointX="5.375" PointY="6.75" Height="1.5956835937500031" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

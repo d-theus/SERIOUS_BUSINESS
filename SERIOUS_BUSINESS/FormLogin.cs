@@ -14,15 +14,14 @@ namespace SERIOUS_BUSINESS
 {
     public partial class FormLogin : Form
     {
-        private SqlConnection dbConnection = null;
+        private res.Model1Container database;
         public res.Employee usr;
         public FormLogin()
         {
             InitializeComponent();
-            dbConnection = new System.Data.SqlClient.SqlConnection(res.Settings.dbConn_ConnStr);
+            database = new res.Model1Container();
             try
             {
-                dbConnection.Open();
                 #region Retrieving last user from registry
                 RegistryKey readKey = Registry.LocalMachine.OpenSubKey(@"software\\" + res.Settings.AppTitle + @"\");
                 tb_login.Text = (string)readKey.GetValue("Last User");
@@ -32,10 +31,6 @@ namespace SERIOUS_BUSINESS
                 }
                 readKey.Close();
                 #endregion
-            }
-            catch (SqlException sqlex)
-            {
-                MessageBox.Show(sqlex.Message);
             }
             catch (Exception ex)
             {
@@ -49,30 +44,20 @@ namespace SERIOUS_BUSINESS
             {
                 try
                 {
-                    #region sql query : get password from db and compare, create emp instance if success
+                    #region compare entered login data with data in DB
 
-                    SqlCommand sql_countByLogin = new SqlCommand("SELECT COUNT(*) FROM [DATABASE].[dbo].[EmployeeSet] WHERE [login] = '" + tb_login.Text + "'", dbConnection);
-                    if (sql_countByLogin.ExecuteScalar().ToString().Equals("0"))
+                    if ((from emp in database.EmployeeSet where emp.login == tb_login.Text select emp).Count() == 0)
                     {
                         MessageBox.Show("Нет такого пользователя в базе данных, проверьте правильность ввода логина");
                         return;
                     }
                     else
                     {
-                        SqlCommand sql_GetEmployee = new SqlCommand("SELECT [id],[login],[name],[password], [aptID] FROM [DATABASE].[dbo].[EmployeeSet] WHERE [login] = '" + tb_login.Text + "'", dbConnection);
-                        SqlDataReader sql_drd = sql_GetEmployee.ExecuteReader();
-                        sql_drd.Read();
-                        if (tb_passwd.Text.ToString().Equals(sql_drd["password"]))
-                        {
-                            usr = res.Employee.CreateEmployee((int)sql_drd["id"], sql_drd["name"].ToString(), sql_drd["login"].ToString(), sql_drd["password"].ToString(), (int)sql_drd["aptID"]);
-                        }
-                        else
+                        if ((from emp in database.EmployeeSet where emp.login == tb_login.Text select emp).Single().password != tb_passwd.Text)
                         {
                             MessageBox.Show("Неверный пароль");
-                            sql_drd.Close();
                             return;
                         }
-                        sql_drd.Close();
                     }
                     #endregion
                 }
@@ -81,6 +66,11 @@ namespace SERIOUS_BUSINESS
                     MessageBox.Show(ex.Message + "\n Будет осуществлен выход, обратитесь к системному администратору", "Ошибка базы данных", MessageBoxButtons.OK);
                     Application.Exit();
                 }
+
+                #region get empl from DB
+                usr = (from emp in database.EmployeeSet where emp.login == tb_login.Text select emp).Single();
+
+                #endregion
                 if (cb_remember.Checked)
                 {
                     #region Saving current user to registry
@@ -101,9 +91,6 @@ namespace SERIOUS_BUSINESS
 
         private void FormLogin_FormClosing(object sender, FormClosingEventArgs e)
         {
-
-            if (dbConnection != null)
-                dbConnection.Close();
             if (DialogResult != DialogResult.OK)
             {
                 DialogResult = DialogResult.Abort;

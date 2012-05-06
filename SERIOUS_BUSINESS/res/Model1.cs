@@ -242,34 +242,18 @@ namespace SERIOUS_BUSINESS.res
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<Available_tables> Available_tables
+        public ObjectSet<Stock_for_Stock> Stock_for_Stock
         {
             get
             {
-                if ((_Available_tables == null))
+                if ((_Stock_for_Stock == null))
                 {
-                    _Available_tables = base.CreateObjectSet<Available_tables>("Available_tables");
+                    _Stock_for_Stock = base.CreateObjectSet<Stock_for_Stock>("Stock_for_Stock");
                 }
-                return _Available_tables;
+                return _Stock_for_Stock;
             }
         }
-        private ObjectSet<Available_tables> _Available_tables;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<ItemPatameterList> ItemPatameterList
-        {
-            get
-            {
-                if ((_ItemPatameterList == null))
-                {
-                    _ItemPatameterList = base.CreateObjectSet<ItemPatameterList>("ItemPatameterList");
-                }
-                return _ItemPatameterList;
-            }
-        }
-        private ObjectSet<ItemPatameterList> _ItemPatameterList;
+        private ObjectSet<Stock_for_Stock> _Stock_for_Stock;
 
         #endregion
         #region AddTo Methods
@@ -355,19 +339,11 @@ namespace SERIOUS_BUSINESS.res
         }
     
         /// <summary>
-        /// Deprecated Method for adding a new object to the Available_tables EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// Deprecated Method for adding a new object to the Stock_for_Stock EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
         /// </summary>
-        public void AddToAvailable_tables(Available_tables available_tables)
+        public void AddToStock_for_Stock(Stock_for_Stock stock_for_Stock)
         {
-            base.AddObject("Available_tables", available_tables);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the ItemPatameterList EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToItemPatameterList(ItemPatameterList itemPatameterList)
-        {
-            base.AddObject("ItemPatameterList", itemPatameterList);
+            base.AddObject("Stock_for_Stock", stock_for_Stock);
         }
 
         #endregion
@@ -506,61 +482,6 @@ namespace SERIOUS_BUSINESS.res
         }
 
         #endregion
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="Model1", Name="Available_tables")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class Available_tables : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new Available_tables object.
-        /// </summary>
-        /// <param name="name">Initial value of the name property.</param>
-        public static Available_tables CreateAvailable_tables(global::System.String name)
-        {
-            Available_tables available_tables = new Available_tables();
-            available_tables.name = name;
-            return available_tables;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String name
-        {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                if (_name != value)
-                {
-                    OnnameChanging(value);
-                    ReportPropertyChanging("name");
-                    _name = StructuralObject.SetValidValue(value, false);
-                    ReportPropertyChanged("name");
-                    OnnameChanged();
-                }
-            }
-        }
-        private global::System.String _name;
-        partial void OnnameChanging(global::System.String value);
-        partial void OnnameChanged();
-
-        #endregion
-    
     }
     
     /// <summary>
@@ -1550,162 +1471,6 @@ namespace SERIOUS_BUSINESS.res
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="Model1", Name="ItemPatameterList")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class ItemPatameterList : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new ItemPatameterList object.
-        /// </summary>
-        /// <param name="name">Initial value of the name property.</param>
-        /// <param name="iCID">Initial value of the ICID property.</param>
-        public static ItemPatameterList CreateItemPatameterList(global::System.String name, global::System.Int32 iCID)
-        {
-            ItemPatameterList itemPatameterList = new ItemPatameterList();
-            itemPatameterList.name = name;
-            itemPatameterList.ICID = iCID;
-            return itemPatameterList;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String name
-        {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                if (_name != value)
-                {
-                    OnnameChanging(value);
-                    ReportPropertyChanging("name");
-                    _name = StructuralObject.SetValidValue(value, false);
-                    ReportPropertyChanged("name");
-                    OnnameChanged();
-                }
-            }
-        }
-        private global::System.String _name;
-        partial void OnnameChanging(global::System.String value);
-        partial void OnnameChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 ICID
-        {
-            get
-            {
-                return _ICID;
-            }
-            set
-            {
-                if (_ICID != value)
-                {
-                    OnICIDChanging(value);
-                    ReportPropertyChanging("ICID");
-                    _ICID = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("ICID");
-                    OnICIDChanged();
-                }
-            }
-        }
-        private global::System.Int32 _ICID;
-        partial void OnICIDChanging(global::System.Int32 value);
-        partial void OnICIDChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public global::System.String valueTxt
-        {
-            get
-            {
-                return _valueTxt;
-            }
-            set
-            {
-                OnvalueTxtChanging(value);
-                ReportPropertyChanging("valueTxt");
-                _valueTxt = StructuralObject.SetValidValue(value, true);
-                ReportPropertyChanged("valueTxt");
-                OnvalueTxtChanged();
-            }
-        }
-        private global::System.String _valueTxt;
-        partial void OnvalueTxtChanging(global::System.String value);
-        partial void OnvalueTxtChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Boolean> valueBool
-        {
-            get
-            {
-                return _valueBool;
-            }
-            set
-            {
-                OnvalueBoolChanging(value);
-                ReportPropertyChanging("valueBool");
-                _valueBool = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("valueBool");
-                OnvalueBoolChanged();
-            }
-        }
-        private Nullable<global::System.Boolean> _valueBool;
-        partial void OnvalueBoolChanging(Nullable<global::System.Boolean> value);
-        partial void OnvalueBoolChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Double> valueDbl
-        {
-            get
-            {
-                return _valueDbl;
-            }
-            set
-            {
-                OnvalueDblChanging(value);
-                ReportPropertyChanging("valueDbl");
-                _valueDbl = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("valueDbl");
-                OnvalueDblChanged();
-            }
-        }
-        private Nullable<global::System.Double> _valueDbl;
-        partial void OnvalueDblChanging(Nullable<global::System.Double> value);
-        partial void OnvalueDblChanged();
-
-        #endregion
-    
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Model1", Name="Order")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -2519,6 +2284,114 @@ namespace SERIOUS_BUSINESS.res
         }
 
         #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="Model1", Name="Stock_for_Stock")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Stock_for_Stock : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Stock_for_Stock object.
+        /// </summary>
+        /// <param name="спрос">Initial value of the Спрос property.</param>
+        /// <param name="остаток">Initial value of the Остаток property.</param>
+        public static Stock_for_Stock CreateStock_for_Stock(global::System.Int32 спрос, global::System.Int32 остаток)
+        {
+            Stock_for_Stock stock_for_Stock = new Stock_for_Stock();
+            stock_for_Stock.Спрос = спрос;
+            stock_for_Stock.Остаток = остаток;
+            return stock_for_Stock;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Наименование
+        {
+            get
+            {
+                return _Наименование;
+            }
+            set
+            {
+                OnНаименованиеChanging(value);
+                ReportPropertyChanging("Наименование");
+                _Наименование = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Наименование");
+                OnНаименованиеChanged();
+            }
+        }
+        private global::System.String _Наименование;
+        partial void OnНаименованиеChanging(global::System.String value);
+        partial void OnНаименованиеChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Спрос
+        {
+            get
+            {
+                return _Спрос;
+            }
+            set
+            {
+                if (_Спрос != value)
+                {
+                    OnСпросChanging(value);
+                    ReportPropertyChanging("Спрос");
+                    _Спрос = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Спрос");
+                    OnСпросChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Спрос;
+        partial void OnСпросChanging(global::System.Int32 value);
+        partial void OnСпросChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Остаток
+        {
+            get
+            {
+                return _Остаток;
+            }
+            set
+            {
+                if (_Остаток != value)
+                {
+                    OnОстатокChanging(value);
+                    ReportPropertyChanging("Остаток");
+                    _Остаток = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Остаток");
+                    OnОстатокChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Остаток;
+        partial void OnОстатокChanging(global::System.Int32 value);
+        partial void OnОстатокChanged();
+
+        #endregion
+    
     }
 
     #endregion
