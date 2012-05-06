@@ -34,6 +34,7 @@ namespace SERIOUS_BUSINESS
             regRead.Close();
 #endregion
 
+
             FormMain formMain = new FormMain();
             formMain.Hide();
             Application.Run(formMain);
