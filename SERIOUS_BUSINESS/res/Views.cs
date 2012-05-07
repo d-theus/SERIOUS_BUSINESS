@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Windows.Forms;
 using System.Text;
 using System.Data;
 using System.Linq;
@@ -21,7 +22,7 @@ namespace SERIOUS_BUSINESS
         }
         public NamedItem() { }
     }
-    class AssociatedPC
+    partial class AssociatedPC: Object
     {
         public int id { get; set; }
         public string name { get; set; }
@@ -54,6 +55,29 @@ namespace SERIOUS_BUSINESS
                         return null;
                 }
                 
+        }
+
+        public dynamic GetTypedValue()
+        {
+            switch (type)
+            {
+                case (short)PType.pt_txt:
+                    if (String.IsNullOrEmpty(valueTxt))
+                        return "";
+                    else
+                        return valueTxt;
+                case (short)PType.pt_dbl:
+                    if (valueDbl.HasValue)
+                        return valueDbl;
+                    else return 0.0f;
+                case (short)PType.pt_bool:
+                    if (valueBool.HasValue)
+                        return valueBool;
+                    else
+                        return false;
+                default:
+                    return "";
+            }
         }
 
         static public bool? GetTypedBValue(string _value, short _type)
@@ -117,7 +141,6 @@ namespace SERIOUS_BUSINESS
         }
 
     }
-
     class TableWithAccess
     {
         public string name
@@ -130,13 +153,15 @@ namespace SERIOUS_BUSINESS
             get;
             set;
         }
-        public TableWithAccess(string _name, int _AM)
+        public ContextMenuStrip mstrip;
+        public TableWithAccess(string _name, int _AM, ContextMenuStrip _mstrip)
         {
+            mstrip = _mstrip;
             this.name = _name;
             this.accessMod = _AM;
         }
     }
-    class StockForStock
+    class StockForStock:Object
     {
         public string Категория { get; set; }
         public string Наименование { get; set; }
@@ -157,14 +182,21 @@ namespace SERIOUS_BUSINESS
             Parameters = new List<NamedParameter>();
         }
     }
-
-    class OrdersForManager
+    class OrdersForManager:Object
     {
         public int Номер { get; set; }
         public DateTime Дата { get; set; }
         public string Заказчик { get; set; }
         public string Статус { get; set; }
         public OrdersForManager() { }
+    }
+    class Employees : Object
+    {
+        public int Номер {get;set;}
+        public string Имя {get;set;}
+        public string Логин {get;set;}
+        public string Доступ {get;set;}
+        public Employees() { }
     }
 
     class AllOrders : OrdersForManager
