@@ -73,6 +73,8 @@
             this.btn_edit = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.cb_tableOptions = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGV)).BeginInit();
             this.ms_dgvMS.SuspendLayout();
@@ -298,7 +300,7 @@
             this.panel_search.Controls.Add(this.tb_search);
             this.panel_search.Controls.Add(this.btn_find);
             this.panel_search.Enabled = false;
-            this.panel_search.Location = new System.Drawing.Point(3, 73);
+            this.panel_search.Location = new System.Drawing.Point(3, 98);
             this.panel_search.Name = "panel_search";
             this.panel_search.Size = new System.Drawing.Size(238, 118);
             this.panel_search.TabIndex = 2;
@@ -389,17 +391,19 @@
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.Controls.Add(this.label4);
+            this.panel2.Controls.Add(this.cb_tableOptions);
             this.panel2.Controls.Add(this.cb_table);
             this.panel2.Controls.Add(this.label2);
             this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(238, 64);
+            this.panel2.Size = new System.Drawing.Size(238, 86);
             this.panel2.TabIndex = 3;
             // 
             // cb_table
             // 
             this.cb_table.FormattingEnabled = true;
-            this.cb_table.Location = new System.Drawing.Point(6, 28);
+            this.cb_table.Location = new System.Drawing.Point(6, 16);
             this.cb_table.Name = "cb_table";
             this.cb_table.Size = new System.Drawing.Size(225, 21);
             this.cb_table.TabIndex = 1;
@@ -423,7 +427,7 @@
             this.panel_edit.Controls.Add(this.btn_add);
             this.panel_edit.Controls.Add(this.btn_edit);
             this.panel_edit.Enabled = false;
-            this.panel_edit.Location = new System.Drawing.Point(3, 198);
+            this.panel_edit.Location = new System.Drawing.Point(3, 224);
             this.panel_edit.Name = "panel_edit";
             this.panel_edit.Size = new System.Drawing.Size(238, 104);
             this.panel_edit.TabIndex = 4;
@@ -470,15 +474,15 @@
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.panel2, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.panel_search, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.panel_edit, 0, 2);
+            this.tableLayoutPanel1.Controls.Add(this.panel_search, 0, 1);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 124F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 66F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(244, 305);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 93F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 128F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 39F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(244, 331);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // splitContainer1
@@ -497,6 +501,24 @@
             this.splitContainer1.Size = new System.Drawing.Size(792, 403);
             this.splitContainer1.SplitterDistance = 538;
             this.splitContainer1.TabIndex = 6;
+            // 
+            // cb_tableOptions
+            // 
+            this.cb_tableOptions.Enabled = false;
+            this.cb_tableOptions.FormattingEnabled = true;
+            this.cb_tableOptions.Location = new System.Drawing.Point(6, 56);
+            this.cb_tableOptions.Name = "cb_tableOptions";
+            this.cb_tableOptions.Size = new System.Drawing.Size(225, 21);
+            this.cb_tableOptions.TabIndex = 2;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(3, 40);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(80, 13);
+            this.label4.TabIndex = 3;
+            this.label4.Text = "Опции выбора";
             // 
             // FormMain
             // 
@@ -576,6 +598,8 @@
         private System.Windows.Forms.RadioButton rb_LE;
         private System.Windows.Forms.RadioButton rb_E;
         private System.Windows.Forms.RadioButton rb_ME;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox cb_tableOptions;
 
     }
 }

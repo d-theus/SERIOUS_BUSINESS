@@ -40,19 +40,20 @@ namespace SERIOUS_BUSINESS
 
         public NamedParameter() { }
 
-        public string GetValue(short _type)
+        public string GetValue()
         {
-            switch (_type)
-            {
-                case ((short)PType.pt_txt):
-                    return valueTxt;
-                case ((short)PType.pt_dbl):
-                    return valueDbl.ToString();
-                case ((short)PType.pt_bool):
-                    return valueBool.ToString();
-                default:
-                    return null;
-            }
+                switch (type)
+                {
+                    case ((short)PType.pt_txt):
+                        return valueTxt;
+                    case ((short)PType.pt_dbl):
+                        return valueDbl.ToString();
+                    case ((short)PType.pt_bool):
+                        return valueBool.ToString();
+                    default:
+                        return null;
+                }
+                
         }
 
         static public bool? GetTypedBValue(string _value, short _type)
@@ -147,7 +148,7 @@ namespace SERIOUS_BUSINESS
     }
     class StockForManager
     {
-        public string category { get; set; }
+        public int id {get; set;}
         public int stockResidue { get; set; }
         public List<NamedParameter> Parameters;
 
@@ -155,6 +156,21 @@ namespace SERIOUS_BUSINESS
         {
             Parameters = new List<NamedParameter>();
         }
+    }
+
+    class OrdersForManager
+    {
+        public int Номер { get; set; }
+        public DateTime Дата { get; set; }
+        public string Заказчик { get; set; }
+        public string Статус { get; set; }
+        public OrdersForManager() { }
+    }
+
+    class AllOrders : OrdersForManager
+    {
+        public string Сотрудник { get; set; }
+        public AllOrders () {}
     }
 
 }

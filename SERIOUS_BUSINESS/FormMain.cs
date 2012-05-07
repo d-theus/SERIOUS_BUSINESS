@@ -34,6 +34,9 @@ namespace SERIOUS_BUSINESS
                     this.Text = Settings.AppTitle + " - " + curEmpl.login;
                     #region event bindings
                     curEmpl.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(this.user_prop_changed);
+
+                    cb_table.SelectedIndexChanged += new EventHandler(this.check_cb_tableOptions);
+                    cb_tableOptions.SelectedIndexChanged += new EventHandler(cb_tableOptions_SelectedIndexChanged);
                     #endregion
 
                     #region DB
@@ -56,6 +59,76 @@ namespace SERIOUS_BUSINESS
                     break;
             }
 
+        }
+
+        void cb_tableOptions_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (cb_table.Text)
+            {
+                case "Характеристики товаров":
+                    int catID = 0;
+                    #region try parse selection
+		                    try
+                    {
+                        catID = (int)cb_tableOptions.SelectedValue;
+                    }
+                    catch (InvalidCastException)
+                    {
+                        return;
+                    } 
+	#endregion
+                    #region stock for manager
+                    try
+                    {
+                        IQueryable<StockForManager> StockDB = from item in database.ItemSet where item.catID == catID
+                                                              select
+                                                                  new StockForManager
+                                                                  {
+                                                                      id = item.id,
+                                                                      stockResidue = item.storeResidue
+                                                                  };
+                        List<StockForManager> Stock = new List<StockForManager>();
+                        foreach (var item in StockDB)
+                        {
+                            NamedParameter[] cItemParams = NamedParameter.CastToNamed((from items in database.ItemSet where items.id == item.id select items).Single().ItemParameter.AsQueryable()).ToArray();
+                            Stock.Add(new StockForManager { id = item.id, stockResidue = item.stockResidue, Parameters = cItemParams.ToList() });
+                        }
+                        if (DGV_contentsT != null)
+                            DGV_contentsT.Dispose();
+                        DGV_contentsT = new DataTable();
+                        if (Stock.Any())
+                        {
+                            Stock.First().Parameters.OrderBy(par => par.id).ToList().ForEach(par =>
+                            {
+                                DGV_contentsT.Columns.Add(new DataColumn(par.name, "".GetType()));
+                            });
+                            DGV_contentsT.Columns.Add(new DataColumn("Остаток", "".GetType()));
+                            foreach (var item in Stock)
+                            {
+                                DataRow nrow = DGV_contentsT.NewRow();
+                                int i = 0;
+                                item.Parameters.ForEach(par =>
+                                {
+                                    nrow[i] = par.GetValue();
+                                    i++;
+                                });
+                                nrow[i] = item.stockResidue;
+                                DGV_contentsT.Rows.Add(nrow);
+                            }
+                            DGV.DataSource = DGV_contentsT;
+                        }
+                    }
+                    catch (Exception exc)
+                    {
+                        MessageBox.Show("Ошибка: \n" + exc.Message);
+                        throw;
+                    }
+
+                    #endregion
+                    break;
+                default:
+                    break;
+            }
         }
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -150,7 +223,7 @@ namespace SERIOUS_BUSINESS
             new TableWithAccess("Заказы сотрудника", (int)accessModifiers.acc_ord),
             new TableWithAccess("Все заказы", (int)accessModifiers.acc_adm)});
 
-            cb_table.DataSource = availableTables.Where(tbl => tbl.accessMod == curEmpl.Appointment.accessModifier || curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_adm);
+            cb_table.DataSource = availableTables.Where(tbl => tbl.accessMod == curEmpl.Appointment.accessModifier || curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_adm).ToList();
             cb_table.ValueMember = "accessMod";
             cb_table.DisplayMember = "name";
         }
@@ -181,42 +254,79 @@ namespace SERIOUS_BUSINESS
                     }
                     catch (Exception exc)
                     {
-                        MessageBox.Show("Ошибка"+ exc.Message);
+                        MessageBox.Show("Ошибка" + exc.Message);
                         return;
                     }
                     #endregion
                     break;
                 case "Характеристики товаров":
-                    #region stock for manager
-                    try
-                    {
-                        IQueryable<StockForManager> Stock = from item in database.ItemSet
-                                                            select
-                                                                new StockForManager
-                                                                {
-                                                                    category = item.ItemCategory.name,
-                                                                    stockResidue = item.storeResidue,
-                                                                    Parameters = NamedParameter.CastToNamed(item.ItemParameter.AsQueryable())
-                                                                };
 
-                    }
-                    catch (Exception exc)
-                    {
-                        
-                        throw;
-                    }
-
-                    #endregion
                     break;
                 case "Заказы сотрудника":
                     #region Manager orders
-
+                    try
+                    {
+                        var Orders = from ord in database.OrderSet
+                                     where ord.emplID == curEmpl.id
+                                     select new OrdersForManager
+                                     {
+                                         Дата =ord.date,
+                                         Номер = ord.id,
+                                         Заказчик = ord.Consumer.name,
+                                         Статус = ord.status
+                                     };
+                        DGV.DataSource = Orders.AsQueryable().ToList();
+                    }
+                    catch (Exception exc)
+                    {
+                        MessageBox.Show("Ошибка" + exc.Message);
+                        return;
+                    }
                     #endregion
                     break;
                 case "Все заказы":
                     #region All orders
-
+                    try
+                    {
+                        var Orders = from ord in database.OrderSet
+                                     select
+                                         new AllOrders
+                                         {
+                                             Дата = ord.date,
+                                             Номер = ord.id,
+                                             Заказчик = ord.Consumer.name,
+                                             Статус = ord.status,
+                                             Сотрудник = ord.Employee.name
+                                         };
+                        DGV.DataSource = Orders.AsQueryable().ToList();
+                    }
+                    catch (Exception exc)
+                    {
+                        MessageBox.Show("Ошибка: \n"+exc.Message);
+                        return;
+                    }
                     #endregion
+                    break;
+            }
+        }
+
+        private void check_cb_tableOptions(object sender, EventArgs e)
+        {
+            switch (cb_table.Text.ToString())
+            {
+                case "Склад":
+                    cb_tableOptions.Enabled = false;
+                    break;
+                case "Характеристики товаров":
+                    cb_tableOptions.DataSource = (from cat in database.ItemCategorySet select cat).ToList();
+                    cb_tableOptions.DisplayMember = "name";
+                    cb_tableOptions.ValueMember = "id";
+                    cb_tableOptions.Text = "Выберите категорию";
+                    cb_tableOptions.Enabled = true;
+                    break;
+                default:
+                    cb_tableOptions.Text = "Опции недоступны";
+                    cb_tableOptions.Enabled = false;
                     break;
             }
         }

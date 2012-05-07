@@ -188,7 +188,7 @@ namespace SERIOUS_BUSINESS
                 {
                     DataRow nrow = TItemParameters.NewRow();
                     nrow["Параметр"] = par.name;
-                    nrow["Значение"] = par.GetValue(par.type);
+                    nrow["Значение"] = par.GetValue();
                     nrow["id"] = par.id;
                     nrow["type"] = par.type;
                     TItemParameters.Rows.Add(nrow);
