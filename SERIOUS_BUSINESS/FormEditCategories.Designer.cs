@@ -77,7 +77,6 @@
             this.tb_newParamName.Name = "tb_newParamName";
             this.tb_newParamName.Size = new System.Drawing.Size(307, 20);
             this.tb_newParamName.TabIndex = 1;
-            this.tb_newParamName.TextChanged += new System.EventHandler(this.tb_newParamName_TextChanged);
             // 
             // groupBox1
             // 
@@ -106,13 +105,13 @@
             // 
             // btn_accParams
             // 
+            this.btn_accParams.Enabled = false;
             this.btn_accParams.Location = new System.Drawing.Point(263, 120);
             this.btn_accParams.Name = "btn_accParams";
             this.btn_accParams.Size = new System.Drawing.Size(93, 23);
             this.btn_accParams.TabIndex = 1;
             this.btn_accParams.Text = "Применить";
             this.btn_accParams.UseVisualStyleBackColor = true;
-            this.btn_accParams.Click += new System.EventHandler(this.btn_accParams_Click);
             // 
             // DGV_catParameters
             // 
@@ -134,9 +133,7 @@
             this.cb_cat.Location = new System.Drawing.Point(13, 32);
             this.cb_cat.Name = "cb_cat";
             this.cb_cat.Size = new System.Drawing.Size(321, 21);
-            this.cb_cat.Sorted = true;
             this.cb_cat.TabIndex = 2;
-            this.cb_cat.SelectedIndexChanged += new System.EventHandler(this.cb_cat_SelectedIndexChanged);
             // 
             // groupBox3
             // 
@@ -169,7 +166,6 @@
             this.tb_newItemDesignation.Name = "tb_newItemDesignation";
             this.tb_newItemDesignation.Size = new System.Drawing.Size(301, 20);
             this.tb_newItemDesignation.TabIndex = 9;
-            this.tb_newItemDesignation.TextChanged += new System.EventHandler(this.tb_newItemDesignation_TextChanged_1);
             // 
             // btn_addItem
             // 
@@ -180,17 +176,16 @@
             this.btn_addItem.TabIndex = 6;
             this.btn_addItem.Text = "+";
             this.btn_addItem.UseVisualStyleBackColor = true;
-            this.btn_addItem.Click += new System.EventHandler(this.btn_addItem_Click);
             // 
             // btn_accItem
             // 
+            this.btn_accItem.Enabled = false;
             this.btn_accItem.Location = new System.Drawing.Point(264, 83);
             this.btn_accItem.Name = "btn_accItem";
             this.btn_accItem.Size = new System.Drawing.Size(93, 23);
             this.btn_accItem.TabIndex = 5;
             this.btn_accItem.Text = "Применить";
             this.btn_accItem.UseVisualStyleBackColor = true;
-            this.btn_accItem.Click += new System.EventHandler(this.btn_accItem_Click);
             // 
             // cb_existingItem
             // 
@@ -199,7 +194,6 @@
             this.cb_existingItem.Name = "cb_existingItem";
             this.cb_existingItem.Size = new System.Drawing.Size(247, 21);
             this.cb_existingItem.TabIndex = 4;
-            this.cb_existingItem.SelectedIndexChanged += new System.EventHandler(this.cb_existingItem_SelectedIndexChanged);
             // 
             // label5
             // 
@@ -287,7 +281,6 @@
             this.btn_addPar.TabIndex = 4;
             this.btn_addPar.Text = "+";
             this.btn_addPar.UseVisualStyleBackColor = true;
-            this.btn_addPar.Click += new System.EventHandler(this.btn_addPar_Click);
             // 
             // groupBox2
             // 
@@ -310,7 +303,6 @@
             this.btn_addCat.TabIndex = 2;
             this.btn_addCat.Text = "+";
             this.btn_addCat.UseVisualStyleBackColor = true;
-            this.btn_addCat.Click += new System.EventHandler(this.btn_addCat_Click);
             // 
             // tb_catName
             // 
@@ -318,7 +310,6 @@
             this.tb_catName.Name = "tb_catName";
             this.tb_catName.Size = new System.Drawing.Size(307, 20);
             this.tb_catName.TabIndex = 1;
-            this.tb_catName.TextChanged += new System.EventHandler(this.tb_catName_TextChanged);
             // 
             // label3
             // 

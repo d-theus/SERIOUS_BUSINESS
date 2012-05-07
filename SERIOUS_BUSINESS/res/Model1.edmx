@@ -16,20 +16,6 @@
           <EntitySet Name="ParameterCategorySet" EntityType="Model1.Store.ParameterCategorySet" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="PositionSet" EntityType="Model1.Store.PositionSet" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="pureJoin_IPcatsSet" EntityType="Model1.Store.pureJoin_IPcatsSet" store:Type="Tables" Schema="dbo" />
-          <EntitySet Name="Available tables" EntityType="Model1.Store.Available tables" store:Type="Views" store:Schema="dbo" store:Name="Available tables">
-            <DefiningQuery>SELECT 
-      [Available tables].[name] AS [name]
-      FROM [dbo].[Available tables] AS [Available tables]</DefiningQuery>
-          </EntitySet>
-          <EntitySet Name="ItemPatameterList" EntityType="Model1.Store.ItemPatameterList" store:Type="Views" store:Schema="dbo" store:Name="ItemPatameterList">
-            <DefiningQuery>SELECT 
-      [ItemPatameterList].[name] AS [name], 
-      [ItemPatameterList].[ICID] AS [ICID], 
-      [ItemPatameterList].[valueTxt] AS [valueTxt], 
-      [ItemPatameterList].[valueBool] AS [valueBool], 
-      [ItemPatameterList].[valueDbl] AS [valueDbl]
-      FROM [dbo].[ItemPatameterList] AS [ItemPatameterList]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_AppointmentEmployee" Association="Model1.Store.FK_AppointmentEmployee">
             <End Role="AppointmentSet" EntitySet="AppointmentSet" />
             <End Role="EmployeeSet" EntitySet="EmployeeSet" />
@@ -165,26 +151,9 @@
         <!--Errors Found During Generation:
       warning 6002: The table/view 'C:\PROGRAM FILES\MICROSOFT SQL SERVER\MSSQL10_50.MSSQLSERVER\MSSQL\DATA\DATABASE.MDF.dbo.Available tables' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
-        <EntityType Name="Available tables">
-          <Key>
-            <PropertyRef Name="name" />
-          </Key>
-          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
-        </EntityType>
         <!--Errors Found During Generation:
       warning 6002: The table/view 'C:\PROGRAM FILES\MICROSOFT SQL SERVER\MSSQL10_50.MSSQLSERVER\MSSQL\DATA\DATABASE.MDF.dbo.ItemPatameterList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
-        <EntityType Name="ItemPatameterList">
-          <Key>
-            <PropertyRef Name="name" />
-            <PropertyRef Name="ICID" />
-          </Key>
-          <Property Name="name" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="ICID" Type="int" Nullable="false" />
-          <Property Name="valueTxt" Type="nvarchar(max)" />
-          <Property Name="valueBool" Type="bit" />
-          <Property Name="valueDbl" Type="float" />
-        </EntityType>
         <!--Errors Found During Generation:
       warning 6002: The table/view 'C:\PROGRAM FILES\MICROSOFT SQL SERVER\MSSQL10_50.MSSQLSERVER\MSSQL\DATA\DATABASE.MDF.dbo.ParForCat' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
@@ -360,8 +329,8 @@
           <EntitySet Name="ConsumerSet" EntityType="Model1.Consumer" />
           <EntitySet Name="ItemCategorySet" EntityType="Model1.ItemCategory" />
           <EntitySet Name="ItemSet" EntityType="Model1.Item" />
-          <AssociationSet Name="StoreItem" Association="Model1.StoreItem">
-            <End Role="Store" EntitySet="ItemCategorySet" />
+          <AssociationSet Name="ItemCategoryItem" Association="Model1.CategoryItem">
+            <End Role="Category" EntitySet="ItemCategorySet" />
             <End Role="Item" EntitySet="ItemSet" />
           </AssociationSet>
           <EntitySet Name="PositionSet" EntityType="Model1.Position" />
@@ -405,8 +374,6 @@
             <End Role="ParameterCategory" EntitySet="ParameterCategorySet" />
             <End Role="pureJoin_IPcats" EntitySet="pureJoin_IPcatsSet" />
           </AssociationSet>
-          <EntitySet Name="Available_tables" EntityType="Model1.Available_tables" />
-          <EntitySet Name="ItemPatameterList" EntityType="Model1.ItemPatameterList" />
           </EntityContainer>
         <EntityType Name="Order">
           <Key>
@@ -447,7 +414,7 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <NavigationProperty Name="Item" Relationship="Model1.StoreItem" FromRole="Store" ToRole="Item" />
+          <NavigationProperty Name="Item" Relationship="Model1.CategoryItem" FromRole="Category" ToRole="Item" />
           <Property Type="String" Name="name" Nullable="false" />
           <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="pureJoin_IPcats" Relationship="Model1.ItemCategorypureJoin_IPcats" FromRole="ItemCategory" ToRole="pureJoin_IPcats" />
@@ -457,18 +424,18 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Store" Relationship="Model1.StoreItem" FromRole="Item" ToRole="Store" />
           <Property Type="Int32" Name="storeResidue" Nullable="false" />
           <Property Type="Int32" Name="demand" Nullable="false" />
           <Property Type="Int32" Name="catID" Nullable="false" />
           <NavigationProperty Name="ItemParameter" Relationship="Model1.ItemItemParameter" FromRole="Item" ToRole="ItemParameter" />
           <NavigationProperty Name="Position" Relationship="Model1.PositionItem" FromRole="Item" ToRole="Position" />
+          <NavigationProperty Name="ItemCategory" Relationship="Model1.CategoryItem" FromRole="Item" ToRole="Category" />
         </EntityType>
-        <Association Name="StoreItem">
-          <End Type="Model1.ItemCategory" Role="Store" Multiplicity="1" />
+        <Association Name="CategoryItem">
+          <End Type="Model1.ItemCategory" Role="Category" Multiplicity="1" />
           <End Type="Model1.Item" Role="Item" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Store">
+            <Principal Role="Category">
               <PropertyRef Name="id" />
             </Principal>
             <Dependent Role="Item">
@@ -639,23 +606,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="Available_tables">
-          <Key>
-            <PropertyRef Name="name" />
-          </Key>
-          <Property Type="String" Name="name" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="ItemPatameterList">
-          <Key>
-            <PropertyRef Name="name" />
-            <PropertyRef Name="ICID" />
-          </Key>
-          <Property Type="String" Name="name" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="Int32" Name="ICID" Nullable="false" />
-          <Property Type="String" Name="valueTxt" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="Boolean" Name="valueBool" />
-          <Property Type="Double" Name="valueDbl" />
-        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -761,24 +711,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-          <EntitySetMapping Name="Available_tables">
-            <EntityTypeMapping TypeName="Model1.Available_tables">
-              <MappingFragment StoreEntitySet="Available tables">
-                <ScalarProperty Name="name" ColumnName="name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ItemPatameterList">
-            <EntityTypeMapping TypeName="Model1.ItemPatameterList">
-              <MappingFragment StoreEntitySet="ItemPatameterList">
-                <ScalarProperty Name="valueDbl" ColumnName="valueDbl" />
-                <ScalarProperty Name="valueBool" ColumnName="valueBool" />
-                <ScalarProperty Name="valueTxt" ColumnName="valueTxt" />
-                <ScalarProperty Name="ICID" ColumnName="ICID" />
-                <ScalarProperty Name="name" ColumnName="name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
@@ -804,8 +736,8 @@
         <EntityTypeShape EntityType="Model1.Employee" Width="1.5" PointX="3" PointY="5.5" Height="2.3648893229166661" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.Consumer" Width="1.5" PointX="0.5" PointY="3.375" Height="1.9802864583333335" IsExpanded="true" />
         <EntityTypeShape EntityType="Model1.ItemCategory" Width="1.5" PointX="7.625" PointY="0.5" Height="1.59568359375" />
-        <EntityTypeShape EntityType="Model1.Item" Width="1.5" PointX="7.625" PointY="3.375" Height="2.3648893229166665" />
-        <AssociationConnector Association="Model1.StoreItem">
+        <EntityTypeShape EntityType="Model1.Item" Width="1.5" PointX="7.625" PointY="3.375" Height="2.1725878906249996" />
+        <AssociationConnector Association="Model1.CategoryItem">
           <ConnectorPoint PointX="8.375" PointY="2.2879850260416665" />
           <ConnectorPoint PointX="8.375" PointY="3.375" />
         </AssociationConnector>
@@ -852,8 +784,6 @@
           <ConnectorPoint PointX="12.5" PointY="1.8651432291666668" />
           <ConnectorPoint PointX="11.625" PointY="1.8651432291666668" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="Model1.Available_tables" Width="1.5" PointX="5.75" PointY="6.75" Height="1.2110807291666674" />
-        <EntityTypeShape EntityType="Model1.ItemPatameterList" Width="1.5" PointX="7.75" PointY="6.75" Height="1.9802864583333317" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
