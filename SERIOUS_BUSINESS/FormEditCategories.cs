@@ -11,37 +11,10 @@ using System.Linq;
 
 namespace SERIOUS_BUSINESS
 {
+    enum PType { pt_txt = 1, pt_dbl = 2, pt_bool = 3 };
     public partial class FormEditCategories : Form
     {
-        //        #region sql connection, commands, transaction and strings
-        //        private SqlConnection dbConnection;
-        //        private SqlCommand sqlCMD;
-        //        private SqlTransaction sqlTRS;
 
-        //        //!!! Insert/Delete procedures may have an impact on other tables !!!
-
-        //        private const string sqlcmd_commstr_ItemCategory_IsExist_INCOMPLETE = "SELECT COUNT(*) FROM ItemCategorySet WHERE name = @name";
-        //        private const string sqlcmd_commstr_ItemCategory_Insert_INCOMPLETE = "EXEC sp_ItemCategory_INSERT @name"; 
-        //        //+ICPC - creates designation as default property
-        //        private const string sqlcmd_commstr_ItemCategory_List = "SELECT * FROM ItemCategorySet";
-        //        private const string sqlcmd_commstr_Item_List_INCOMPLETE = "SELECT * FROM ItemSet INNER JOIN ItemParameterSet ON [ItemParameterSet].[itemID] = ItemSet.id WHERE [catID] = @catID";
-        //        private const string sqlcmd_commstr_Item_Insert = "EXEC sp_Item_INSERT @catID, @designation";
-        //        private const string sqlcmd_commstr_Item_CheckForSameDes = "EXEC sp_CheckForSameDesignation @designation";
-        //        private const string sqlcmd_commstr_Item_DesignationList_INCOMPLETE = "SELECT ItemSet.id, valueTxt FROM ItemSet INNER JOIN ItemParameterSet ON [ItemParameterSet].[itemID] = ItemSet.id WHERE [catID] = @catID AND paramCatID = (SELECT id FROM ParameterCategorySet WHERE name = 'Наименование')";
-        //        private const string sqlcmd_commstr_ItemParameterCategory_Insert_INCOMPLETE = @"IF (SELECT COUNT(*) FROM ParameterCategorySet WHERE name = @name) = 0 
-        //BEGIN
-        //	INSERT  INTO ParameterCategorySet	
-        //	VALUES (@name, @type)
-        //END";
-        //        private const string sqlcmd_commstr_ItemParameter_ListForCurItem_INCOMPLETE = "SELECT ItemParameterSet.id, name, type, valueTxt, valueDbl, valueBool FROM ItemParameterSet INNER JOIN ParameterCategorySet ON ParameterCategorySet.id = ItemParameterSet.paramCatID WHERE itemID = @itemID";
-        //        private const string sqlcmd_commstr_ItemParameter_List = "SELECT id, name AS [Название], type FROM ParameterCategorySet";
-        //        private const string sqlcmd_commstr_ItemParameter_UPDATE = "UPDATE ItemParameterSet SET [<field>] = @value WHERE id = @pid";
-        //        private const string sqlcmd_commstr_CatHasParam_INCOMPLETE = "SELECT dbo.sf_ICPC_Is_Associated(@icid, @pcid) AS RES";
-        //        private const string sqlcmd_commstr_Parameters_Update = "UPDATE ParameterCategorySet SET name = @name, type = @type WHERE id = @id";
-        //        private const string sqlcmd_commstr_ICPC_Insert = "EXEC sp_ICPC_INSERT @pcid, @icid"; //also creates all associated parameters
-        //        private const string sqlcmd_commstr_ICPC_Delete = "EXEC sp_ICPC_DELETE @pcid, @icid"; //also deletes all associated parameters
-        //        private const string sqlcmd_commstr_ICPC_Select = "SELECT * FROM pureJoin_IPcatsSet";
-        //        #endregion
         #region context & entities
         res.Model1Container database;
         IQueryable<res.ItemCategory> Categories;
@@ -49,100 +22,7 @@ namespace SERIOUS_BUSINESS
         IQueryable<NamedItem> Items;
         IQueryable<NamedParameter> CurItemParameters;
         #endregion
-        enum PType { pt_txt = 1, pt_dbl = 2, pt_bool = 3 };
         DataTable TCatParameters, TItemParameters;
-
-        private class NamedItem
-        {
-            public int id
-            {
-                get;
-                set;
-            }
-            public string name
-            {
-                get;
-                set;
-            }
-            public NamedItem() { }
-        }
-        private class AssociatedPC
-        {
-            public int id { get; set; }
-            public string name { get; set; }
-            public short type { get; set; }
-            public bool associated { get; set; }
-            public AssociatedPC() { }
-        }
-        private class NamedParameter
-        {
-            public int id { get; set; }
-            public short type { get; set; }
-            public string name { get; set; }
-            public string valueTxt { get; set; }
-            public double? valueDbl { get; set; }
-            public bool? valueBool { get; set; }
-
-            public NamedParameter() { }
-
-            public string GetValue(short _type)
-            {
-                switch (_type)
-                {
-                    case ((short)PType.pt_txt):
-                        return valueTxt;
-                    case ((short)PType.pt_dbl):
-                        return valueDbl.ToString();
-                    case ((short)PType.pt_bool):
-                        return valueBool.ToString();
-                    default:
-                        return null;
-                }
-            }
-
-            static public bool? GetTypedBValue(string _value, short _type)
-            {
-                if (_type == (short)PType.pt_bool)
-
-                    try
-                    {
-                        return bool.Parse(_value);
-                    }
-                    catch (FormatException)
-                    {
-                        throw new FormatException("Не удалось распознать значение " + _value + "\nПроверьте правильность ввода:\n Входная строка должна иметь формат {True, False}"); 
-                    }
-
-                else return null;
-            }
-
-            static public double? GetTypedDValue(string _value, short _type)
-            {
-                if (_type == (short)PType.pt_dbl)
-
-                    try
-                    {
-                        return double.Parse(_value);
-                    }
-                    catch (FormatException)
-                    {
-                        throw new FormatException("Не удалось распознать значение " + _value + "\nПроверьте правильность ввода:\n Входная строка должна иметь формат '1234,1234'");
-                    }
-
-                else return null;
-
-            }
-
-            static public string GetTypedSValue(string _value, short _type)
-            {
-                if (_type == (short)PType.pt_txt)
-
-                    return _value;
-                else return null;
-
-            }
-
-        }
         private Dictionary<RadioButton, short> PtypeSelector;
 
         public FormEditCategories(SqlConnection _dbConnection)
@@ -198,6 +78,7 @@ namespace SERIOUS_BUSINESS
             DGV_catParameters.DataSource = TCatParameters;
             DGV_itemParameters.DataSource = TItemParameters;
         }
+        private Dictionary<RadioButton, short> PtypeSelector;
 
         private void RefillCategories(object sender, EventArgs e)
         {
@@ -562,6 +443,97 @@ namespace SERIOUS_BUSINESS
             #endregion
         }
 
+
+    }
+    private class NamedItem
+    {
+        public int id
+        {
+            get;
+            set;
+        }
+        public string name
+        {
+            get;
+            set;
+        }
+        public NamedItem() { }
+    }
+    private class AssociatedPC
+    {
+        public int id { get; set; }
+        public string name { get; set; }
+        public short type { get; set; }
+        public bool associated { get; set; }
+        public AssociatedPC() { }
+    }
+    private class NamedParameter
+    {
+        public int id { get; set; }
+        public short type { get; set; }
+        public string name { get; set; }
+        public string valueTxt { get; set; }
+        public double? valueDbl { get; set; }
+        public bool? valueBool { get; set; }
+
+        public NamedParameter() { }
+
+        public string GetValue(short _type)
+        {
+            switch (_type)
+            {
+                case ((short)PType.pt_txt):
+                    return valueTxt;
+                case ((short)PType.pt_dbl):
+                    return valueDbl.ToString();
+                case ((short)PType.pt_bool):
+                    return valueBool.ToString();
+                default:
+                    return null;
+            }
+        }
+
+        static public bool? GetTypedBValue(string _value, short _type)
+        {
+            if (_type == (short)PType.pt_bool)
+
+                try
+                {
+                    return bool.Parse(_value);
+                }
+                catch (FormatException)
+                {
+                    throw new FormatException("Не удалось распознать значение " + _value + "\nПроверьте правильность ввода:\n Входная строка должна иметь формат {True, False}");
+                }
+
+            else return null;
+        }
+
+        static public double? GetTypedDValue(string _value, short _type)
+        {
+            if (_type == (short)PType.pt_dbl)
+
+                try
+                {
+                    return double.Parse(_value);
+                }
+                catch (FormatException)
+                {
+                    throw new FormatException("Не удалось распознать значение " + _value + "\nПроверьте правильность ввода:\n Входная строка должна иметь формат '1234,1234'");
+                }
+
+            else return null;
+
+        }
+
+        static public string GetTypedSValue(string _value, short _type)
+        {
+            if (_type == (short)PType.pt_txt)
+
+                return _value;
+            else return null;
+
+        }
 
     }
 }
