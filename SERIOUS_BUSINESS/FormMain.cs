@@ -13,7 +13,7 @@ namespace SERIOUS_BUSINESS
 {
     public partial class FormMain : Form
     {
-        enum accessModifiers {acc_none, acc_stock, acc_ord, acc_adm};
+        enum accessModifiers { acc_none, acc_stock, acc_ord, acc_adm };
         private res.Model1Container database;
         private res.Employee curEmpl;
         private List<TableWithAccess> availableTables;
@@ -150,7 +150,7 @@ namespace SERIOUS_BUSINESS
             new TableWithAccess("Заказы сотрудника", (int)accessModifiers.acc_ord),
             new TableWithAccess("Все заказы", (int)accessModifiers.acc_adm)});
 
-            cb_table.DataSource = availableTables;
+            cb_table.DataSource = availableTables.Where(tbl => tbl.accessMod == curEmpl.Appointment.accessModifier || curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_adm);
             cb_table.ValueMember = "accessMod";
             cb_table.DisplayMember = "name";
         }
@@ -162,27 +162,64 @@ namespace SERIOUS_BUSINESS
 
         private void cb_table_SelectedIndexChanged(object sender, EventArgs e)
         {
-            try
+            switch (cb_table.Text.ToString())
             {
-                if ((int)cb_table.SelectedValue == curEmpl.Appointment.accessModifier || curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_adm)
-                {
-                    DGV_contentsT = new DataTable();
-                    IQueryable<StockForStock> view =
-                        from item in database.ItemSet 
-                        select new StockForStock
+                case "Склад":
+                    #region stock for stock
+                    try
                     {
-                        Категория = item.ItemCategory.name,
-                        Наименование = item.ItemParameter.FirstOrDefault(par => par.ParameterCategory.name == "Наименование").valueTxt,
-                        Спрос = item.demand,
-                        Остаток = item.storeResidue
-                    };
-                    DGV.DataSource = view.ToArray();
-                }
+                        IQueryable<StockForStock> view =
+                            from item in database.ItemSet
+                            select new StockForStock
+                            {
+                                Категория = item.ItemCategory.name,
+                                Наименование = item.ItemParameter.FirstOrDefault(par => par.ParameterCategory.name == "Наименование").valueTxt,
+                                Спрос = item.demand,
+                                Остаток = item.storeResidue
+                            };
+                        DGV.DataSource = view.ToArray();
+                    }
+                    catch (Exception exc)
+                    {
+                        MessageBox.Show("Ошибка"+ exc.Message);
+                        return;
+                    }
+                    #endregion
+                    break;
+                case "Характеристики товаров":
+                    #region stock for manager
+                    try
+                    {
+                        IQueryable<StockForManager> Stock = from item in database.ItemSet
+                                                            select
+                                                                new StockForManager
+                                                                {
+                                                                    category = item.ItemCategory.name,
+                                                                    stockResidue = item.storeResidue,
+                                                                    Parameters = NamedParameter.CastToNamed(item.ItemParameter.AsQueryable())
+                                                                };
+
+                    }
+                    catch (Exception exc)
+                    {
+                        
+                        throw;
+                    }
+
+                    #endregion
+                    break;
+                case "Заказы сотрудника":
+                    #region Manager orders
+
+                    #endregion
+                    break;
+                case "Все заказы":
+                    #region All orders
+
+                    #endregion
+                    break;
             }
-            catch (InvalidCastException)
-            {
-                return;
-            }
+
         }
     }
     class TableWithAccess
@@ -205,19 +242,23 @@ namespace SERIOUS_BUSINESS
     }
     class StockForStock
     {
-        public string Категория { get;  set; }
+        public string Категория { get; set; }
         public string Наименование { get; set; }
         public int Спрос { get; set; }
         public int Остаток { get; set; }
 
-        public StockForStock(){}
+        public StockForStock() { }
 
     }
     class StockForManager
     {
-        string category { get; set; }
-        string designation { get; set; }
-        int stockResidue { get; set; }
-        
+        public string category { get; set; }
+        public int stockResidue { get; set; }
+        public List<NamedParameter> Parameters;
+
+        public StockForManager()
+        {
+            Parameters = new List<NamedParameter>();
+        }
     }
 }

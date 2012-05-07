@@ -78,7 +78,6 @@ namespace SERIOUS_BUSINESS
             DGV_catParameters.DataSource = TCatParameters;
             DGV_itemParameters.DataSource = TItemParameters;
         }
-        private Dictionary<RadioButton, short> PtypeSelector;
 
         private void RefillCategories(object sender, EventArgs e)
         {
@@ -445,7 +444,7 @@ namespace SERIOUS_BUSINESS
 
 
     }
-    private class NamedItem
+    class NamedItem
     {
         public int id
         {
@@ -459,7 +458,7 @@ namespace SERIOUS_BUSINESS
         }
         public NamedItem() { }
     }
-    private class AssociatedPC
+    class AssociatedPC
     {
         public int id { get; set; }
         public string name { get; set; }
@@ -467,7 +466,7 @@ namespace SERIOUS_BUSINESS
         public bool associated { get; set; }
         public AssociatedPC() { }
     }
-    private class NamedParameter
+    class NamedParameter
     {
         public int id { get; set; }
         public short type { get; set; }
@@ -533,6 +532,24 @@ namespace SERIOUS_BUSINESS
                 return _value;
             else return null;
 
+        }
+
+        public static List<NamedParameter> CastToNamed(IQueryable<res.ItemParameter> src)
+        {
+            List<NamedParameter> res = new List<NamedParameter>();
+            src.ToList().ForEach(par =>
+            {
+                res.Add(new NamedParameter
+                {
+                    id = par.id,
+                    name = par.ParameterCategory.name,
+                    type = par.ParameterCategory.type,
+                    valueBool = par.valueBool,
+                    valueDbl = par.valueDbl,
+                    valueTxt = par.valueTxt
+                });
+            });
+            return res;
         }
 
     }
