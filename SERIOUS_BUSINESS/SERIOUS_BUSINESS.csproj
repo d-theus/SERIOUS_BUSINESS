@@ -129,6 +129,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Settings.resx</DependentUpon>
     </Compile>
+    <Compile Include="res\Views.cs" />
     <EmbeddedResource Include="FormEditCategories.resx">
       <DependentUpon>FormEditCategories.cs</DependentUpon>
     </EmbeddedResource>

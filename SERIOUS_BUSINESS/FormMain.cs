@@ -219,7 +219,6 @@ namespace SERIOUS_BUSINESS
                     #endregion
                     break;
             }
-
         }
     }
 }
