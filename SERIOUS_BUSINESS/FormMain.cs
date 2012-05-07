@@ -167,7 +167,15 @@ namespace SERIOUS_BUSINESS
                 if ((int)cb_table.SelectedValue == curEmpl.Appointment.accessModifier || curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_adm)
                 {
                     DGV_contentsT = new DataTable();
-                    IQueryable<res.Stock_for_Stock> view = (from vrow in database.Stock_for_Stock select vrow);
+                    IQueryable<StockForStock> view =
+                        from item in database.ItemSet 
+                        select new StockForStock
+                    {
+                        Категория = item.ItemCategory.name,
+                        Наименование = item.ItemParameter.FirstOrDefault(par => par.ParameterCategory.name == "Наименование").valueTxt,
+                        Спрос = item.demand,
+                        Остаток = item.storeResidue
+                    };
                     DGV.DataSource = view.ToArray();
                 }
             }
@@ -194,5 +202,22 @@ namespace SERIOUS_BUSINESS
             this.name = _name;
             this.accessMod = _AM;
         }
+    }
+    class StockForStock
+    {
+        public string Категория { get;  set; }
+        public string Наименование { get; set; }
+        public int Спрос { get; set; }
+        public int Остаток { get; set; }
+
+        public StockForStock(){}
+
+    }
+    class StockForManager
+    {
+        string category { get; set; }
+        string designation { get; set; }
+        int stockResidue { get; set; }
+        
     }
 }
