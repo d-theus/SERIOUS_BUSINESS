@@ -222,43 +222,4 @@ namespace SERIOUS_BUSINESS
 
         }
     }
-    class TableWithAccess
-    {
-        public string name
-        {
-            get;
-            set;
-        }
-        public int accessMod
-        {
-            get;
-            set;
-        }
-        public TableWithAccess(string _name, int _AM)
-        {
-            this.name = _name;
-            this.accessMod = _AM;
-        }
-    }
-    class StockForStock
-    {
-        public string Категория { get; set; }
-        public string Наименование { get; set; }
-        public int Спрос { get; set; }
-        public int Остаток { get; set; }
-
-        public StockForStock() { }
-
-    }
-    class StockForManager
-    {
-        public string category { get; set; }
-        public int stockResidue { get; set; }
-        public List<NamedParameter> Parameters;
-
-        public StockForManager()
-        {
-            Parameters = new List<NamedParameter>();
-        }
-    }
 }
