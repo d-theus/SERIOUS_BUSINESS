@@ -54,7 +54,11 @@
             this.редактироватьToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.дОбавитьЗаписьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.удалитьЗапистьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel_search = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rb_LE = new System.Windows.Forms.RadioButton();
+            this.rb_E = new System.Windows.Forms.RadioButton();
+            this.rb_ME = new System.Windows.Forms.RadioButton();
             this.cb_parameterName = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.tb_search = new System.Windows.Forms.TextBox();
@@ -62,7 +66,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.cb_table = new System.Windows.Forms.ComboBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.panel_edit = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.btn_delete = new System.Windows.Forms.Button();
             this.btn_add = new System.Windows.Forms.Button();
@@ -72,15 +76,15 @@
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGV)).BeginInit();
             this.ms_dgvMS.SuspendLayout();
-            this.panel1.SuspendLayout();
+            this.panel_search.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
-            this.panel3.SuspendLayout();
+            this.panel_edit.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
-            this.ms_dgvMS.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -249,8 +253,9 @@
             this.DGV.Location = new System.Drawing.Point(10, 10);
             this.DGV.Margin = new System.Windows.Forms.Padding(10);
             this.DGV.Name = "DGV";
-            this.DGV.Size = new System.Drawing.Size(561, 383);
+            this.DGV.Size = new System.Drawing.Size(518, 383);
             this.DGV.TabIndex = 1;
+            this.DGV.SelectionChanged += new System.EventHandler(this.DGV_SelectionChanged);
             // 
             // ms_dgvMS
             // 
@@ -259,49 +264,97 @@
             this.дОбавитьЗаписьToolStripMenuItem,
             this.удалитьЗапистьToolStripMenuItem});
             this.ms_dgvMS.Name = "ms_dgvMS";
-            this.ms_dgvMS.Size = new System.Drawing.Size(216, 92);
+            this.ms_dgvMS.Size = new System.Drawing.Size(167, 70);
             // 
             // редактироватьToolStripMenuItem1
             // 
             this.редактироватьToolStripMenuItem1.Name = "редактироватьToolStripMenuItem1";
             this.редактироватьToolStripMenuItem1.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.E)));
-            this.редактироватьToolStripMenuItem1.Size = new System.Drawing.Size(215, 22);
+            this.редактироватьToolStripMenuItem1.Size = new System.Drawing.Size(166, 22);
             this.редактироватьToolStripMenuItem1.Text = "Редактировать";
             // 
             // дОбавитьЗаписьToolStripMenuItem
             // 
             this.дОбавитьЗаписьToolStripMenuItem.Name = "дОбавитьЗаписьToolStripMenuItem";
             this.дОбавитьЗаписьToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Insert)));
-            this.дОбавитьЗаписьToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.дОбавитьЗаписьToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.дОбавитьЗаписьToolStripMenuItem.Text = "Добавить запись";
             // 
             // удалитьЗапистьToolStripMenuItem
             // 
             this.удалитьЗапистьToolStripMenuItem.Name = "удалитьЗапистьToolStripMenuItem";
             this.удалитьЗапистьToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Delete)));
-            this.удалитьЗапистьToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
+            this.удалитьЗапистьToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.удалитьЗапистьToolStripMenuItem.Text = "Удалить запись";
             // 
-            // panel1
+            // panel_search
             // 
-            this.panel1.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.panel1.BackColor = System.Drawing.SystemColors.Control;
-            this.panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel1.Controls.Add(this.cb_parameterName);
-            this.panel1.Controls.Add(this.label1);
-            this.panel1.Controls.Add(this.tb_search);
-            this.panel1.Controls.Add(this.btn_find);
-            this.panel1.Location = new System.Drawing.Point(3, 74);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(194, 82);
-            this.panel1.TabIndex = 2;
+            this.panel_search.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.panel_search.BackColor = System.Drawing.SystemColors.Control;
+            this.panel_search.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_search.Controls.Add(this.groupBox1);
+            this.panel_search.Controls.Add(this.cb_parameterName);
+            this.panel_search.Controls.Add(this.label1);
+            this.panel_search.Controls.Add(this.tb_search);
+            this.panel_search.Controls.Add(this.btn_find);
+            this.panel_search.Enabled = false;
+            this.panel_search.Location = new System.Drawing.Point(3, 73);
+            this.panel_search.Name = "panel_search";
+            this.panel_search.Size = new System.Drawing.Size(238, 118);
+            this.panel_search.TabIndex = 2;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.rb_LE);
+            this.groupBox1.Controls.Add(this.rb_E);
+            this.groupBox1.Controls.Add(this.rb_ME);
+            this.groupBox1.Location = new System.Drawing.Point(3, 16);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(45, 87);
+            this.groupBox1.TabIndex = 4;
+            this.groupBox1.TabStop = false;
+            // 
+            // rb_LE
+            // 
+            this.rb_LE.AutoSize = true;
+            this.rb_LE.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rb_LE.Location = new System.Drawing.Point(6, 57);
+            this.rb_LE.Name = "rb_LE";
+            this.rb_LE.Size = new System.Drawing.Size(33, 20);
+            this.rb_LE.TabIndex = 2;
+            this.rb_LE.Text = "≥";
+            this.rb_LE.UseVisualStyleBackColor = true;
+            // 
+            // rb_E
+            // 
+            this.rb_E.AutoSize = true;
+            this.rb_E.Checked = true;
+            this.rb_E.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rb_E.Location = new System.Drawing.Point(6, 34);
+            this.rb_E.Name = "rb_E";
+            this.rb_E.Size = new System.Drawing.Size(33, 20);
+            this.rb_E.TabIndex = 1;
+            this.rb_E.TabStop = true;
+            this.rb_E.Text = "=";
+            this.rb_E.UseVisualStyleBackColor = true;
+            // 
+            // rb_ME
+            // 
+            this.rb_ME.AutoSize = true;
+            this.rb_ME.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rb_ME.Location = new System.Drawing.Point(6, 10);
+            this.rb_ME.Name = "rb_ME";
+            this.rb_ME.Size = new System.Drawing.Size(33, 20);
+            this.rb_ME.TabIndex = 0;
+            this.rb_ME.Text = "≤";
+            this.rb_ME.UseVisualStyleBackColor = true;
             // 
             // cb_parameterName
             // 
             this.cb_parameterName.FormattingEnabled = true;
             this.cb_parameterName.Location = new System.Drawing.Point(49, 4);
             this.cb_parameterName.Name = "cb_parameterName";
-            this.cb_parameterName.Size = new System.Drawing.Size(121, 21);
+            this.cb_parameterName.Size = new System.Drawing.Size(182, 21);
             this.cb_parameterName.TabIndex = 3;
             this.cb_parameterName.Text = "Имя параметра";
             // 
@@ -316,19 +369,21 @@
             // 
             // tb_search
             // 
-            this.tb_search.Location = new System.Drawing.Point(3, 30);
+            this.tb_search.Location = new System.Drawing.Point(51, 50);
             this.tb_search.Name = "tb_search";
-            this.tb_search.Size = new System.Drawing.Size(186, 20);
+            this.tb_search.Size = new System.Drawing.Size(182, 20);
             this.tb_search.TabIndex = 1;
             // 
             // btn_find
             // 
-            this.btn_find.Location = new System.Drawing.Point(117, 56);
+            this.btn_find.Enabled = false;
+            this.btn_find.Location = new System.Drawing.Point(156, 80);
             this.btn_find.Name = "btn_find";
             this.btn_find.Size = new System.Drawing.Size(75, 23);
             this.btn_find.TabIndex = 0;
             this.btn_find.Text = "Найти";
             this.btn_find.UseVisualStyleBackColor = true;
+            this.btn_find.Click += new System.EventHandler(this.btn_find_Click);
             // 
             // panel2
             // 
@@ -338,7 +393,7 @@
             this.panel2.Controls.Add(this.label2);
             this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(194, 64);
+            this.panel2.Size = new System.Drawing.Size(238, 64);
             this.panel2.TabIndex = 3;
             // 
             // cb_table
@@ -346,8 +401,9 @@
             this.cb_table.FormattingEnabled = true;
             this.cb_table.Location = new System.Drawing.Point(6, 28);
             this.cb_table.Name = "cb_table";
-            this.cb_table.Size = new System.Drawing.Size(182, 21);
+            this.cb_table.Size = new System.Drawing.Size(225, 21);
             this.cb_table.TabIndex = 1;
+            this.cb_table.SelectedIndexChanged += new System.EventHandler(this.cb_table_SelectedIndexChanged);
             // 
             // label2
             // 
@@ -358,18 +414,19 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Таблица";
             // 
-            // panel3
+            // panel_edit
             // 
-            this.panel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel3.Controls.Add(this.label3);
-            this.panel3.Controls.Add(this.btn_delete);
-            this.panel3.Controls.Add(this.btn_add);
-            this.panel3.Controls.Add(this.btn_edit);
-            this.panel3.Location = new System.Drawing.Point(3, 164);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(194, 104);
-            this.panel3.TabIndex = 4;
+            this.panel_edit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.panel_edit.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel_edit.Controls.Add(this.label3);
+            this.panel_edit.Controls.Add(this.btn_delete);
+            this.panel_edit.Controls.Add(this.btn_add);
+            this.panel_edit.Controls.Add(this.btn_edit);
+            this.panel_edit.Enabled = false;
+            this.panel_edit.Location = new System.Drawing.Point(3, 198);
+            this.panel_edit.Name = "panel_edit";
+            this.panel_edit.Size = new System.Drawing.Size(238, 104);
+            this.panel_edit.TabIndex = 4;
             // 
             // label3
             // 
@@ -413,22 +470,20 @@
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.panel2, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.panel1, 0, 1);
-            this.tableLayoutPanel1.Controls.Add(this.panel3, 0, 2);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 3);
+            this.tableLayoutPanel1.Controls.Add(this.panel_search, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.panel_edit, 0, 2);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 3);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 70F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 90F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(200, 271);
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 124F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 66F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(244, 305);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // splitContainer1
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
-            this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(0, 24);
             this.splitContainer1.Name = "splitContainer1";
             // 
@@ -440,35 +495,8 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tableLayoutPanel1);
             this.splitContainer1.Size = new System.Drawing.Size(792, 403);
-            this.splitContainer1.SplitterDistance = 581;
+            this.splitContainer1.SplitterDistance = 538;
             this.splitContainer1.TabIndex = 6;
-            // 
-            // ms_dgvMS
-            // 
-            this.ms_dgvMS.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.редактироватьToolStripMenuItem1,
-            this.дОбавитьЗаписьToolStripMenuItem,
-            this.удалитьЗапистьToolStripMenuItem});
-            this.ms_dgvMS.Name = "ms_dgvMS";
-            this.ms_dgvMS.Size = new System.Drawing.Size(167, 70);
-            // 
-            // редактироватьToolStripMenuItem1
-            // 
-            this.редактироватьToolStripMenuItem1.Name = "редактироватьToolStripMenuItem1";
-            this.редактироватьToolStripMenuItem1.Size = new System.Drawing.Size(166, 22);
-            this.редактироватьToolStripMenuItem1.Text = "Редактировать";
-            // 
-            // дОбавитьЗаписьToolStripMenuItem
-            // 
-            this.дОбавитьЗаписьToolStripMenuItem.Name = "дОбавитьЗаписьToolStripMenuItem";
-            this.дОбавитьЗаписьToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
-            this.дОбавитьЗаписьToolStripMenuItem.Text = "Добавить запись";
-            // 
-            // удалитьЗапистьToolStripMenuItem
-            // 
-            this.удалитьЗапистьToolStripMenuItem.Name = "удалитьЗапистьToolStripMenuItem";
-            this.удалитьЗапистьToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
-            this.удалитьЗапистьToolStripMenuItem.Text = "Удалить запись";
             // 
             // FormMain
             // 
@@ -484,18 +512,19 @@
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGV)).EndInit();
             this.ms_dgvMS.ResumeLayout(false);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.panel_search.ResumeLayout(false);
+            this.panel_search.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.panel3.ResumeLayout(false);
-            this.panel3.PerformLayout();
+            this.panel_edit.ResumeLayout(false);
+            this.panel_edit.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
-            this.ms_dgvMS.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -509,14 +538,14 @@
         private System.Windows.Forms.ToolStripMenuItem инструментыToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem генераторОтчетовToolStripMenuItem;
         private System.Windows.Forms.DataGridView DGV;
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel_search;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tb_search;
         private System.Windows.Forms.Button btn_find;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox cb_table;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panel_edit;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btn_delete;
         private System.Windows.Forms.Button btn_add;
@@ -543,6 +572,10 @@
         private System.Windows.Forms.ToolStripMenuItem редактироватьToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem дОбавитьЗаписьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem удалитьЗапистьToolStripMenuItem;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton rb_LE;
+        private System.Windows.Forms.RadioButton rb_E;
+        private System.Windows.Forms.RadioButton rb_ME;
 
     }
 }

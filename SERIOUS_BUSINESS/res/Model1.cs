@@ -2261,6 +2261,114 @@ namespace SERIOUS_BUSINESS.res
 
         #endregion
     }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="Model1", Name="Stock_for_Stock")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class Stock_for_Stock : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new Stock_for_Stock object.
+        /// </summary>
+        /// <param name="спрос">Initial value of the Спрос property.</param>
+        /// <param name="остаток">Initial value of the Остаток property.</param>
+        public static Stock_for_Stock CreateStock_for_Stock(global::System.Int32 спрос, global::System.Int32 остаток)
+        {
+            Stock_for_Stock stock_for_Stock = new Stock_for_Stock();
+            stock_for_Stock.Спрос = спрос;
+            stock_for_Stock.Остаток = остаток;
+            return stock_for_Stock;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String Наименование
+        {
+            get
+            {
+                return _Наименование;
+            }
+            set
+            {
+                OnНаименованиеChanging(value);
+                ReportPropertyChanging("Наименование");
+                _Наименование = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("Наименование");
+                OnНаименованиеChanged();
+            }
+        }
+        private global::System.String _Наименование;
+        partial void OnНаименованиеChanging(global::System.String value);
+        partial void OnНаименованиеChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Спрос
+        {
+            get
+            {
+                return _Спрос;
+            }
+            set
+            {
+                if (_Спрос != value)
+                {
+                    OnСпросChanging(value);
+                    ReportPropertyChanging("Спрос");
+                    _Спрос = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Спрос");
+                    OnСпросChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Спрос;
+        partial void OnСпросChanging(global::System.Int32 value);
+        partial void OnСпросChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Остаток
+        {
+            get
+            {
+                return _Остаток;
+            }
+            set
+            {
+                if (_Остаток != value)
+                {
+                    OnОстатокChanging(value);
+                    ReportPropertyChanging("Остаток");
+                    _Остаток = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Остаток");
+                    OnОстатокChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Остаток;
+        partial void OnОстатокChanging(global::System.Int32 value);
+        partial void OnОстатокChanged();
+
+        #endregion
+    
+    }
 
     #endregion
     

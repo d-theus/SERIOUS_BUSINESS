@@ -13,10 +13,13 @@ namespace SERIOUS_BUSINESS
 {
     public partial class FormMain : Form
     {
-        public res.Employee currentUser;
-        enum accessModifiers { acc_none, acc_store, acc_mgr, acc_adm };
-        public short currentAccess = 0;
-        public SqlConnection dbConnection = null;
+        enum accessModifiers {acc_none, acc_stock, acc_ord, acc_adm};
+        private res.Model1Container database;
+        private res.Employee curEmpl;
+        private List<TableWithAccess> availableTables;
+        private DataTable DGV_contentsT;
+        private Dictionary<RadioButton, int> searchPredicate;
+
         public FormMain()
         {
             InitializeComponent();
@@ -27,49 +30,24 @@ namespace SERIOUS_BUSINESS
             {
                 case DialogResult.OK:
                     this.Enabled = true;
-                    this.currentUser = formLogin.usr;
-                    this.Text = Settings.AppTitle + " - " + currentUser.login;
-                    this.currentUser = formLogin.usr;
-                    currentUser.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(this.user_prop_changed);
-
-#region DB - establish connection
-                    try
-                    {
-
-                        dbConnection = new SqlConnection(SERIOUS_BUSINESS.res.Settings.dbConn_ConnStr);
-                        dbConnection.Open();
-                    }
-                    catch (Exception e)
-                    {
-                        MessageBox.Show(e.Message, "Ошибка базы данных");
-                    }
-#endregion
-
-#region DB - get access modifier
-                    try
-                    {
-                        SqlCommand sqlGetAccessMod = new SqlCommand("SELECT [accessModifier] FROM dbo.AppointmentSet WHERE id =" + currentUser.aptID.ToString(), dbConnection);
-                        currentAccess = (short)sqlGetAccessMod.ExecuteScalar();
-                    }
-                    catch (Exception e)
-                    {
-                        MessageBox.Show(e.Message);
-                    }
+                    this.curEmpl = formLogin.usr;
+                    this.Text = Settings.AppTitle + " - " + curEmpl.login;
+                    #region event bindings
+                    curEmpl.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(this.user_prop_changed);
                     #endregion
 
-#region example filling dgv
-                    string sql_str_getEmployees = @"
-SELECT EmployeeSet.name AS [Сотрудник], AppointmentSet.name AS [Текущий доступ] FROM 
-EmployeeSet
-INNER JOIN
-AppointmentSet
-ON EmployeeSet.aptID = AppointmentSet.id";
-                    SqlDataAdapter tableContents = new SqlDataAdapter(sql_str_getEmployees, dbConnection);
-                    DataSet ds = new DataSet();
-                    tableContents.Fill(ds);
+                    #region DB
+                    database = new res.Model1Container();
+                    #endregion
 
-                    DGV.DataSource = ds.Tables[0];
-                    DGV.Refresh();
+                    #region Search organization
+                    searchPredicate = new Dictionary<RadioButton, int>();
+                    searchPredicate.Add(rb_ME, 1);
+                    searchPredicate.Add(rb_E, 2);
+                    searchPredicate.Add(rb_LE, 3);
+                    #endregion
+                    #region Available tables list
+                    cb_table_Init_And_Fill();
                     #endregion
 
                     break;
@@ -87,16 +65,16 @@ ON EmployeeSet.aptID = AppointmentSet.id";
         #region Account settings
         private void редактированиеПароляToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormEditEmplOne emplDlg = new FormEditEmplOne(ref this.currentUser);
+            FormEditEmplOne emplDlg = new FormEditEmplOne(ref this.curEmpl);
             emplDlg.ShowDialog();
         }
         #endregion
         #region Orders
         private void оформитьНовыйToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (currentAccess == (int)accessModifiers.acc_mgr || currentAccess == (int)accessModifiers.acc_adm)
+            if (curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_ord || curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_adm)
             {
-                FormEditOrder formOrder = new FormEditOrder(ref currentUser);
+                FormEditOrder formOrder = new FormEditOrder(ref curEmpl);
                 formOrder.Show();
             }
             else
@@ -108,7 +86,7 @@ ON EmployeeSet.aptID = AppointmentSet.id";
         #region Store
         private void оформитьПоступлениеToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (currentAccess == (int)accessModifiers.acc_store || currentAccess == (int)accessModifiers.acc_adm)
+            if (curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_stock || curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_adm)
             {
                 FormIntake formIntake = new FormIntake();
                 formIntake.ShowDialog();
@@ -121,10 +99,10 @@ ON EmployeeSet.aptID = AppointmentSet.id";
 
         private void категорииИХарактеристикиТоваровToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (currentAccess == (int)accessModifiers.acc_store || currentAccess == (int)accessModifiers.acc_adm)
+            if (curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_stock || curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_adm)
             {
-                FormEditCategories formCat = new FormEditCategories(this.dbConnection);
-                formCat.ShowDialog();
+                //FormEditCategories formCat = new FormEditCategories(this.dbConnection);
+                //formCat.ShowDialog();
             }
             else
             {
@@ -135,7 +113,7 @@ ON EmployeeSet.aptID = AppointmentSet.id";
         #region Employees
         private void новыйToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (currentAccess == (int)accessModifiers.acc_adm)
+            if (curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_adm)
             {
                 FormNewEmpl newEmpl = new FormNewEmpl();
                 newEmpl.ShowDialog();
@@ -154,7 +132,67 @@ ON EmployeeSet.aptID = AppointmentSet.id";
         #endregion
         private void user_prop_changed(Object sender, EventArgs e)
         {
-            this.Text = Settings.AppTitle + " - " + currentUser.login;
+            this.Text = Settings.AppTitle + " - " + curEmpl.login;
+        }
+
+        private void DGV_SelectionChanged(object sender, EventArgs e)
+        {
+            bool any_rows_selected = DGV.SelectedRows.Count > 0;
+            panel_edit.Enabled = any_rows_selected;
+        }
+
+        private void cb_table_Init_And_Fill()
+        {
+            availableTables = new List<TableWithAccess>();
+            availableTables.AddRange(new TableWithAccess[] { 
+            new TableWithAccess("Склад", (int)accessModifiers.acc_stock),
+            new TableWithAccess("Характеристики товаров", (int)accessModifiers.acc_ord),
+            new TableWithAccess("Заказы сотрудника", (int)accessModifiers.acc_ord),
+            new TableWithAccess("Все заказы", (int)accessModifiers.acc_adm)});
+
+            cb_table.DataSource = availableTables;
+            cb_table.ValueMember = "accessMod";
+            cb_table.DisplayMember = "name";
+        }
+
+        private void btn_find_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cb_table_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if ((int)cb_table.SelectedValue == curEmpl.Appointment.accessModifier || curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_adm)
+                {
+                    DGV_contentsT = new DataTable();
+                    IQueryable<res.Stock_for_Stock> view = (from vrow in database.Stock_for_Stock select vrow);
+                    DGV.DataSource = view.ToArray();
+                }
+            }
+            catch (InvalidCastException)
+            {
+                return;
+            }
+        }
+    }
+    class TableWithAccess
+    {
+        public string name
+        {
+            get;
+            set;
+        }
+        public int accessMod
+        {
+            get;
+            set;
+        }
+        public TableWithAccess(string _name, int _AM)
+        {
+            this.name = _name;
+            this.accessMod = _AM;
         }
     }
 }

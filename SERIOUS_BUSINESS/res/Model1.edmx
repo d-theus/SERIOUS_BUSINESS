@@ -149,7 +149,7 @@
           <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
         </EntityType>
         <!--Errors Found During Generation:
-      warning 6002: The table/view 'C:\PROGRAM FILES\MICROSOFT SQL SERVER\MSSQL10_50.MSSQLSERVER\MSSQL\DATA\DATABASE.MDF.dbo.Available tables' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
+      warning 6002: The table/view 'DATABASE.dbo.Stock_for_Stock' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
       -->
         <!--Errors Found During Generation:
       warning 6002: The table/view 'C:\PROGRAM FILES\MICROSOFT SQL SERVER\MSSQL10_50.MSSQLSERVER\MSSQL\DATA\DATABASE.MDF.dbo.ItemPatameterList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.
