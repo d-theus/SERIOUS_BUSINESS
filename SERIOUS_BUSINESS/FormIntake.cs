@@ -29,6 +29,22 @@ namespace SERIOUS_BUSINESS
             FillCategories();
         }
 
+        public FormIntake(res.Item _preselectedItem)
+        {
+            InitializeComponent();
+            database = new res.Model1Container();
+            database.Connection.Open();
+            cb_type.IsAccessible = false;
+            cb_designation.IsAccessible = false;
+            btn_accept.Enabled = false;
+
+            FillCategories();
+
+            cb_type.SelectedValue = _preselectedItem.catID;
+            RefillItems();
+            cb_designation.SelectedValue = _preselectedItem.id;
+        }
+
         private void FillCategories()
         {
             Categories = from cats in database.ItemCategorySet select cats;
