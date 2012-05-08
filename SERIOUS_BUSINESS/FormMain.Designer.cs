@@ -257,6 +257,7 @@
             this.выходToolStripMenuItem1.Name = "выходToolStripMenuItem1";
             this.выходToolStripMenuItem1.Size = new System.Drawing.Size(206, 22);
             this.выходToolStripMenuItem1.Text = "Выход";
+            this.выходToolStripMenuItem1.Click += new System.EventHandler(this.выходToolStripMenuItem1_Click);
             // 
             // DGV
             // 

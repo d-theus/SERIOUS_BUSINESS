@@ -14,8 +14,8 @@ namespace SERIOUS_BUSINESS
         res.Model1Container database;
         IQueryable<res.Employee> Employees;
         IQueryable<res.Appointment> Appointments;
-        res.Employee selEmpl;
-        public FormEditEmplSet()
+        res.Employee selEmpl, curEmpl;
+        public FormEditEmplSet(res.Employee _curEmpl)
         {
             InitializeComponent();
 
@@ -23,10 +23,13 @@ namespace SERIOUS_BUSINESS
             Employees = from emp in database.EmployeeSet select emp;
             Appointments = from app in database.AppointmentSet select app;
 
+            this.curEmpl = _curEmpl;
+
             cb_app_fill();
         }
 
-        public FormEditEmplSet(res.Employee _preselEmpl) : this()
+        public FormEditEmplSet(res.Employee _preselEmpl, res.Employee _curEmpl)
+            : this(_curEmpl)
         {
             selEmpl = _preselEmpl;
             selEmpl_Changed();
@@ -39,13 +42,23 @@ namespace SERIOUS_BUSINESS
 
         private void btn_search_Click(object sender, EventArgs e)
         {
-            selEmpl = Employees.Single(emp => emp.login == (string)tb_search.Text);
-            if (selEmpl == null)
+            if (Employees.Any(emp => emp.login == (string)tb_search.Text))
             {
-                MessageBox.Show("Поиск не дал результатов");
-                return;
+                selEmpl = Employees.Single(emp => emp.login == (string)tb_search.Text);
+                if (selEmpl == null)
+                {
+                    MessageBox.Show("Поиск не дал результатов");
+                    return;
+                }
+                selEmpl_Changed();
             }
-            selEmpl_Changed();
+            else
+            {
+                selEmpl = null;
+                lbl_id.Text = "";
+                lbl_name.Text = "";
+                MessageBox.Show("Поиск не дал результатов");
+            }
         }
 
         private void selEmpl_Changed()
@@ -54,14 +67,21 @@ namespace SERIOUS_BUSINESS
             {
                 lbl_name.Text = selEmpl.name;
                 lbl_id.Text = selEmpl.id.ToString();
-                if (selEmpl.login == "admin")
+                cb_app.Text = "";
+                cb_app.SelectedText = selEmpl.Appointment.name;
+                if (selEmpl.login == "admin" || selEmpl.id == curEmpl.id)
                 {
                     btc_accept.Enabled = false;
-                    MessageBox.Show("У администраторского аккаунта нельзя менять доступ");
+                    cb_app.Enabled = false;
+                    MessageBox.Show("У администраторского или своего аккаунта нельзя менять доступ");
                 }
                 else
+                {
                     btc_accept.Enabled = true;
+                    cb_app.Enabled = true;
+                }
             }
+
         }
 
         private void cb_app_fill()
