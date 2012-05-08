@@ -224,6 +224,10 @@ namespace SERIOUS_BUSINESS
         {
             return _new.Количество - _old.count;
         }
+        public static int Calculate(res.Position _old, int _newCount)
+        {
+            return _newCount - _old.count;
+        }
         public static void ApplyPosAndItem(ref res.Position _pos, PositionDelta _delta)
         {
             _pos.count += _delta.delta;

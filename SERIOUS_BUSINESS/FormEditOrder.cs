@@ -74,7 +74,16 @@ namespace SERIOUS_BUSINESS
 
             DGV.SelectionChanged += new EventHandler(btn_rmItem_check);
             DGV.CellValueChanged += new DataGridViewCellEventHandler(DGV_CellValueChanged);
+            DGV.CellValueChanged +=new DataGridViewCellEventHandler(DGV_contentsT_Refill);
+            DGV.DataError += new DataGridViewDataErrorEventHandler(DGV_DataError);
             #endregion
+        }
+
+        void DGV_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            MessageBox.Show("Не удалось распознать введенное значение как количество");
+            DGV_contentsT.Rows[e.RowIndex][e.ColumnIndex] = 1;
+            return;
         }
 
         public FormEditOrder(ref res.Employee curEmpl, res.Item[] _preselItems)
@@ -113,45 +122,35 @@ namespace SERIOUS_BUSINESS
 
         void DGV_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            int newVal = 0;
-            try
-            {
-                newVal = (int)DGV_contentsT.Rows[e.RowIndex][e.ColumnIndex];
-            }
-            catch (InvalidCastException)
-            {
-                MessageBox.Show("Не удалось распознать введенное значение как количество");
-                DGV_contentsT.Rows[e.RowIndex][e.ColumnIndex] = 1;
-                return;
-            }
+            int newVal = (int)DGV_contentsT.Rows[e.RowIndex][e.ColumnIndex];
+            int itemID = (int)DGV_contentsT.Rows[e.RowIndex][0];
             if (newVal <= 0)
             {
-                var cnf = MessageBox.Show(string.Format("Вы точно хотите убрать товар {0} из списка позиций?", DGV_contentsT.Rows[e.RowIndex][0]), "Внимание", MessageBoxButtons.YesNo);
+                var cnf = MessageBox.Show(string.Format("Вы точно хотите убрать товар {0} из списка позиций?", DGV_contentsT.Rows[e.RowIndex]["Наименование"]), "Внимание", MessageBoxButtons.YesNo);
                 switch (cnf)
                 {
                     case DialogResult.Yes:
-                        curPositions.RemoveAt(e.RowIndex);
+                        curPositions.RemoveAll(pos => pos.id == itemID);
                         break;
                     case DialogResult.No:
-                        DGV_contentsT.Rows[e.RowIndex][e.ColumnIndex] = 1;
+                        curPositions.Single(pos => pos.id == itemID).Количество = 1;
                         break;
                 }
             }
             else
             {
-                int itemID = (int)DGV_contentsT.Rows[e.RowIndex]["id"];
-                int residue = (from items in database.ItemSet where items.id == itemID select items.id).FirstOrDefault();
+                int residue = (from items in database.ItemSet where items.id == itemID select items.storeResidue).FirstOrDefault();
                 if (mode == (short)OrderMode.mode_edit)
                 {
-                    int delta = PositionDelta.Calculate((from pos in database.PositionSet where pos.orderID == curOrder.id select pos).FirstOrDefault(), curPositions.ElementAt(e.RowIndex));
+                    int delta = PositionDelta.Calculate((from pos in database.PositionSet where pos.orderID == curOrder.id select pos).FirstOrDefault(), newVal);
 
                     if (delta <= residue)
                     {
-                        curPositions.ElementAt(e.RowIndex).Количество = newVal;
+                        curPositions.Single(pos => pos.id == itemID).Количество = newVal;
                     }
                     else
                     {
-                        curPositions.ElementAt(e.RowIndex).Количество = residue + curPositions.ElementAt(e.RowIndex).Количество;
+                        curPositions.Single(pos => pos.id == itemID).Количество += residue;
                         MessageBox.Show("На складе не осталось такого количества товаров этого типа, в таблицу занесено максимальное количество");
                         return;
                     }
@@ -171,7 +170,7 @@ namespace SERIOUS_BUSINESS
                 }
 
             }
-            DGV_contentsT_Refill(null, null);
+            //DGV_contentsT_Refill(this, null);
         }
 
         void num_itemCount_check(object sender, EventArgs e)
@@ -379,7 +378,8 @@ namespace SERIOUS_BUSINESS
                 }
                 #endregion
 
-                database.ApplyCurrentValues("OrderSet", curOrder);
+                res.Order DBref = (from ord in database.OrderSet where ord.id == curOrder.id select ord).Single();
+                database.ApplyCurrentValues("OrderSet", DBref);
                 database.SaveChanges();
             }
         }
