@@ -228,6 +228,7 @@ namespace SERIOUS_BUSINESS
         {
             _pos.count += _delta.delta;
             _pos.Item.storeResidue -= _delta.delta;
+            _pos.Item.demand += _delta.delta;
         }
     }
 
