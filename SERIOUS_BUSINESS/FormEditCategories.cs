@@ -71,6 +71,13 @@ namespace SERIOUS_BUSINESS
             cb_existingItem.SelectedValue = _preselItem.id;
         }
 
+        public FormEditCategories(res.ItemCategory _presetCat)
+            : this()
+        {
+            cb_cat.SelectedValue = _presetCat.id;
+            RefillItems(null, null);
+        }
+
         private void InitTables()
         {
             TCatParameters = new DataTable();
