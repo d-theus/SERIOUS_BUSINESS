@@ -428,79 +428,222 @@ namespace SERIOUS_BUSINESS
 
         private void редактироватьОписаниеToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (DGV.SelectedRows.Count > 0)
+            {
+                foreach (DataGridViewRow row in DGV.SelectedRows)
+                {
+                    int selID = (int)row.Cells["id"].Value;
+                    res.Item selected = (from items in database.ItemSet where items.id == selID select items).FirstOrDefault();
+                    FormEditCategories formcats = new FormEditCategories(selected);
+                    formcats.ShowDialog();
+                }
+            }
         }
 
         private void добавитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            FormEditCategories formcats = new FormEditCategories();
+            formcats.ShowDialog();
         }
 
         private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (DGV.SelectedRows.Count > 0)
+            {
+                List<res.Item> markedForRemoval = new List<Item>();
+                bool all = true;
+                foreach (DataGridViewRow row in DGV.SelectedRows)
+                {
+                    int selID = (int)row.Cells["id"].Value;
+                    res.Item selected = (from items in database.ItemSet where items.id == selID select items).FirstOrDefault();
+                    if (selected.Position.Count == 0)
+                    {
+                        markedForRemoval.Add(selected);
+                    }
+                    else
+                    {
+                        all = false;
+                    }
+                }
+                if (!all)
+                {
+                    MessageBox.Show("Некоторые предметы нельзя удалить, так как они присутствуют в составе активных заказов");
+                }
+                if (markedForRemoval.Count > 0)
+                {
+                    #region confirmation
+                    var cnf = MessageBox.Show("Вы действительно хотите удалить эти предметы?", "Внимание", MessageBoxButtons.YesNo);
+                    if (cnf == DialogResult.No)
+                        return;
+                    #endregion
+                    foreach (var item in markedForRemoval)
+                        database.DeleteObject(item);
+                    database.SaveChanges();
+                }
+            }
         }
 
         //#### CMS_MGR_S
 
         private void добавитьВЗаказToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (DGV.SelectedRows.Count > 0)
+            {
+                List<Item> itemsToOrder = new List<Item>();
+                foreach (DataGridViewRow row in DGV.SelectedRows)
+                {
+                    int itemID = (int)row.Cells["id"].Value;
+                    Item currItem = (from items in database.ItemSet where items.id == itemID select items).Single();
+                    itemsToOrder.Add(currItem);
+                }
+                FormEditOrder order = new FormEditOrder(ref curEmpl, itemsToOrder.ToArray());
+                order.ShowDialog();
+            }
+            cb_tableOptions_SelectedIndexChanged(this, null); //refresh
         }
 
         //#### CMS_MGR_O
 
         private void новыйToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-
+            FormEditOrder order = new FormEditOrder(ref curEmpl);
+            order.ShowDialog();
+            this.cb_table_SelectedIndexChanged(this, null); //refresh
         }
 
         private void изменитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (DGV.SelectedRows.Count > 0)
+            {
+                foreach (DataGridViewRow row in DGV.SelectedRows)
+                {
+                    int selID = (int)row.Cells["Номер"].Value;
+                    Order selOrder = (from ord in database.OrderSet where ord.id == selID select ord).Single();
+                    FormEditOrder order = new FormEditOrder(ref curEmpl, ref selOrder);
+                    order.ShowDialog();
+                    this.cb_table_SelectedIndexChanged(this, null);
+                }
+            }
         }
 
         private void удалитьToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-
+            if (DGV.SelectedRows.Count > 0)
+            {
+                #region confirmation
+                if (MessageBox.Show("Вы действительно хотите удалить выбранные заказы?", "Внимание", MessageBoxButtons.YesNo) == DialogResult.No)
+                    return;
+                #endregion
+                foreach (DataGridViewRow row in DGV.SelectedRows)
+                {
+                    int selID = (int)row.Cells["Номер"].Value;
+                    Order selOrder = (from ord in database.OrderSet where ord.id == selID select ord).Single();
+                    database.DeleteObject(selOrder);
+                    this.cb_table_SelectedIndexChanged(this, null);
+                }
+                database.SaveChanges();
+            }
         }
 
         //##### CMS_ADM_O
         private void новыйЗаказToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            FormEditOrder order = new FormEditOrder(ref curEmpl);
+            order.ShowDialog();
+            this.cb_table_SelectedIndexChanged(this, null); //refresh
         }
 
         private void изменитьЗаказToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (DGV.SelectedRows.Count > 0)
+            {
+                foreach (DataGridViewRow row in DGV.SelectedRows)
+                {
+                    int selID = (int)row.Cells["Номер"].Value;
+                    Order selOrder = (from ord in database.OrderSet where ord.id == selID select ord).Single();
+                    FormEditOrder order = new FormEditOrder(ref curEmpl, ref selOrder);
+                    order.ShowDialog();
+                    this.cb_table_SelectedIndexChanged(this, null);
+                }
+            }
         }
 
         private void удалитьЗаказToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (DGV.SelectedRows.Count > 0)
+            {
+                #region confirmation
+                if (MessageBox.Show("Вы действительно хотите удалить выбранные заказы?", "Внимание", MessageBoxButtons.YesNo) == DialogResult.No)
+                    return;
+                #endregion
+                foreach (DataGridViewRow row in DGV.SelectedRows)
+                {
+                    int selID = (int)row.Cells["Номер"].Value;
+                    Order selOrder = (from ord in database.OrderSet where ord.id == selID select ord).Single();
+                    database.DeleteObject(selOrder);
+                }
+                database.SaveChanges();
+                this.cb_table_SelectedIndexChanged(this, null);
+            }
         }
 
         private void сотрудникToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (DGV.SelectedRows.Count == 1)
+            {
+                int selID = (int)DGV.SelectedRows[0].Cells["Номер"].Value;
+                Order selOrder = (from ord in database.OrderSet where ord.id == selID select ord).Single();
+                FormEditEmplSet formempl = new FormEditEmplSet(selOrder.Employee);
+                formempl.ShowDialog();
+            }
         }
 
         //##### CMS_EMPL
 
         private void новыйToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-
+            FormNewEmpl formNewEmpl = new FormNewEmpl();
+            formNewEmpl.ShowDialog();
         }
 
         private void изменитьToolStripMenuItem1_Click(object sender, EventArgs e)
         {
-
+            if (DGV.SelectedRows.Count > 0)
+            {
+                foreach (DataGridViewRow row in DGV.SelectedRows)
+                {
+                    int id = (int)row.Cells["Номер"].Value;
+                    Employee selEmpl = (from emp in database.EmployeeSet where emp.id == id select emp).Single();
+                    FormEditEmplSet formEmpl = new FormEditEmplSet(selEmpl);
+                    formEmpl.ShowDialog();
+                }
+            }
         }
 
         private void удалитьToolStripMenuItem2_Click(object sender, EventArgs e)
         {
-
+            if (DGV.SelectedRows.Count > 0)
+            {
+                #region confirmation
+                if (MessageBox.Show("Вы действительно хотите удалить выбранных сотрудников?", "Внимание", MessageBoxButtons.YesNo) == DialogResult.No)
+                    return;
+                #endregion
+                foreach (DataGridViewRow row in DGV.SelectedRows)
+                {
+                    int selID = (int)row.Cells["Номер"].Value;
+                    Employee selEmpl = (from emp in database.EmployeeSet where emp.id == selID select emp).Single();
+                    if (selEmpl.id == curEmpl.id || selEmpl.login == "admin")
+                    {
+                        MessageBox.Show("Сотрудник не может удалить себя или администратора");
+                    }
+                    else
+                    {
+                        database.DeleteObject(selEmpl);
+                    }
+                }
+                database.SaveChanges();
+                this.cb_table_SelectedIndexChanged(this, null);
+            }
         }
 
     }
