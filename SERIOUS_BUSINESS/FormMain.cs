@@ -428,17 +428,36 @@ namespace SERIOUS_BUSINESS
 
         private void редактироватьОписаниеToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (DGV.SelectedRows.Count > 0)
+            {
+                foreach (DataGridViewRow row in DGV.SelectedRows)
+                {
+                    int selID = (int)row.Cells["id"].Value;
+                    res.Item selected = (from items in database.ItemSet where items.id == selID select items).FirstOrDefault();
+                    FormEditCategories formcats = new FormEditCategories(selected);
+                    formcats.ShowDialog();
+                }
+            }
         }
 
         private void добавитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            FormEditCategories formcats = new FormEditCategories();
+            formcats.ShowDialog();
         }
 
         private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            if (DGV.SelectedRows.Count > 0)
+            {
+                foreach (DataGridViewRow row in DGV.SelectedRows)
+                {
+                    int selID = (int)row.Cells["id"].Value;
+                    res.Item selected = (from items in database.ItemSet where items.id == selID select items).FirstOrDefault();
+                    FormEditCategories formcats = new FormEditCategories(selected);
+                    formcats.ShowDialog();
+                }
+            }
         }
 
         //#### CMS_MGR_S

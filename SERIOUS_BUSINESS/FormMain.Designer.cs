@@ -470,7 +470,7 @@
             this.добавитьToolStripMenuItem,
             this.удалитьToolStripMenuItem});
             this.CMS_STORE.Name = "CMS_STORE";
-            this.CMS_STORE.Size = new System.Drawing.Size(248, 92);
+            this.CMS_STORE.Size = new System.Drawing.Size(248, 114);
             // 
             // занестиДанныеОПоступленииToolStripMenuItem1
             // 
