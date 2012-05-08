@@ -199,11 +199,17 @@ namespace SERIOUS_BUSINESS
         public string Доступ {get;set;}
         public Employees() { }
     }
-
     class AllOrders : OrdersForManager
     {
         public string Сотрудник { get; set; }
         public AllOrders () {}
+    }
+    class PositionForOrder : Object
+    {
+        public int id { get; set; }
+        public string Наименование { get; set; }
+        public int Количество { get; set; }
+        public PositionForOrder() { }
     }
 
 }

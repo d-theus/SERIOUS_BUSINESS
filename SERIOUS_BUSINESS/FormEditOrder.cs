@@ -16,22 +16,21 @@ namespace SERIOUS_BUSINESS
         private res.Model1Container database;
         private IQueryable<res.ItemCategory> Categories;
         private IQueryable<res.Item> Items;
-        private List<res.Position> curPositions;
-        private res.Position newPos = null;
-        private res.Item selItem = null;
+        private List<PositionForOrder> curPositions;
         private res.Employee curEmployee;
         private res.Consumer curConsumer;
         private res.Order curOrder;
+        int curItemStockRes = 0;
 
         private DataTable DGV_contentsT;
+
         public FormEditOrder(ref res.Employee curEmpl)
         {
             InitializeComponent();
             curEmployee = curEmpl;
-            DGV_contentsT_Init();
             #region database context & entities filling
             database = new res.Model1Container();
-            curPositions = new List<res.Position>();
+            curPositions = new List<PositionForOrder>();
             curOrder = res.Order.CreateOrder(-1, DateTime.Now, "Обработка", -1, -1);
             Items = from it in database.ItemSet select it;
             Categories = from cat in database.ItemCategorySet select cat;
@@ -45,29 +44,104 @@ namespace SERIOUS_BUSINESS
             #endregion
             #region event_bindings
             cb_itemType.SelectedValueChanged += new EventHandler(btn_addPos_check);
+            cb_itemType.SelectedValueChanged += new EventHandler(this.cb_itemType_SelectedIndexChanged);
+
+            cb_itemDesignation.SelectedIndexChanged += new EventHandler(this.cb_itemDesignation_SelectedIndexChanged);
+            cb_itemDesignation.SelectedValueChanged += new EventHandler(this.num_itemCount_check);
             cb_itemDesignation.SelectedValueChanged += new EventHandler(btn_addPos_check);
             cb_itemDesignation.SelectedValueChanged += new EventHandler(num_itemCount_anull);
+
             num_itemCount.ValueChanged += new EventHandler(btn_addPos_check);
             num_itemCount.ValueChanged += new EventHandler(num_itemCount_ValueChanged);
+
+            btn_addItem.Click += new EventHandler(btn_addItem_Click);
             btn_addItem.Click += new EventHandler(btn_rmItem_check);
-            btn_rmItem.Click += new EventHandler(btn_rmItem_check);
             btn_addItem.Click += new EventHandler(DGV_contentsT_Refill);
+            btn_addItem.Click +=new EventHandler(this.btn_accept_check);
+
+            btn_rmItem.Click +=new EventHandler(btn_rmItem_Click);
+            btn_rmItem.Click += new EventHandler(btn_rmItem_check);
             btn_rmItem.Click += new EventHandler(DGV_contentsT_Refill);
+            btn_rmItem.Click += new EventHandler(this.btn_accept_check);
+
+            btn_accept.Click += new EventHandler(btn_accept_Click);
+
+            tb_Name.TextChanged += new EventHandler(this.btn_accept_check);
+            tb_phone.TextChanged +=new EventHandler(this.btn_accept_check);
+
             DGV.SelectionChanged += new EventHandler(btn_rmItem_check);
+            DGV.CellValueChanged += new DataGridViewCellEventHandler(DGV_CellValueChanged);
             #endregion
+        }
+
+        public FormEditOrder(ref res.Employee curEmpl, res.Item[] _preselItems) : this(ref curEmpl) 
+        {
+            bool all = true;
+            foreach (var item in _preselItems)
+            {
+                if (item.storeResidue >= 1)
+                {
+                    curPositions.Add(new PositionForOrder { id = item.id, Наименование = item.ItemParameter.Single(par => par.ParameterCategory.name == "Наименование").valueTxt, Количество = 1 });
+                }
+                else
+                {
+                    all = false;
+                }
+            }
+            DGV_contentsT_Refill(null, null);
+            if (!all) MessageBox.Show("Некоторых позиций в данный момент нет на складе, они не были добавлены в список");
+        }
+
+        void DGV_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            int newVal = 0;
+            try
+            {
+                newVal = (int)DGV_contentsT.Rows[e.RowIndex][e.ColumnIndex];
+            }
+            catch (InvalidCastException)
+            {
+                MessageBox.Show("Не удалось распознать введенное значение как количество");
+                DGV_contentsT.Rows[e.RowIndex][e.ColumnIndex] = 1;
+                return;
+            }
+            if (newVal <= 0)
+            {
+                var cnf = MessageBox.Show(string.Format("Вы точно хотите убрать товар {0} из списка позиций?", DGV_contentsT.Rows[e.RowIndex][0]), "Внимание", MessageBoxButtons.YesNo);
+                switch (cnf)
+                {
+                    case DialogResult.Yes:
+                        curPositions.RemoveAt(e.RowIndex);
+                        break;
+                    case DialogResult.No:
+                        DGV_contentsT.Rows[e.RowIndex][e.ColumnIndex] = 1;
+                        break;
+                }
+            }
+            else
+            {
+                curPositions.ElementAt(e.RowIndex).Количество = newVal;
+            }
+            DGV_contentsT_Refill(null, null);
         }
 
         void num_itemCount_check(object sender, EventArgs e)
         {
-            num_itemCount.Enabled = newPos != null;
+            try
+            {
+                num_itemCount.Enabled = (int)cb_itemDesignation.SelectedValue > 0;
+            }
+            catch (InvalidCastException)
+            {
+                return;
+            }
         }
 
         void num_itemCount_ValueChanged(object sender, EventArgs e)
         {
-            if (selItem != null && newPos != null)
+            if ((int)num_itemCount.Value > curItemStockRes)
             {
-                if (num_itemCount.Value > selItem.storeResidue) num_itemCount.Value = selItem.storeResidue;
-                newPos.count = (int)num_itemCount.Value;
+                num_itemCount.Value = curItemStockRes;
             }
         }
 
@@ -106,25 +180,22 @@ namespace SERIOUS_BUSINESS
         {
             try
             {
-                selItem = Items.Single(it => it.id == (int)cb_itemDesignation.SelectedValue);
-                if (selItem != null)
-                    newPos = res.Position.CreatePosition(-1, -1, 0, selItem.id);
+                if (Items.Any(itm => itm.id == (int)cb_itemDesignation.SelectedValue))
+                {
+                    curItemStockRes = Items.Single(item => item.ItemParameter.FirstOrDefault(p => p.ParameterCategory.name == "Наименование").valueTxt == cb_itemDesignation.Text).storeResidue;
+                }
             }
-            catch (System.InvalidCastException)
+            catch (InvalidCastException)
             {
-                selItem = null;
-                newPos = null;
-            }
-            finally
-            {
-                num_itemCount_check(null, null);
+                return;
             }
         }
 
         private void btn_addItem_Click(object sender, EventArgs e)
         {
             #region check for same
-            if (curPositions.Any(pos => pos.itemID == newPos.itemID))
+            MessageBox.Show("Selected id: "+cb_itemDesignation.SelectedValue);
+            if (curPositions.Any(pos => pos.id == (int)cb_itemDesignation.SelectedValue))
             {
                 MessageBox.Show("Позиция с таким товаром уже есть в списке заказа", "Ошибка добавления позиции");
                 return;
@@ -132,7 +203,15 @@ namespace SERIOUS_BUSINESS
             #endregion
             else
             {
-                curPositions.Add(res.Position.CreatePosition(-1, -1, newPos.count, newPos.itemID));
+                try
+                {
+                    curPositions.Add(new PositionForOrder { id = (int)cb_itemDesignation.SelectedValue, Наименование = cb_itemDesignation.Text, Количество = (int)num_itemCount.Value });
+                }
+                catch (InvalidCastException)
+                {
+                    MessageBox.Show("Ошибка добавления");
+                    return;
+                }
             }
         }
 
@@ -146,24 +225,10 @@ namespace SERIOUS_BUSINESS
             btn_rmItem.Enabled = curPositions.Count > 0 && DGV.SelectedRows.Count > 0;
         }
 
-        private void DGV_contentsT_Init()
-        {
-            DGV_contentsT = new DataTable();
-            DGV_contentsT.Columns.Add(new DataColumn("Наименование", "".GetType()));
-            DGV_contentsT.Columns["Наименование"].ReadOnly = true;
-            DGV_contentsT.Columns.Add(new DataColumn("Количество", 1.GetType()));
-        }
-
         private void DGV_contentsT_Refill(object sender, EventArgs e)
         {
-            DGV_contentsT.Clear();
-            foreach (var ent in curPositions)
-            {
-                DataRow newrow = DGV_contentsT.NewRow();
-                newrow["Наименование"] = Items.Single(item => item.id == newPos.itemID).ItemParameter.Single(param => param.ParameterCategory.name == "Наименование").valueTxt;
-                newrow["Количество"] = ent.count;
-                DGV_contentsT.Rows.Add(newrow);
-            }
+            TableOperator.SetNewContentCommon(curPositions.ToArray(), ref DGV_contentsT);
+            DGV.DataSource = DGV_contentsT;
         }
 
         private void btn_rmItem_Click(object sender, EventArgs e)
@@ -182,12 +247,12 @@ namespace SERIOUS_BUSINESS
         private void btn_accept_Click(object sender, EventArgs e)
         {
             #region check if items still available
-            foreach (res.Position pos in curPositions)
+            foreach (PositionForOrder pos in curPositions)
             {
-                if (pos.count > (from item in database.ItemSet where item.id == pos.itemID select item.storeResidue).Single())
+                if (pos.Количество > (from item in database.ItemSet where item.id == pos.id select item.storeResidue).Single())
                 {
                     Items = from it in database.ItemSet select it;
-                    string message = string.Format("Во время составления заказа на складе стало нехватать предметов {0}. Данные об изменении занесены, перезаполните поля.", pos.Item.ItemParameter.Single(par => par.ParameterCategory.name == "Наименование"));
+                    string message = string.Format("Во время составления заказа на складе стало нехватать предметов {0}. Данные об изменении занесены, перезаполните поля.", pos.Наименование);
                     MessageBox.Show(message, "Внимание");
                     return;
                 }
@@ -204,15 +269,15 @@ namespace SERIOUS_BUSINESS
             #endregion
 
             #region add order and positions, decrease stock residues
-            newPos = null;
+
             database.AddToOrderSet(curOrder);
             curConsumer = res.Consumer.CreateConsumer(tb_Name.Text, tb_phone.Text, tb_email.Text, -1);
             curOrder.emplID = curEmployee.id;
             curOrder.Consumer = curConsumer;
             foreach (var ent in curPositions)
             {
-                Items.Single(item => item.id == ent.itemID).storeResidue -= ent.count;
-                curOrder.Position.Add(ent);
+                Items.Single(item => item.id == ent.id).storeResidue -= ent.Количество;
+                curOrder.Position.Add(res.Position.CreatePosition(0, 0, ent.Количество, ent.id));
             }
             database.SaveChanges();
             this.Close();
