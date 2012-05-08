@@ -24,7 +24,7 @@ namespace SERIOUS_BUSINESS
         DataTable TCatParameters, TItemParameters;
         private Dictionary<RadioButton, short> PtypeSelector;
 
-        public FormEditCategories(SqlConnection _dbConnection)
+        public FormEditCategories()
         {
             InitializeComponent();
             #region Event Bindings
@@ -62,6 +62,13 @@ namespace SERIOUS_BUSINESS
             InitTables();
             FillPTypeSelector();
             RefillCategories(null, null);
+        }
+
+        public FormEditCategories(res.Item _preselItem) : this()
+        {
+            cb_cat.SelectedValue = _preselItem.catID;
+            RefillItems(null, null);
+            cb_existingItem.SelectedValue = _preselItem.id;
         }
 
         private void InitTables()
