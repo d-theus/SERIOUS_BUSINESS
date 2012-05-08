@@ -26,6 +26,12 @@ namespace SERIOUS_BUSINESS
             cb_app_fill();
         }
 
+        public FormEditEmplSet(res.Employee _preselEmpl) : this()
+        {
+            selEmpl = _preselEmpl;
+            selEmpl_Changed();
+        }
+
         private void tb_search_TextChanged(object sender, EventArgs e)
         {
             btn_search.Enabled = !tb_search.Text.Equals("");
