@@ -130,6 +130,7 @@
       <DependentUpon>Settings.resx</DependentUpon>
     </Compile>
     <Compile Include="res\Views.cs" />
+    <Compile Include="TableOperator.cs" />
     <EmbeddedResource Include="FormEditCategories.resx">
       <DependentUpon>FormEditCategories.cs</DependentUpon>
     </EmbeddedResource>

@@ -28,6 +28,7 @@ namespace SERIOUS_BUSINESS
                 #region Columns
                 if (src.Any())
                 {
+                    des.Columns.Add("id", 1.GetType());
                     foreach (var par in src.First().Parameters.OrderBy(par => par.id).AsEnumerable())
                     {
                         des.Columns.Add(new DataColumn(par.name, par.GetTypedValue().GetType()));
@@ -39,6 +40,7 @@ namespace SERIOUS_BUSINESS
                     {
                         DataRow nrow = des.NewRow();
                         int i = 0;
+                        nrow[i++] = item.id;
                         item.Parameters.ForEach(par =>
                         {
                             nrow[i] = par.GetTypedValue();
