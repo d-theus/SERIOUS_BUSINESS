@@ -25,46 +25,28 @@ namespace SERIOUS_BUSINESS
         {
             InitializeComponent();
             this.Hide();
-            FormLogin formLogin = new FormLogin();
-            DialogResult res = formLogin.ShowDialog();
-            switch (res)
-            {
-                case DialogResult.OK:
-                    this.Enabled = true;
-                    this.curEmpl = formLogin.usr;
-                    this.Text = Settings.AppTitle + " - " + curEmpl.login;
-                    #region event bindings
-                    curEmpl.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(this.user_prop_changed);
+            Login();
 
-                    cb_table.SelectedIndexChanged += new EventHandler(this.check_cb_tableOptions);
-                    cb_table.SelectedIndexChanged += new EventHandler(this.cb_table_SelectedIndexChanged);
+            #region event bindings
 
-                    cb_tableOptions.SelectedIndexChanged += new EventHandler(cb_tableOptions_SelectedIndexChanged);
+            cb_table.SelectedIndexChanged += new EventHandler(this.check_cb_tableOptions);
+            cb_table.SelectedIndexChanged += new EventHandler(this.cb_table_SelectedIndexChanged);
 
-                    cb_parameterName.SelectedIndexChanged += new EventHandler(cb_parameterName_SelectedIndexChanged);
+            cb_tableOptions.SelectedIndexChanged += new EventHandler(cb_tableOptions_SelectedIndexChanged);
 
-                    tb_search.TextChanged += new EventHandler(tb_search_TextChanged);
+            cb_parameterName.SelectedIndexChanged += new EventHandler(cb_parameterName_SelectedIndexChanged);
 
-                    DGV.SelectionChanged += new EventHandler(this.check_panel_Search);
-                    DGV.DataSourceChanged += new EventHandler(this.cb_cb_parameterName_Refill);
-                    DGV.DataSourceChanged += new EventHandler(this.check_btn_Search);
+            tb_search.TextChanged += new EventHandler(tb_search_TextChanged);
 
-                    btn_find.Click += new EventHandler(btn_find_Click);
+            DGV.SelectionChanged += new EventHandler(this.check_panel_Search);
+            DGV.DataSourceChanged += new EventHandler(this.cb_cb_parameterName_Refill);
+            DGV.DataSourceChanged += new EventHandler(this.check_btn_Search);
 
-                    btn_ClearFilter.Click += new EventHandler(btn_ClearFilter_Click);
+            btn_find.Click += new EventHandler(btn_find_Click);
 
-                    #endregion
+            btn_ClearFilter.Click += new EventHandler(btn_ClearFilter_Click);
 
-                    database = new res.Model1Container();
-                    search_Panel_Initialization();
-                    cb_table_Init_And_Fill();
-
-                    break;
-                default:
-                    MessageBox.Show("Окно авторизации было закрыто", "Ошибка авторизации");
-                    break;
-            }
-
+            #endregion
         }
 
 
@@ -95,6 +77,41 @@ namespace SERIOUS_BUSINESS
             searchPredicate.Add(rb_ME, ME);
             searchPredicate.Add(rb_E, E);
             searchPredicate.Add(rb_LE, LE);
+        }
+
+        //################# IDENTIFICATION ############################
+
+        private void Login()
+        {
+            FormLogin formLogin = new FormLogin();
+            DialogResult res = formLogin.ShowDialog();
+            switch (res)
+            {
+                case DialogResult.OK:
+                    this.Enabled = true;
+                    this.curEmpl = formLogin.usr;
+                    curEmpl.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(this.user_prop_changed);
+                    this.Text = Settings.AppTitle + " - " + curEmpl.login;
+
+                    database = new res.Model1Container();
+                    search_Panel_Initialization();
+                    cb_table_Init_And_Fill();
+
+                    this.Enabled = true;
+                    this.Show();
+
+                    break;
+                default:
+                    MessageBox.Show("Окно авторизации было закрыто", "Ошибка авторизации");
+                    break;
+            }
+        }
+
+        private void Logout()
+        {
+            this.curEmpl = null;
+            this.Enabled = false;
+            this.Hide();
         }
 
         //################# COMBO BOXES ###############################
@@ -368,8 +385,8 @@ namespace SERIOUS_BUSINESS
         {
             if (curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_stock || curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_adm)
             {
-                //FormEditCategories formCat = new FormEditCategories();
-                //formCat.ShowDialog();
+                FormEditCategories formCat = new FormEditCategories();
+                formCat.ShowDialog();
             }
             else
             {
@@ -392,13 +409,26 @@ namespace SERIOUS_BUSINESS
 
         private void редактироватьToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormEditEmplSet formEmplSet = new FormEditEmplSet();
-            formEmplSet.ShowDialog();
+            if (curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_adm)
+            {
+                FormEditEmplSet formEmplSet = new FormEditEmplSet(curEmpl);
+                formEmplSet.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Ваш уровень доступа не позволяет совершить это действие", "Ошибка аутентификации", MessageBoxButtons.OK);
+            }
         }
 
         private void выходToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void выходToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Logout();
+            Login();
         }
 
         //################# EXTERNAL EVENTS HANDLERS####################
@@ -614,7 +644,7 @@ namespace SERIOUS_BUSINESS
                 {
                     int id = (int)row.Cells["Номер"].Value;
                     Employee selEmpl = (from emp in database.EmployeeSet where emp.id == id select emp).Single();
-                    FormEditEmplSet formEmpl = new FormEditEmplSet(selEmpl);
+                    FormEditEmplSet formEmpl = new FormEditEmplSet(selEmpl, curEmpl);
                     formEmpl.ShowDialog();
                 }
             }
