@@ -102,7 +102,6 @@
             this.cb_itemType.Name = "cb_itemType";
             this.cb_itemType.Size = new System.Drawing.Size(272, 21);
             this.cb_itemType.TabIndex = 4;
-            this.cb_itemType.SelectedIndexChanged += new System.EventHandler(this.cb_itemType_SelectedIndexChanged);
             // 
             // cb_itemDesignation
             // 
@@ -111,7 +110,6 @@
             this.cb_itemDesignation.Name = "cb_itemDesignation";
             this.cb_itemDesignation.Size = new System.Drawing.Size(233, 21);
             this.cb_itemDesignation.TabIndex = 5;
-            this.cb_itemDesignation.SelectedIndexChanged += new System.EventHandler(this.cb_itemDesignation_SelectedIndexChanged);
             // 
             // num_itemCount
             // 
@@ -127,7 +125,6 @@
             this.tb_Name.Name = "tb_Name";
             this.tb_Name.Size = new System.Drawing.Size(275, 20);
             this.tb_Name.TabIndex = 8;
-            this.tb_Name.TextChanged += new System.EventHandler(this.btn_accept_check);
             // 
             // groupBox1
             // 
@@ -156,7 +153,6 @@
             this.btn_rmItem.TabIndex = 18;
             this.btn_rmItem.Text = "-";
             this.btn_rmItem.UseVisualStyleBackColor = true;
-            this.btn_rmItem.Click += new System.EventHandler(this.btn_rmItem_Click);
             // 
             // btn_addItem
             // 
@@ -167,7 +163,6 @@
             this.btn_addItem.TabIndex = 7;
             this.btn_addItem.Text = "+";
             this.btn_addItem.UseVisualStyleBackColor = true;
-            this.btn_addItem.Click += new System.EventHandler(this.btn_addItem_Click);
             // 
             // DGV
             // 
@@ -199,7 +194,6 @@
             this.tb_email.Name = "tb_email";
             this.tb_email.Size = new System.Drawing.Size(275, 20);
             this.tb_email.TabIndex = 13;
-            this.tb_email.TextChanged += new System.EventHandler(this.btn_accept_check);
             // 
             // label7
             // 
@@ -216,7 +210,6 @@
             this.tb_phone.Name = "tb_phone";
             this.tb_phone.Size = new System.Drawing.Size(275, 20);
             this.tb_phone.TabIndex = 11;
-            this.tb_phone.TextChanged += new System.EventHandler(this.btn_accept_check);
             // 
             // label6
             // 
@@ -254,7 +247,6 @@
             this.btn_accept.TabIndex = 13;
             this.btn_accept.Text = "Подтвердить";
             this.btn_accept.UseVisualStyleBackColor = true;
-            this.btn_accept.Click += new System.EventHandler(this.btn_accept_Click);
             // 
             // lbl_num
             // 
