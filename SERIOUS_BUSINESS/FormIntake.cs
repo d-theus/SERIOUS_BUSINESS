@@ -40,8 +40,9 @@ namespace SERIOUS_BUSINESS
 
             FillCategories();
 
-            cb_type.SelectedItem = Categories.ToArray<res.ItemCategory>().Single(cat => cat.id == _preselectedItem.catID);
-            cb_designation.SelectedItem = _preselectedItem.ItemParameter.Single(par => par.ParameterCategory.name == "Наименование");
+            cb_type.SelectedValue = _preselectedItem.catID;
+            RefillItems();
+            cb_designation.SelectedValue = _preselectedItem.id;
         }
 
         private void FillCategories()

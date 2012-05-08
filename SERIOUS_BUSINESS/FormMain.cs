@@ -49,10 +49,10 @@ namespace SERIOUS_BUSINESS
                     DGV.DataSourceChanged += new EventHandler(this.cb_cb_parameterName_Refill);
                     DGV.DataSourceChanged += new EventHandler(this.check_btn_Search);
 
-                    btn_find.Click +=new EventHandler(btn_find_Click);
+                    btn_find.Click += new EventHandler(btn_find_Click);
 
                     btn_ClearFilter.Click += new EventHandler(btn_ClearFilter_Click);
-                    
+
                     #endregion
 
                     database = new res.Model1Container();
@@ -98,7 +98,7 @@ namespace SERIOUS_BUSINESS
         }
 
         //################# COMBO BOXES ###############################
-        
+
         private void cb_table_SelectedIndexChanged(object sender, EventArgs e)
         {
             switch (cb_table.Text.ToString())
@@ -111,12 +111,13 @@ namespace SERIOUS_BUSINESS
                             from item in database.ItemSet
                             select new StockForStock
                             {
+                                id = item.id,
                                 Категория = item.ItemCategory.name,
                                 Наименование = item.ItemParameter.FirstOrDefault(par => par.ParameterCategory.name == "Наименование").valueTxt,
                                 Спрос = item.demand,
                                 Остаток = item.storeResidue
                             };
-                        TableOperator.SetNewContentCommon(view.ToArray(),ref DGV_contentsT);
+                        TableOperator.SetNewContentCommon(view.ToArray(), ref DGV_contentsT);
                         DGV.DataSource = DGV_contentsT;
                     }
                     catch (Exception exc)
@@ -174,7 +175,7 @@ namespace SERIOUS_BUSINESS
                     #endregion
                     break;
                 case "Сотрудники":
-                #region Employees
+                    #region Employees
                     try
                     {
                         IEnumerable<Employees> EView = from emp in database.EmployeeSet
@@ -191,9 +192,9 @@ namespace SERIOUS_BUSINESS
                     }
                     catch (Exception exc)
                     {
-                        MessageBox.Show("Произошла ошибка :\n"+exc.Message);
+                        MessageBox.Show("Произошла ошибка :\n" + exc.Message);
                     }
-                #endregion
+                    #endregion
                     break;
             }
 
@@ -272,9 +273,9 @@ namespace SERIOUS_BUSINESS
                 return;
             }
         }
-        
+
         //################# ENABLE CHECKS #############################
-        
+
         private void check_panel_Search(object sender, EventArgs e)
         {
             panel_Search.Enabled = DGV.RowCount > 1;
@@ -314,7 +315,7 @@ namespace SERIOUS_BUSINESS
         //################# CLICK HANDLERS ############################
 
         private void btn_find_Click(object sender, EventArgs e)
-        {   
+        {
             int selectedIndex = DGV_contentsT.Columns[cb_parameterName.Text].Ordinal;
             DGV.DataSource = TableOperator.Where(ref DGV_contentsT, row => searchPredicate.FirstOrDefault(  //select predicate
                 ent => ent.Key.Checked).Value(row[selectedIndex].ToString(),                                //first pred arg
@@ -405,6 +406,101 @@ namespace SERIOUS_BUSINESS
         private void user_prop_changed(Object sender, EventArgs e)
         {
             this.Text = Settings.AppTitle + " - " + curEmpl.login;
+        }
+
+        //################# MENU STRIP HANDLERS ########################
+
+        //##### CMS_STORE
+
+        private void занестиДанныеОПоступленииToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (DGV.SelectedRows.Count > 0)
+            {
+                foreach (DataGridViewRow row in DGV.SelectedRows)
+                {
+                    int selID = (int)row.Cells["id"].Value;
+                    res.Item selected = (from items in database.ItemSet where items.id == selID select items).FirstOrDefault();
+                    FormIntake formIntake = new FormIntake(selected);
+                    formIntake.ShowDialog();
+                }
+            }
+        }
+
+        private void редактироватьОписаниеToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void добавитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        //#### CMS_MGR_S
+
+        private void добавитьВЗаказToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        //#### CMS_MGR_O
+
+        private void новыйToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void изменитьToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void удалитьToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        //##### CMS_ADM_O
+        private void новыйЗаказToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void изменитьЗаказToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void удалитьЗаказToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void сотрудникToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        //##### CMS_EMPL
+
+        private void новыйToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void изменитьToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void удалитьToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+
         }
 
     }

@@ -163,6 +163,7 @@ namespace SERIOUS_BUSINESS
     }
     class StockForStock:Object
     {
+        public int id { get; set; }
         public string Категория { get; set; }
         public string Наименование { get; set; }
         public int Спрос { get; set; }
