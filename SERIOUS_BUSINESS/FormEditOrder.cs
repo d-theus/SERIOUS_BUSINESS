@@ -13,6 +13,8 @@ namespace SERIOUS_BUSINESS
 {
     public partial class FormEditOrder : Form
     {
+        enum OrderMode { mode_new, mode_edit };
+        short mode;
         private res.Model1Container database;
         private IQueryable<res.ItemCategory> Categories;
         private IQueryable<res.Item> Items;
@@ -27,6 +29,7 @@ namespace SERIOUS_BUSINESS
         public FormEditOrder(ref res.Employee curEmpl)
         {
             InitializeComponent();
+            mode = (short)OrderMode.mode_new;
             curEmployee = curEmpl;
             #region database context & entities filling
             database = new res.Model1Container();
@@ -57,9 +60,9 @@ namespace SERIOUS_BUSINESS
             btn_addItem.Click += new EventHandler(btn_addItem_Click);
             btn_addItem.Click += new EventHandler(btn_rmItem_check);
             btn_addItem.Click += new EventHandler(DGV_contentsT_Refill);
-            btn_addItem.Click +=new EventHandler(this.btn_accept_check);
+            btn_addItem.Click += new EventHandler(this.btn_accept_check);
 
-            btn_rmItem.Click +=new EventHandler(btn_rmItem_Click);
+            btn_rmItem.Click += new EventHandler(btn_rmItem_Click);
             btn_rmItem.Click += new EventHandler(btn_rmItem_check);
             btn_rmItem.Click += new EventHandler(DGV_contentsT_Refill);
             btn_rmItem.Click += new EventHandler(this.btn_accept_check);
@@ -67,14 +70,15 @@ namespace SERIOUS_BUSINESS
             btn_accept.Click += new EventHandler(btn_accept_Click);
 
             tb_Name.TextChanged += new EventHandler(this.btn_accept_check);
-            tb_phone.TextChanged +=new EventHandler(this.btn_accept_check);
+            tb_phone.TextChanged += new EventHandler(this.btn_accept_check);
 
             DGV.SelectionChanged += new EventHandler(btn_rmItem_check);
             DGV.CellValueChanged += new DataGridViewCellEventHandler(DGV_CellValueChanged);
             #endregion
         }
 
-        public FormEditOrder(ref res.Employee curEmpl, res.Item[] _preselItems) : this(ref curEmpl) 
+        public FormEditOrder(ref res.Employee curEmpl, res.Item[] _preselItems)
+            : this(ref curEmpl)
         {
             bool all = true;
             foreach (var item in _preselItems)
@@ -90,6 +94,19 @@ namespace SERIOUS_BUSINESS
             }
             DGV_contentsT_Refill(null, null);
             if (!all) MessageBox.Show("Некоторых позиций в данный момент нет на складе, они не были добавлены в список");
+        }
+
+        public FormEditOrder(ref res.Employee curEmpl, ref res.Order _presetOrder)
+            : this(ref curEmpl)
+        {
+            this.curOrder = _presetOrder;
+            this.mode = (short)OrderMode.mode_edit;
+            this.lbl_num.Text = _presetOrder.id.ToString();
+            foreach (var pos in _presetOrder.Position)
+                this.curPositions.Add(new PositionForOrder { id = pos.itemID, Количество = pos.count, Наименование = pos.Item.ItemParameter.Single(par => par.ParameterCategory.name == "Наименование").valueTxt });
+            this.tb_Name.Text = _presetOrder.Consumer.name;
+            this.tb_phone.Text = _presetOrder.Consumer.phone;
+            this.tb_email.Text = _presetOrder.Consumer.email;
         }
 
         void DGV_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -120,7 +137,37 @@ namespace SERIOUS_BUSINESS
             }
             else
             {
-                curPositions.ElementAt(e.RowIndex).Количество = newVal;
+                int itemID = (int)DGV_contentsT.Rows[e.RowIndex]["id"];
+                int residue = (from items in database.ItemSet where items.id == itemID select items.id).FirstOrDefault();
+                if (mode == (short)OrderMode.mode_edit)
+                {
+                    int delta = PositionDelta.Calculate((from pos in database.PositionSet where pos.orderID == curOrder.id select pos).FirstOrDefault(), curPositions.ElementAt(e.RowIndex));
+
+                    if (delta <= residue)
+                    {
+                        curPositions.ElementAt(e.RowIndex).Количество = newVal;
+                    }
+                    else
+                    {
+                        curPositions.ElementAt(e.RowIndex).Количество = residue + curPositions.ElementAt(e.RowIndex).Количество;
+                        MessageBox.Show("На складе не осталось такого количества товаров этого типа, в таблицу занесено максимальное количество");
+                        return;
+                    }
+                }
+                else
+                {
+                    if (newVal <= residue)
+                    {
+                        curPositions.ElementAt(e.RowIndex).Количество = newVal;
+                    }
+                    else
+                    {
+                        curPositions.ElementAt(e.RowIndex).Количество = residue;
+                        MessageBox.Show("На складе не осталось такого количества товаров этого типа, в таблицу занесено максимальное количество");
+                        return;
+                    }
+                }
+
             }
             DGV_contentsT_Refill(null, null);
         }
@@ -194,7 +241,7 @@ namespace SERIOUS_BUSINESS
         private void btn_addItem_Click(object sender, EventArgs e)
         {
             #region check for same
-            MessageBox.Show("Selected id: "+cb_itemDesignation.SelectedValue);
+            MessageBox.Show("Selected id: " + cb_itemDesignation.SelectedValue);
             if (curPositions.Any(pos => pos.id == (int)cb_itemDesignation.SelectedValue))
             {
                 MessageBox.Show("Позиция с таким товаром уже есть в списке заказа", "Ошибка добавления позиции");
@@ -246,42 +293,90 @@ namespace SERIOUS_BUSINESS
 
         private void btn_accept_Click(object sender, EventArgs e)
         {
-            #region check if items still available
-            foreach (PositionForOrder pos in curPositions)
+            if (mode == (short)OrderMode.mode_new)
             {
-                if (pos.Количество > (from item in database.ItemSet where item.id == pos.id select item.storeResidue).Single())
+                #region check if items still available
+                foreach (PositionForOrder pos in curPositions)
                 {
-                    Items = from it in database.ItemSet select it;
-                    string message = string.Format("Во время составления заказа на складе стало нехватать предметов {0}. Данные об изменении занесены, перезаполните поля.", pos.Наименование);
-                    MessageBox.Show(message, "Внимание");
+                    if (pos.Количество > (from item in database.ItemSet where item.id == pos.id select item.storeResidue).Single())
+                    {
+                        Items = from it in database.ItemSet select it;
+                        string message = string.Format("Во время составления заказа на складе стало нехватать предметов {0}. Данные об изменении занесены, перезаполните поля.", pos.Наименование);
+                        MessageBox.Show(message, "Внимание");
+                        return;
+                    }
+                }
+                #endregion
+
+                #region confirmation
+                DialogResult cnf = MessageBox.Show("Подтвердить заказ?", "Подтверждение", MessageBoxButtons.YesNo);
+                if (cnf == DialogResult.No)
+                {
                     return;
                 }
-            }
-            #endregion
 
-            #region confirmation
-            DialogResult cnf = MessageBox.Show("Подтвердить заказ?", "Подтверждение", MessageBoxButtons.YesNo);
-            if (cnf == DialogResult.No)
+                #endregion
+
+                #region add order and positions, decrease stock residues
+
+                database.AddToOrderSet(curOrder);
+                curConsumer = res.Consumer.CreateConsumer(tb_Name.Text, tb_phone.Text, tb_email.Text, -1);
+                curOrder.emplID = curEmployee.id;
+                curOrder.Consumer = curConsumer;
+                foreach (var ent in curPositions)
+                {
+                    Items.Single(item => item.id == ent.id).storeResidue -= ent.Количество;
+                    curOrder.Position.Add(res.Position.CreatePosition(0, 0, ent.Количество, ent.id));
+                }
+                database.SaveChanges();
+                this.Close();
+                #endregion
+            }
+            else
             {
-                return;
-            }
-            
-            #endregion
+                #region confirmation
+                DialogResult cnf = MessageBox.Show("Подтвердить изменение заказа?", "Подтверждение", MessageBoxButtons.YesNo);
+                if (cnf == DialogResult.No)
+                {
+                    return;
+                }
+                #endregion
+                #region get difference
+                List<PositionDelta> deltas = new List<PositionDelta>();
+                List<res.Position> newPositions = new List<res.Position>();
+                foreach (var pos in curPositions)
+                {
+                    res.Position old = null;
+                    old = curOrder.Position.FirstOrDefault(opos => opos.itemID == pos.id);
+                    if (old != null)
+                        deltas.Add(new PositionDelta(old, pos));
+                    else
+                        newPositions.Add(res.Position.CreatePosition(curOrder.id, 0, pos.Количество, pos.id));
+                }
+                #endregion
+                #region increase or decrease stock residue for OLD, change OLD
+                var DBpositions = from pos in database.PositionSet where pos.orderID == curOrder.id select pos;
+                foreach (var pos in DBpositions)
+                {
+                    res.Position posRef = DBpositions.Single(rpos => rpos.id == pos.id);
+                    PositionDelta.ApplyPosAndItem(ref posRef, deltas.Single(del => del.id == pos.id));
+                    database.ApplyCurrentValues<res.Position>("PositionSet", posRef);
+                    database.ApplyCurrentValues<res.Item>("ItemSet", posRef.Item);
+                }
+                #endregion
+                #region increase or decrease stock residue for NEW, add NEW to order
+                foreach (var pos in newPositions)
+                {
+                    pos.Item.storeResidue -= pos.count;
+                    database.ApplyCurrentValues<res.Item>("ItemsSet", pos.Item);
+                    res.Position refPos = newPositions.Single(rpos => rpos.id == pos.id);
+                    curOrder.Position.Add(refPos);
+                }
+                #endregion
 
-            #region add order and positions, decrease stock residues
-
-            database.AddToOrderSet(curOrder);
-            curConsumer = res.Consumer.CreateConsumer(tb_Name.Text, tb_phone.Text, tb_email.Text, -1);
-            curOrder.emplID = curEmployee.id;
-            curOrder.Consumer = curConsumer;
-            foreach (var ent in curPositions)
-            {
-                Items.Single(item => item.id == ent.id).storeResidue -= ent.Количество;
-                curOrder.Position.Add(res.Position.CreatePosition(0, 0, ent.Количество, ent.id));
+                database.ApplyCurrentValues("OrderSet", curOrder);
+                database.SaveChanges();
             }
-            database.SaveChanges();
-            this.Close();
-            #endregion
         }
     }
 }

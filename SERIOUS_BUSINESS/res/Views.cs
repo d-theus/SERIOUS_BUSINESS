@@ -211,5 +211,24 @@ namespace SERIOUS_BUSINESS
         public int Количество { get; set; }
         public PositionForOrder() { }
     }
+    class PositionDelta : Object
+    {
+        public int id {get;set;}
+        public int delta { get; set; }
+        public PositionDelta(res.Position _old, PositionForOrder _new) 
+        {
+            id = _old.id;
+            delta = Calculate(_old, _new);
+        }
+        public static int Calculate(res.Position _old, PositionForOrder _new)
+        {
+            return _new.Количество - _old.count;
+        }
+        public static void ApplyPosAndItem(ref res.Position _pos, PositionDelta _delta)
+        {
+            _pos.count += _delta.delta;
+            _pos.Item.storeResidue -= _delta.delta;
+        }
+    }
 
 }
