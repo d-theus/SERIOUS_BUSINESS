@@ -93,9 +93,12 @@ namespace SERIOUS_BUSINESS
         private void btn_generate_Click(object sender, EventArgs e)
         {
             GenerateTable(mc_initialDate.SelectionStart);
-            string report_filename = string.Format("{0} - {1}.html", cb_type.Text, DateTime.Now.ToShortDateString());
+            string report_filename = string.Format("{0}/reports/{1} - {2}.html", RegistryInteractor.GetFromReg("Root Directory"), cb_type.Text, DateTime.Now.ToShortDateString());
+            string report_uri = string.Format("file://localhost/{0}/reports/{1}", RegistryInteractor.GetFromReg("Root Directory"), report_filename);
             ReportGenerator.GenerateFromDataTable(table, report_filename, cb_type.Text);
-            //this.webBrowser.Url = ;
+            Uri uri = new Uri(report_uri);
+            this.webBrowser.Url = uri;
+            webBrowser.Refresh();
         }
     }
     static class ReportGenerator
