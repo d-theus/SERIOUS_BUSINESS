@@ -344,11 +344,13 @@ namespace SERIOUS_BUSINESS.res
         /// Create a new Appointment object.
         /// </summary>
         /// <param name="id">Initial value of the id property.</param>
+        /// <param name="accessModifier">Initial value of the accessModifier property.</param>
         /// <param name="name">Initial value of the name property.</param>
-        public static Appointment CreateAppointment(global::System.Int32 id, global::System.String name)
+        public static Appointment CreateAppointment(global::System.Int32 id, global::System.Int16 accessModifier, global::System.String name)
         {
             Appointment appointment = new Appointment();
             appointment.id = id;
+            appointment.accessModifier = accessModifier;
             appointment.name = name;
             return appointment;
         }
@@ -403,7 +405,7 @@ namespace SERIOUS_BUSINESS.res
                 OnaccessModifierChanged();
             }
         }
-        private global::System.Int16 _accessModifier = 0;
+        private global::System.Int16 _accessModifier;
         partial void OnaccessModifierChanging(global::System.Int16 value);
         partial void OnaccessModifierChanged();
     
