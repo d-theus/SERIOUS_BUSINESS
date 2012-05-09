@@ -95,7 +95,7 @@ namespace SERIOUS_BUSINESS
             GenerateTable(mc_initialDate.SelectionStart);
             string report_filename = string.Format("{0} - {1}.html", cb_type.Text, DateTime.Now.ToShortDateString());
             ReportGenerator.GenerateFromDataTable(table, report_filename, cb_type.Text);
-            this.webBrowser.Url = ;
+            //this.webBrowser.Url = ;
         }
     }
     static class ReportGenerator

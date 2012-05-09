@@ -22,16 +22,19 @@ namespace SERIOUS_BUSINESS
             Application.SetCompatibleTextRenderingDefault(false);
 
 #region Writing current pwd & usr to registry
-            RegistryKey regRead = Registry.LocalMachine.OpenSubKey(res.Settings.reg_Subkey);
-            if (regRead == null)
-            { 
-                RegistryKey regCreateKey = Registry.LocalMachine.CreateSubKey(res.Settings.reg_Subkey, RegistryKeyPermissionCheck.ReadWriteSubTree);
-                regCreateKey.SetValue("Last User", "");
-                Regex sep = new Regex("bin");
-                pwd = sep.Split(Application.ExecutablePath)[0];
-                regCreateKey.SetValue("Root Directory", pwd); 
+            Regex sep = new Regex("bin");
+            pwd = sep.Split(Application.ExecutablePath)[0];
+            if (!RegistryInteractor.SubkeyExists())
+            {
+                RegistryInteractor.CreateSubkey();
+
+                RegistryInteractor.WriteToReg("Root Directory", pwd);
+                RegistryInteractor.WriteToReg("Last User", "");
             }
-            regRead.Close();
+            else
+            {
+                RegistryInteractor.WriteToReg("Root Directory", pwd);
+            }
 #endregion
 
 

@@ -32,6 +32,10 @@ namespace SERIOUS_BUSINESS
             this.tb_newParamName.TextChanged += new System.EventHandler(this.btn_checks);
             this.tb_newItemDesignation.TextChanged += new System.EventHandler(this.btn_checks);
 
+            this.rb_binary.CheckedChanged += new EventHandler(this.btn_checks);
+            this.rb_numeric.CheckedChanged +=new EventHandler(this.btn_checks);
+            this.rb_text.CheckedChanged += new EventHandler(this.btn_checks);
+
             this.cb_cat.SelectedIndexChanged += new System.EventHandler(this.RefillAssociations);
             this.cb_cat.SelectedIndexChanged += new System.EventHandler(this.RefillItems);
             this.cb_cat.SelectedIndexChanged += new System.EventHandler(this.RefillItemParameters);
@@ -41,6 +45,7 @@ namespace SERIOUS_BUSINESS
             this.btn_accParams.Click += new EventHandler(btn_accParams_Click);
             this.btn_accParams.Click += new System.EventHandler(this.RefillItemParameters);
 
+            this.btn_addPar.Click +=new EventHandler(btn_addPar_Click);
             this.btn_addPar.Click += new System.EventHandler(this.RefillAssociations);
 
             this.btn_addCat.Click += new System.EventHandler(this.btn_addCat_Click);
@@ -454,7 +459,6 @@ namespace SERIOUS_BUSINESS
             this.RefillItems(null, null);
             #endregion
         }
-
 
     }
 
