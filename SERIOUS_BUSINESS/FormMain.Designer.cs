@@ -148,6 +148,7 @@
             this.генераторОтчетовToolStripMenuItem.Name = "генераторОтчетовToolStripMenuItem";
             this.генераторОтчетовToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
             this.генераторОтчетовToolStripMenuItem.Text = "Генератор отчетов";
+            this.генераторОтчетовToolStripMenuItem.Click += new System.EventHandler(this.генераторОтчетовToolStripMenuItem_Click);
             // 
             // оформитьНовыйЗаказToolStripMenuItem
             // 

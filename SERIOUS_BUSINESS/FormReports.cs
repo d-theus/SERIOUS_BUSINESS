@@ -31,7 +31,7 @@ namespace SERIOUS_BUSINESS
             types = new List<ItemWithAccess>();
 
             types.AddRange(new ItemWithAccess[] { 
-            new ItemWithAccess("Выручка\\Расходы", (int)accessModifiers.acc_stock),
+            new ItemWithAccess("Выручка", (int)accessModifiers.acc_stock),
             new ItemWithAccess("Категории товаров", (int)accessModifiers.acc_stock),
             new ItemWithAccess("Товары конкретных категорий", (int)accessModifiers.acc_stock),
             new ItemWithAccess("Заказы по сотрудникам", (int)accessModifiers.acc_adm)
@@ -46,7 +46,7 @@ namespace SERIOUS_BUSINESS
         {
             switch (cb_type.Text)
             {
-                case "Выручка\\Расходы":
+                case "Выручка":
                     var view = from cat in database.ItemCategorySet
                                select new Report_Income
                                {
@@ -61,10 +61,24 @@ namespace SERIOUS_BUSINESS
                         #region item income
                         foreach (var item in cItems)
                         {
-                            refEnt.Прибыль +=
-                                (from pos in database.PositionSet where pos.Order.date >= initialDate && pos.itemID == item.id select pos.count).Sum()
-                                *
-                                (double)item.ItemParameter.Single(par => par.ParameterCategory.name == "Цена продажи").valueDbl;
+                            double curItemPrice = 0;
+                            try
+                            {
+                                curItemPrice = (double)item.ItemParameter.Single(par => par.ParameterCategory.name == "Цена продажи").valueDbl;
+                            }
+                            catch (InvalidOperationException)
+                            {
+                                curItemPrice = 0;
+                            }
+                            if ((from pos in database.PositionSet where pos.Order.date >= initialDate && pos.itemID == item.id select pos.count).Any())
+                            {
+                                refEnt.Прибыль +=
+                            (from pos in database.PositionSet where pos.Order.date >= initialDate && pos.itemID == item.id select pos.count).Sum() * curItemPrice;
+                            }
+                            else
+                            {
+                                refEnt.Прибыль = 0;
+                            }
                         }
                         #endregion
                         overallIncome += refEnt.Прибыль;
@@ -92,13 +106,16 @@ namespace SERIOUS_BUSINESS
 
         private void btn_generate_Click(object sender, EventArgs e)
         {
+            string rootD = RegistryInteractor.GetFromReg("Root Directory");
             GenerateTable(mc_initialDate.SelectionStart);
-            string report_filename = string.Format("{0}/reports/{1} - {2}.html", RegistryInteractor.GetFromReg("Root Directory"), cb_type.Text, DateTime.Now.ToShortDateString());
-            string report_uri = string.Format("file://localhost/{0}/reports/{1}", RegistryInteractor.GetFromReg("Root Directory"), report_filename);
+            string report_filename = string.Format("{0}reports/{1} - {2}.html", rootD, cb_type.Text, DateTime.Now.ToShortDateString());
+            if (!Directory.EnumerateDirectories(rootD, "reports").Any())
+            {
+                Directory.CreateDirectory(rootD+"reports");
+            }
+            string report_url = string.Format("file://localhost/{0}", report_filename);
             ReportGenerator.GenerateFromDataTable(table, report_filename, cb_type.Text);
-            Uri uri = new Uri(report_uri);
-            this.webBrowser.Url = uri;
-            webBrowser.Refresh();
+            webBrowser.Navigate(report_url);
         }
     }
     static class ReportGenerator

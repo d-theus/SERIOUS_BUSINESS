@@ -428,6 +428,12 @@ namespace SERIOUS_BUSINESS
             Login();
         }
 
+        private void генераторОтчетовToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormReports reports = new FormReports(curEmpl);
+            reports.ShowDialog();
+        }
+
         //################# EXTERNAL EVENTS HANDLERS####################
 
         private void user_prop_changed(Object sender, EventArgs e)

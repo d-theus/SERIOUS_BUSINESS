@@ -79,13 +79,6 @@ namespace SERIOUS_BUSINESS
             #endregion
         }
 
-        void DGV_DataError(object sender, DataGridViewDataErrorEventArgs e)
-        {
-            MessageBox.Show("Не удалось распознать введенное значение как количество");
-            DGV_contentsT.Rows[e.RowIndex][e.ColumnIndex] = 1;
-            return;
-        }
-
         public FormEditOrder(ref res.Employee curEmpl, res.Item[] _preselItems)
             : this(ref curEmpl)
         {
@@ -118,6 +111,13 @@ namespace SERIOUS_BUSINESS
             this.tb_email.Text = _presetOrder.Consumer.email;
 
             DGV_contentsT_Refill(this, null);
+        }
+
+        void DGV_DataError(object sender, DataGridViewDataErrorEventArgs e)
+        {
+            MessageBox.Show("Не удалось распознать введенное значение как количество");
+            DGV_contentsT.Rows[e.RowIndex][e.ColumnIndex] = 1;
+            return;
         }
 
         void DGV_CellValueChanged(object sender, DataGridViewCellEventArgs e)
@@ -320,10 +320,10 @@ namespace SERIOUS_BUSINESS
 
                 #region add order and positions, decrease stock residues
 
-                database.AddToOrderSet(curOrder);
-                curConsumer = res.Consumer.CreateConsumer(tb_Name.Text, tb_phone.Text, tb_email.Text, -1);
-                curOrder.emplID = curEmployee.id;
-                curOrder.Consumer = curConsumer;
+                //curConsumer = 
+               // database.AddToConsumerSet(curConsumer);
+                curOrder.Employee = (from emp in database.EmployeeSet where emp.id == curEmployee.id select emp).Single();
+                curOrder.Consumer = res.Consumer.CreateConsumer(tb_Name.Text.ToString(), tb_phone.Text.ToString(), tb_email.Text.ToString(), -1); ;
                 foreach (var ent in curPositions)
                 {
 
@@ -331,8 +331,7 @@ namespace SERIOUS_BUSINESS
                     Items.Single(item => item.id == ent.id).demand += ent.Количество;
                     curOrder.Position.Add(res.Position.CreatePosition(0, 0, ent.Количество, ent.id));
                 }
-                database.SaveChanges();
-                this.Close();
+                database.AddToOrderSet(curOrder);
                 #endregion
             }
             else
@@ -377,11 +376,14 @@ namespace SERIOUS_BUSINESS
                     curOrder.Position.Add(refPos);
                 }
                 #endregion
-
-                res.Order DBref = (from ord in database.OrderSet where ord.id == curOrder.id select ord).Single();
-                database.ApplyCurrentValues("OrderSet", DBref);
-                database.SaveChanges();
+                curConsumer.name = tb_Name.Text;
+                curConsumer.phone = tb_phone.Text;
+                curConsumer.email = tb_email.Text;
+                //res.Order DBref = (from ord in database.OrderSet where ord.id == curOrder.id select ord).Single();
+                database.ApplyCurrentValues("OrderSet", curOrder);
             }
+            database.SaveChanges();
+            this.Close();
         }
     }
 }
