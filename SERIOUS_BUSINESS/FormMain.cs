@@ -100,6 +100,7 @@ namespace SERIOUS_BUSINESS
                     break;
                 default:
                     MessageBox.Show("Окно авторизации было закрыто", "Ошибка авторизации");
+                    this.Show();
                     break;
             }
         }
@@ -457,6 +458,7 @@ namespace SERIOUS_BUSINESS
                     formIntake.ShowDialog();
                 }
             }
+            this.cb_table_SelectedIndexChanged(this, null);
         }
 
         private void редактироватьОписаниеToolStripMenuItem_Click(object sender, EventArgs e)
@@ -470,6 +472,7 @@ namespace SERIOUS_BUSINESS
                     FormEditCategories formcats = new FormEditCategories(selected);
                     formcats.ShowDialog();
                 }
+                this.cb_table_SelectedIndexChanged(this, null);
             }
         }
 
@@ -477,6 +480,7 @@ namespace SERIOUS_BUSINESS
         {
             FormEditCategories formcats = new FormEditCategories();
             formcats.ShowDialog();
+            this.cb_table_SelectedIndexChanged(this, null);
         }
 
         private void удалитьToolStripMenuItem_Click(object sender, EventArgs e)
@@ -513,6 +517,7 @@ namespace SERIOUS_BUSINESS
                         database.DeleteObject(item);
                     database.SaveChanges();
                 }
+                this.cb_table_SelectedIndexChanged(this, null);
             }
         }
 
@@ -557,6 +562,7 @@ namespace SERIOUS_BUSINESS
                     this.cb_table_SelectedIndexChanged(this, null);
                 }
             }
+            this.cb_table_SelectedIndexChanged(this, null);
         }
 
         private void удалитьToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -576,6 +582,7 @@ namespace SERIOUS_BUSINESS
                 }
                 database.SaveChanges();
             }
+            this.cb_table_SelectedIndexChanged(this, null);
         }
 
         //##### CMS_ADM_O
@@ -629,6 +636,7 @@ namespace SERIOUS_BUSINESS
                 FormEditEmplSet formempl = new FormEditEmplSet(selOrder.Employee);
                 formempl.ShowDialog();
             }
+            this.cb_table_SelectedIndexChanged(this, null);
         }
 
         //##### CMS_EMPL
@@ -637,6 +645,7 @@ namespace SERIOUS_BUSINESS
         {
             FormNewEmpl formNewEmpl = new FormNewEmpl();
             formNewEmpl.ShowDialog();
+            this.cb_table_SelectedIndexChanged(this, null);
         }
 
         private void изменитьToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -651,6 +660,7 @@ namespace SERIOUS_BUSINESS
                     formEmpl.ShowDialog();
                 }
             }
+            this.cb_table_SelectedIndexChanged(this, null);
         }
 
         private void удалитьToolStripMenuItem2_Click(object sender, EventArgs e)

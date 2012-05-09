@@ -320,10 +320,7 @@ namespace SERIOUS_BUSINESS
 
                 #region add order and positions, decrease stock residues
 
-                //curConsumer = 
-               // database.AddToConsumerSet(curConsumer);
                 curOrder.Employee = (from emp in database.EmployeeSet where emp.id == curEmployee.id select emp).Single();
-                curOrder.Consumer = res.Consumer.CreateConsumer(tb_Name.Text.ToString(), tb_phone.Text.ToString(), tb_email.Text.ToString(), -1); ;
                 foreach (var ent in curPositions)
                 {
 
@@ -376,11 +373,13 @@ namespace SERIOUS_BUSINESS
                     curOrder.Position.Add(refPos);
                 }
                 #endregion
-                curConsumer.name = tb_Name.Text;
-                curConsumer.phone = tb_phone.Text;
-                curConsumer.email = tb_email.Text;
-                //res.Order DBref = (from ord in database.OrderSet where ord.id == curOrder.id select ord).Single();
-                database.ApplyCurrentValues("OrderSet", curOrder);
+                var consRef = (from cons in database.ConsumerSet where cons.id == curOrder.consID select cons).Single();
+                var ordRef = (from ord in database.OrderSet where ord.id == curOrder.id select ord).Single();
+                consRef.name = tb_Name.Text;
+                consRef.phone = tb_phone.Text;
+                consRef.email = tb_email.Text;
+                database.ApplyCurrentValues("ConsumerSet", consRef);
+                database.ApplyCurrentValues("OrderSet", ordRef);
             }
             database.SaveChanges();
             this.Close();
