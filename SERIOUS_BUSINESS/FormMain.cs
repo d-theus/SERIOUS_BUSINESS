@@ -11,13 +11,13 @@ using SERIOUS_BUSINESS.res;
 
 namespace SERIOUS_BUSINESS
 {
+    enum accessModifiers { acc_none, acc_stock, acc_ord, acc_adm };
     public partial class FormMain : Form
     {
-        enum accessModifiers { acc_none, acc_stock, acc_ord, acc_adm };
 
         private res.Model1Container database;
         private res.Employee curEmpl;
-        private List<TableWithAccess> availableTables;
+        private List<TableWithAccessAndCMS> availableTables;
         private DataTable DGV_contentsT;
         private Dictionary<RadioButton, Func<string, string, bool>> searchPredicate;
 
@@ -26,7 +26,8 @@ namespace SERIOUS_BUSINESS
             InitializeComponent();
             this.Hide();
             Login();
-
+            FormReports reports = new FormReports(curEmpl);
+            reports.ShowDialog();
             #region event bindings
 
             cb_table.SelectedIndexChanged += new EventHandler(this.check_cb_tableOptions);
@@ -54,14 +55,14 @@ namespace SERIOUS_BUSINESS
 
         private void cb_table_Init_And_Fill()
         {
-            availableTables = new List<TableWithAccess>();
+            availableTables = new List<TableWithAccessAndCMS>();
 
-            availableTables.AddRange(new TableWithAccess[] { 
-            new TableWithAccess("Склад", (int)accessModifiers.acc_stock, this.CMS_STORE),
-            new TableWithAccess("Характеристики товаров", (int)accessModifiers.acc_ord, this.CMS_MGR_S),
-            new TableWithAccess("Заказы сотрудника", (int)accessModifiers.acc_ord, this.CMS_MGR_O),
-            new TableWithAccess("Все заказы", (int)accessModifiers.acc_adm, this.CMS_ADM_O),
-            new TableWithAccess("Сотрудники", (int)accessModifiers.acc_adm, this.CMS_ADM_EMP)});
+            availableTables.AddRange(new TableWithAccessAndCMS[] { 
+            new TableWithAccessAndCMS("Склад", (int)accessModifiers.acc_stock, this.CMS_STORE),
+            new TableWithAccessAndCMS("Характеристики товаров", (int)accessModifiers.acc_ord, this.CMS_MGR_S),
+            new TableWithAccessAndCMS("Заказы сотрудника", (int)accessModifiers.acc_ord, this.CMS_MGR_O),
+            new TableWithAccessAndCMS("Все заказы", (int)accessModifiers.acc_adm, this.CMS_ADM_O),
+            new TableWithAccessAndCMS("Сотрудники", (int)accessModifiers.acc_adm, this.CMS_ADM_EMP)});
 
             cb_table.DataSource = availableTables.Where(tbl => tbl.accessMod == curEmpl.Appointment.accessModifier || curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_adm).ToList();
             cb_table.ValueMember = "accessMod";

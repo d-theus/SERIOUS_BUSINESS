@@ -22,7 +22,7 @@ namespace SERIOUS_BUSINESS
         }
         public NamedItem() { }
     }
-    partial class AssociatedPC: Object
+    partial class AssociatedPC : Object
     {
         public int id { get; set; }
         public string name { get; set; }
@@ -43,18 +43,18 @@ namespace SERIOUS_BUSINESS
 
         public string GetValue()
         {
-                switch (type)
-                {
-                    case ((short)PType.pt_txt):
-                        return valueTxt;
-                    case ((short)PType.pt_dbl):
-                        return valueDbl.ToString();
-                    case ((short)PType.pt_bool):
-                        return valueBool.ToString();
-                    default:
-                        return null;
-                }
-                
+            switch (type)
+            {
+                case ((short)PType.pt_txt):
+                    return valueTxt;
+                case ((short)PType.pt_dbl):
+                    return valueDbl.ToString();
+                case ((short)PType.pt_bool):
+                    return valueBool.ToString();
+                default:
+                    return null;
+            }
+
         }
 
         public dynamic GetTypedValue()
@@ -141,7 +141,7 @@ namespace SERIOUS_BUSINESS
         }
 
     }
-    class TableWithAccess
+    class ItemWithAccess
     {
         public string name
         {
@@ -153,15 +153,22 @@ namespace SERIOUS_BUSINESS
             get;
             set;
         }
-        public ContextMenuStrip mstrip;
-        public TableWithAccess(string _name, int _AM, ContextMenuStrip _mstrip)
+        public ItemWithAccess(string _name, int _AM)
         {
-            mstrip = _mstrip;
             this.name = _name;
             this.accessMod = _AM;
         }
     }
-    class StockForStock:Object
+    class TableWithAccessAndCMS : ItemWithAccess
+    {
+        public ContextMenuStrip mstrip;
+        public TableWithAccessAndCMS(string _name, int _AM, ContextMenuStrip _mstrip)
+            : base(_name, _AM)
+        {
+            mstrip = _mstrip;
+        }
+    }
+    class StockForStock : Object
     {
         public int id { get; set; }
         public string Категория { get; set; }
@@ -174,7 +181,7 @@ namespace SERIOUS_BUSINESS
     }
     class StockForManager
     {
-        public int id {get; set;}
+        public int id { get; set; }
         public int stockResidue { get; set; }
         public List<NamedParameter> Parameters;
 
@@ -183,7 +190,7 @@ namespace SERIOUS_BUSINESS
             Parameters = new List<NamedParameter>();
         }
     }
-    class OrdersForManager:Object
+    class OrdersForManager : Object
     {
         public int Номер { get; set; }
         public DateTime Дата { get; set; }
@@ -193,16 +200,16 @@ namespace SERIOUS_BUSINESS
     }
     class Employees : Object
     {
-        public int Номер {get;set;}
-        public string Имя {get;set;}
-        public string Логин {get;set;}
-        public string Доступ {get;set;}
+        public int Номер { get; set; }
+        public string Имя { get; set; }
+        public string Логин { get; set; }
+        public string Доступ { get; set; }
         public Employees() { }
     }
     class AllOrders : OrdersForManager
     {
         public string Сотрудник { get; set; }
-        public AllOrders () {}
+        public AllOrders() { }
     }
     class PositionForOrder : Object
     {
@@ -213,9 +220,9 @@ namespace SERIOUS_BUSINESS
     }
     class PositionDelta : Object
     {
-        public int id {get;set;}
+        public int id { get; set; }
         public int delta { get; set; }
-        public PositionDelta(res.Position _old, PositionForOrder _new) 
+        public PositionDelta(res.Position _old, PositionForOrder _new)
         {
             id = _old.id;
             delta = Calculate(_old, _new);
@@ -234,6 +241,14 @@ namespace SERIOUS_BUSINESS
             _pos.Item.storeResidue -= _delta.delta;
             _pos.Item.demand += _delta.delta;
         }
+    }
+    class Report_Income : Object
+    {
+        public string Категория { get; set;}
+        public double Прибыль { get; set;}
+        public double От_Общей_прибыли { get; set;}
+
+        public Report_Income() { }
     }
 
 }
