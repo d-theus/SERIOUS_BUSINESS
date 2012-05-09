@@ -26,10 +26,7 @@ namespace SERIOUS_BUSINESS
             InitializeComponent();
             this.Hide();
             Login();
-            FormReports reports = new FormReports(curEmpl);
-            reports.ShowDialog();
             #region event bindings
-
             cb_table.SelectedIndexChanged += new EventHandler(this.check_cb_tableOptions);
             cb_table.SelectedIndexChanged += new EventHandler(this.cb_table_SelectedIndexChanged);
 
@@ -46,7 +43,6 @@ namespace SERIOUS_BUSINESS
             btn_find.Click += new EventHandler(btn_find_Click);
 
             btn_ClearFilter.Click += new EventHandler(btn_ClearFilter_Click);
-
             #endregion
         }
 
@@ -386,8 +382,8 @@ namespace SERIOUS_BUSINESS
         {
             if (curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_stock || curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_adm)
             {
-                //FormEditCategories formCat = new FormEditCategories();
-                //formCat.ShowDialog();
+                FormEditCategories formCat = new FormEditCategories();
+                formCat.ShowDialog();
             }
             else
             {
