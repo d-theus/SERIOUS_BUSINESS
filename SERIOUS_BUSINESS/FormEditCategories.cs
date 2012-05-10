@@ -57,6 +57,7 @@ namespace SERIOUS_BUSINESS
             this.btn_accItem.Click += new System.EventHandler(this.btn_accItem_Click);
 
             this.DGV_catParameters.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.btn_checks);
+            this.DGV_catParameters.CellValueChanged += new DataGridViewCellEventHandler(DGV_catParameters_CellValueChanged);
             this.DGV_itemParameters.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.btn_checks);
 
             #endregion
@@ -67,6 +68,23 @@ namespace SERIOUS_BUSINESS
             InitTables();
             FillPTypeSelector();
             RefillCategories(null, null);
+        }
+
+        void DGV_catParameters_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            var row = DGV_catParameters.Rows[e.RowIndex];
+            switch (row.Cells["Название"].Value.ToString())
+            {
+                case "Наименование":
+                case "Цена закупки":
+                case "Цена продажи":
+                    if ((bool)row.Cells["Ассоциация"].Value == false)
+                    {
+                        MessageBox.Show("Нельзя отключить этот параметр");
+                        row.Cells["Ассоциация"].Value = true; 
+                    }
+                    break;
+            }
         }
 
         public FormEditCategories(res.Item _preselItem) : this()
@@ -134,8 +152,7 @@ namespace SERIOUS_BUSINESS
                 nrow[2] = par.id;
                 TCatParameters.Rows.Add(nrow);
             }
-
-            DGV_SetConstraints(ref DGV_catParameters, new DataGridViewRow[] { DGV_catParameters.Rows[0] }, new DataGridViewColumn[] { DGV_catParameters.Columns["Название"], DGV_catParameters.Columns["Цена закупки"], DGV_catParameters.Columns["Цена продажи"] });
+            DGV_SetConstraints(ref DGV_catParameters, new DataGridViewRow[] { DGV_catParameters.Rows[0], DGV_catParameters.Rows[1], DGV_catParameters.Rows[2]}, new DataGridViewColumn[] { DGV_catParameters.Columns["Название"] });
             DGV_SetMask(ref DGV_catParameters);
         }
 
@@ -270,12 +287,20 @@ namespace SERIOUS_BUSINESS
             #region addition
             try
             {
-                //res.ItemCategory newCat = res.ItemCategory.CreateItemCategory(tb_catName.Text, -1);
-                //res.pureJoin_IPcats newAssocDes = res.pureJoin_IPcats.CreatepureJoin_IPcats(0, 0, 0);
-                //newAssoc.ParameterCategory = (from param in database.ParameterCategorySet where param.name == "Наименование" select param).Single();
-                //newAssoc.ItemCategory = newCat;
-                //database.AddTopureJoin_IPcatsSet(newAssoc);
-                //database.SaveChanges();
+                res.ItemCategory newCat = res.ItemCategory.CreateItemCategory(tb_catName.Text, -1);
+                res.pureJoin_IPcats newAssocDes = res.pureJoin_IPcats.CreatepureJoin_IPcats(0, 0, 0);
+                res.pureJoin_IPcats newAssocBuyP = res.pureJoin_IPcats.CreatepureJoin_IPcats(0, 0, 0);
+                res.pureJoin_IPcats newAssocSellP = res.pureJoin_IPcats.CreatepureJoin_IPcats(0, 0, 0);
+                newAssocDes.ParameterCategory = (from param in database.ParameterCategorySet where param.name == "Наименование" select param).Single();
+                newAssocBuyP.ParameterCategory = (from param in database.ParameterCategorySet where param.name == "Цена закупки" select param).Single();
+                newAssocSellP.ParameterCategory = (from param in database.ParameterCategorySet where param.name == "Цена продажи" select param).Single();
+                newAssocDes.ItemCategory = newCat;
+                newAssocBuyP.ItemCategory = newCat;
+                newAssocSellP.ItemCategory = newCat;
+                database.AddTopureJoin_IPcatsSet(newAssocBuyP);
+                database.AddTopureJoin_IPcatsSet(newAssocDes);
+                database.AddTopureJoin_IPcatsSet(newAssocSellP);
+                database.SaveChanges();
             }
             catch (Exception exc)
             {
@@ -374,7 +399,7 @@ namespace SERIOUS_BUSINESS
             {
                 string repetitions = "";
                 same_des.ToList().ForEach(des => repetitions += des.Item.ItemCategory.name + "\n");
-                DialogResult dlgres = MessageBox.Show("Такие предметы уже есть в категориях \n" + repetitions + "\nВсе равно переименовать?", "Внимание", MessageBoxButtons.YesNo);
+                DialogResult dlgres = MessageBox.Show("Такие предметы уже есть в категориях \n" + repetitions + "\nВсе равно добавить?", "Внимание", MessageBoxButtons.YesNo);
                 if (dlgres == DialogResult.No)
                 {
                     return;
@@ -411,16 +436,17 @@ namespace SERIOUS_BUSINESS
             }
             #endregion
             #region check for same designation
-            var same_des = from param in database.ItemParameterSet where param.ParameterCategory.name == "Наименование" && param.valueTxt == tb_newItemDesignation.Text select param;
-            if ((same_des).Any())
+            if (cb_existingItem.Text != (string)TItemParameters.Select("Параметр = 'Наименование'", "").Single()["Значение"])
             {
-                string repetitions = "";
-                same_des.ToList().ForEach(des => repetitions += des.Item.ItemCategory.name + "\n");
-                DialogResult dlgres = MessageBox.Show("Такие предметы уже есть в категориях /n" + repetitions + "\nВсе равно переименовать?", "Внимание", MessageBoxButtons.YesNo);
-                if (dlgres == DialogResult.No)
+                var same_des = from param in database.ItemParameterSet where param.ParameterCategory.name == "Наименование" && param.valueTxt == tb_newItemDesignation.Text select param;
+                if ((same_des).Any())
                 {
-                    return;
-                }
+                    DialogResult dlgres = MessageBox.Show("Такие предметы уже есть в категории. Все равно переименовать?", "Внимание", MessageBoxButtons.YesNo);
+                    if (dlgres == DialogResult.No)
+                    {
+                        return;
+                    }
+                } 
             }
             #endregion
             #region confirmation

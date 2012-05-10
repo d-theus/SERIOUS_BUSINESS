@@ -9,13 +9,13 @@ using Microsoft.Win32;
 using System.Security;
 using System.Data.EntityClient;
 using System.Configuration;
+using System.IO;
 
 namespace SERIOUS_BUSINESS
 {
     static class Program
     {
         static private string pwd = "";
-        static private List<string> defaultParameterSet = new List<string>();
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -35,6 +35,7 @@ namespace SERIOUS_BUSINESS
                 RegistryInteractor.WriteToReg("Root Directory", pwd);
                 RegistryInteractor.WriteToReg("Database Directory", pwd + "DATA\\");
                 RegistryInteractor.WriteToReg("Reports Directory", pwd + "Reports\\");
+                RegistryInteractor.WriteToReg("Resource Directory", pwd + "res\\");
 
                 #region Set proper location for DB in application config file
                 string connectionString = ConfigurationManager.ConnectionStrings["Model1Container"].ConnectionString.Replace("|DataDirectory|", RegistryInteractor.GetFromReg("Database Directory"));
@@ -80,8 +81,10 @@ namespace SERIOUS_BUSINESS
                 RegistryInteractor.WriteToReg("Root Directory", pwd);
                 RegistryInteractor.WriteToReg("Database Directory", pwd + "DATA\\");
                 RegistryInteractor.WriteToReg("Reports Directory", pwd + "Reports\\");
+                RegistryInteractor.WriteToReg("Resource Directory", pwd + "res\\");
             }
 #endregion
+
 
 
             FormMain formMain = new FormMain();

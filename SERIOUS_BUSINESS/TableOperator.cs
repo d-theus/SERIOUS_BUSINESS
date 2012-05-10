@@ -77,9 +77,28 @@ namespace SERIOUS_BUSINESS
 
         }
 
-        static public DataTable Where(ref DataTable tbl, Func<DataRow, bool> selector)
+        static public DataTable Where(DataTable tbl, Func<DataRow, bool> selector)
         {
-            return tbl.AsEnumerable().Where(selector).CopyToDataTable();
+            var queryRes = tbl.AsEnumerable().Where(selector);
+            if (queryRes.Any())
+            {
+                return queryRes.CopyToDataTable();
+            }
+            else
+                System.Windows.Forms.MessageBox.Show("Поиск не дал результатов");
+            return tbl;
+        }
+
+        static public DataTable Like(DataTable tbl, string column, string substring)
+        {
+            var queryRes = tbl.AsEnumerable().Where(row => row[column].ToString().Contains(substring));
+            if (queryRes.Any())
+            {
+                return queryRes.CopyToDataTable(); 
+            }
+            else
+                System.Windows.Forms.MessageBox.Show("Поиск не дал результатов");
+            return tbl;
         }
 
         private static DataTable CreateDataTable(PropertyInfo[] properties)
