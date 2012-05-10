@@ -20,7 +20,6 @@ namespace SERIOUS_BUSINESS
         private IQueryable<res.Item> Items;
         private List<PositionForOrder> curPositions;
         private res.Employee curEmployee;
-        private res.Consumer curConsumer;
         private res.Order curOrder;
         int curItemStockRes = 0;
 

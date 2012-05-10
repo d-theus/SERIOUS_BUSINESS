@@ -8,6 +8,12 @@ using System.Collections.Generic;
 namespace SERIOUS_BUSINESS
 {
     enum PType { pt_txt = 1, pt_dbl = 2, pt_bool = 3 };
+    class ParameterCategoryV : Object
+    {
+        public string Название { get; set; }
+        public bool По_умолчанию { get; set; }
+        public ParameterCategoryV() { }
+    }
     class NamedItem
     {
         public int id

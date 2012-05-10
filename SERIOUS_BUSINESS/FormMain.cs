@@ -29,14 +29,17 @@ namespace SERIOUS_BUSINESS
             #region event bindings
             cb_table.SelectedIndexChanged += new EventHandler(this.check_cb_tableOptions);
             cb_table.SelectedIndexChanged += new EventHandler(this.cb_table_SelectedIndexChanged);
+            cb_table.SelectedIndexChanged += new EventHandler(this.check_panel_Search);
 
             cb_tableOptions.SelectedIndexChanged += new EventHandler(cb_tableOptions_SelectedIndexChanged);
+            cb_tableOptions.SelectedIndexChanged += new EventHandler(this.check_panel_Search);
 
             cb_parameterName.SelectedIndexChanged += new EventHandler(cb_parameterName_SelectedIndexChanged);
 
             tb_search.TextChanged += new EventHandler(tb_search_TextChanged);
 
             DGV.SelectionChanged += new EventHandler(this.check_panel_Search);
+            DGV.SelectionChanged += new EventHandler(DGV_SelectionChanged);
             DGV.DataSourceChanged += new EventHandler(this.cb_cb_parameterName_Refill);
             DGV.DataSourceChanged += new EventHandler(this.check_btn_Search);
 
@@ -45,7 +48,6 @@ namespace SERIOUS_BUSINESS
             btn_ClearFilter.Click += new EventHandler(btn_ClearFilter_Click);
             #endregion
         }
-
 
         //################# INITIALIZATION ############################
 
@@ -275,6 +277,7 @@ namespace SERIOUS_BUSINESS
                     cb_parameterName.Items.Add(col.Caption);
                 }
             }
+            cb_parameterName.SelectedIndex = 0;
         }
 
         void cb_parameterName_SelectedIndexChanged(object sender, EventArgs e)
@@ -332,10 +335,20 @@ namespace SERIOUS_BUSINESS
         private void btn_find_Click(object sender, EventArgs e)
         {
             int selectedIndex = DGV_contentsT.Columns[cb_parameterName.Text].Ordinal;
-            DGV.DataSource = TableOperator.Where(ref DGV_contentsT, row => searchPredicate.FirstOrDefault(  //select predicate
-                ent => ent.Key.Checked).Value(row[selectedIndex].ToString(),                                //first pred arg
-                tb_search.Text));                                                                           //second pred arg
-            btn_ClearFilter.Enabled = true;
+            if (!rb_like.Checked)
+            {
+                DGV.DataSource = TableOperator.Where(DGV_contentsT, row => searchPredicate.FirstOrDefault(  //select predicate
+            ent => ent.Key.Checked).Value(row[selectedIndex].ToString(),                                //first pred arg
+            tb_search.Text));
+            }                                                                      //second pred arg
+            else
+            {
+                DGV.DataSource = TableOperator.Like(DGV_contentsT, cb_parameterName.Text, tb_search.Text);
+            }
+            if (!DGV.DataSource.Equals(DGV_contentsT))
+                btn_ClearFilter.Enabled = true;
+            else
+                btn_ClearFilter.Enabled = false;
         }
 
         void btn_ClearFilter_Click(object sender, EventArgs e)
@@ -686,6 +699,15 @@ namespace SERIOUS_BUSINESS
                 }
                 database.SaveChanges();
                 this.cb_table_SelectedIndexChanged(this, null);
+            }
+        }
+
+        //############# DGV HANDLERS ###############
+        void DGV_SelectionChanged(object sender, EventArgs e)
+        {
+            if (DGV.SelectedColumns.Count >= 1)
+            {
+                cb_parameterName.SelectedText = DGV.SelectedColumns[0].Name;
             }
         }
 

@@ -87,6 +87,7 @@
             this.новыйToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.изменитьToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.удалитьToolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
+            this.rb_like = new System.Windows.Forms.RadioButton();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DGV)).BeginInit();
             this.panel_Search.SuspendLayout();
@@ -262,6 +263,8 @@
             // 
             // DGV
             // 
+            this.DGV.AllowUserToAddRows = false;
+            this.DGV.AllowUserToDeleteRows = false;
             this.DGV.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                         | System.Windows.Forms.AnchorStyles.Left)
                         | System.Windows.Forms.AnchorStyles.Right)));
@@ -286,9 +289,9 @@
             this.panel_Search.Controls.Add(this.tb_search);
             this.panel_Search.Controls.Add(this.btn_find);
             this.panel_Search.Enabled = false;
-            this.panel_Search.Location = new System.Drawing.Point(3, 108);
+            this.panel_Search.Location = new System.Drawing.Point(3, 100);
             this.panel_Search.Name = "panel_Search";
-            this.panel_Search.Size = new System.Drawing.Size(238, 118);
+            this.panel_Search.Size = new System.Drawing.Size(238, 134);
             this.panel_Search.TabIndex = 2;
             // 
             // btn_ClearFilter
@@ -303,12 +306,13 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.rb_like);
             this.groupBox1.Controls.Add(this.rb_LE);
             this.groupBox1.Controls.Add(this.rb_E);
             this.groupBox1.Controls.Add(this.rb_ME);
             this.groupBox1.Location = new System.Drawing.Point(3, 16);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(45, 87);
+            this.groupBox1.Size = new System.Drawing.Size(45, 113);
             this.groupBox1.TabIndex = 4;
             this.groupBox1.TabStop = false;
             // 
@@ -316,7 +320,7 @@
             // 
             this.rb_LE.AutoSize = true;
             this.rb_LE.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rb_LE.Location = new System.Drawing.Point(6, 57);
+            this.rb_LE.Location = new System.Drawing.Point(6, 67);
             this.rb_LE.Name = "rb_LE";
             this.rb_LE.Size = new System.Drawing.Size(33, 20);
             this.rb_LE.TabIndex = 2;
@@ -328,7 +332,7 @@
             this.rb_E.AutoSize = true;
             this.rb_E.Checked = true;
             this.rb_E.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rb_E.Location = new System.Drawing.Point(6, 34);
+            this.rb_E.Location = new System.Drawing.Point(6, 41);
             this.rb_E.Name = "rb_E";
             this.rb_E.Size = new System.Drawing.Size(33, 20);
             this.rb_E.TabIndex = 1;
@@ -340,7 +344,7 @@
             // 
             this.rb_ME.AutoSize = true;
             this.rb_ME.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.rb_ME.Location = new System.Drawing.Point(6, 10);
+            this.rb_ME.Location = new System.Drawing.Point(6, 15);
             this.rb_ME.Name = "rb_ME";
             this.rb_ME.Size = new System.Drawing.Size(33, 20);
             this.rb_ME.TabIndex = 0;
@@ -381,7 +385,6 @@
             this.btn_find.TabIndex = 0;
             this.btn_find.Text = "Найти";
             this.btn_find.UseVisualStyleBackColor = true;
-            this.btn_find.Click += new System.EventHandler(this.btn_find_Click);
             // 
             // panel_Table
             // 
@@ -472,7 +475,7 @@
             this.добавитьToolStripMenuItem,
             this.удалитьToolStripMenuItem});
             this.CMS_STORE.Name = "CMS_STORE";
-            this.CMS_STORE.Size = new System.Drawing.Size(248, 114);
+            this.CMS_STORE.Size = new System.Drawing.Size(248, 92);
             // 
             // занестиДанныеОПоступленииToolStripMenuItem1
             // 
@@ -523,7 +526,7 @@
             this.изменитьToolStripMenuItem,
             this.удалитьToolStripMenuItem1});
             this.CMS_MGR_O.Name = "CMS_MGR_O";
-            this.CMS_MGR_O.Size = new System.Drawing.Size(153, 92);
+            this.CMS_MGR_O.Size = new System.Drawing.Size(129, 70);
             // 
             // новыйToolStripMenuItem1
             // 
@@ -613,6 +616,18 @@
             this.удалитьToolStripMenuItem2.Size = new System.Drawing.Size(190, 22);
             this.удалитьToolStripMenuItem2.Text = "Удалить";
             this.удалитьToolStripMenuItem2.Click += new System.EventHandler(this.удалитьToolStripMenuItem2_Click);
+            // 
+            // rb_like
+            // 
+            this.rb_like.AutoSize = true;
+            this.rb_like.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.rb_like.Location = new System.Drawing.Point(6, 90);
+            this.rb_like.Name = "rb_like";
+            this.rb_like.Size = new System.Drawing.Size(37, 17);
+            this.rb_like.TabIndex = 3;
+            this.rb_like.TabStop = true;
+            this.rb_like.Text = "⊆";
+            this.rb_like.UseVisualStyleBackColor = true;
             // 
             // FormMain
             // 
@@ -708,6 +723,7 @@
         private System.Windows.Forms.ToolStripMenuItem новыйToolStripMenuItem2;
         private System.Windows.Forms.ToolStripMenuItem изменитьToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem удалитьToolStripMenuItem2;
+        private System.Windows.Forms.RadioButton rb_like;
 
     }
 }
