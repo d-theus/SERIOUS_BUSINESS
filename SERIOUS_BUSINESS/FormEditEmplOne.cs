@@ -17,7 +17,7 @@ namespace SERIOUS_BUSINESS
         public FormEditEmplOne(ref res.Employee empl)
         {
             InitializeComponent();
-            database = new res.Model1Container();
+            database = new res.Model1Container(RegistryInteractor.GetFromReg("Connection String"));
             Employees = from emp in database.EmployeeSet select emp;
             this.Empl = empl;
             lbl_username.Text = Empl.login;
@@ -31,7 +31,7 @@ namespace SERIOUS_BUSINESS
 
         private void tb_login_TextChanged(object sender, EventArgs e)
         {
-            btn_loginChange.Enabled = !((string)tb_login.Text).Equals("");
+            btn_loginChange.Enabled = !((string)tb_login.Text).Equals("") && tb_login.Text != "admin";
         }
 
         private void btn_loginChange_Click(object sender, EventArgs e)

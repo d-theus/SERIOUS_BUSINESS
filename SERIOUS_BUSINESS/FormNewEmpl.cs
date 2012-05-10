@@ -17,7 +17,7 @@ namespace SERIOUS_BUSINESS
         public FormNewEmpl()
         {
             InitializeComponent();
-            database = new res.Model1Container();
+            database = new res.Model1Container(RegistryInteractor.GetFromReg("Connection String"));
             Employees = from emp in database.EmployeeSet select emp;
 
             #region event_bindings

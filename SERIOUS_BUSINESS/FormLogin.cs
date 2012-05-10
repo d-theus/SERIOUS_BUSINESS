@@ -19,7 +19,7 @@ namespace SERIOUS_BUSINESS
         public FormLogin()
         {
             InitializeComponent();
-            database = new res.Model1Container();
+            database = new res.Model1Container(RegistryInteractor.GetFromReg("Connection String"));
             try
             {
                 #region Retrieving last user from registry

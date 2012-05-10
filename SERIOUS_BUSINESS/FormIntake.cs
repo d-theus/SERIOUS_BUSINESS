@@ -20,7 +20,7 @@ namespace SERIOUS_BUSINESS
         public FormIntake()
         {
             InitializeComponent();
-            database = new res.Model1Container();
+            database = new res.Model1Container(RegistryInteractor.GetFromReg("Connection String"));
             database.Connection.Open();
             cb_type.IsAccessible = false;
             cb_designation.IsAccessible = false;
@@ -32,7 +32,7 @@ namespace SERIOUS_BUSINESS
         public FormIntake(res.Item _preselectedItem)
         {
             InitializeComponent();
-            database = new res.Model1Container();
+            database = new res.Model1Container(RegistryInteractor.GetFromReg("Connection String"));
             database.Connection.Open();
             cb_type.IsAccessible = false;
             cb_designation.IsAccessible = false;

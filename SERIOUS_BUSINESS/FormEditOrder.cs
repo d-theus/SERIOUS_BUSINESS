@@ -32,7 +32,7 @@ namespace SERIOUS_BUSINESS
             mode = (short)OrderMode.mode_new;
             curEmployee = curEmpl;
             #region database context & entities filling
-            database = new res.Model1Container();
+            database = new res.Model1Container(RegistryInteractor.GetFromReg("Connection String"));
             curPositions = new List<PositionForOrder>();
             curOrder = res.Order.CreateOrder(-1, DateTime.Now, "Обработка", -1, -1);
             Items = from it in database.ItemSet select it;

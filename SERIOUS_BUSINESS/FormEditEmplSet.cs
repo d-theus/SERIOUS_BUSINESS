@@ -19,7 +19,7 @@ namespace SERIOUS_BUSINESS
         {
             InitializeComponent();
 
-            database = new res.Model1Container();
+            database = new res.Model1Container(RegistryInteractor.GetFromReg("Connection String"));
             Employees = from emp in database.EmployeeSet select emp;
             Appointments = from app in database.AppointmentSet select app;
 

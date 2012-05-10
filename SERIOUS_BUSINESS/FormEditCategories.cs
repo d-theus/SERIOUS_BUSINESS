@@ -62,7 +62,7 @@ namespace SERIOUS_BUSINESS
             #endregion
 
             #region context & entities
-            database = new res.Model1Container();
+            database = new res.Model1Container(RegistryInteractor.GetFromReg("Connection String"));
             #endregion
             InitTables();
             FillPTypeSelector();
@@ -135,7 +135,7 @@ namespace SERIOUS_BUSINESS
                 TCatParameters.Rows.Add(nrow);
             }
 
-            DGV_SetConstraints(ref DGV_catParameters, new DataGridViewRow[] { DGV_catParameters.Rows[0] }, new DataGridViewColumn[] { DGV_catParameters.Columns["Название"] });
+            DGV_SetConstraints(ref DGV_catParameters, new DataGridViewRow[] { DGV_catParameters.Rows[0] }, new DataGridViewColumn[] { DGV_catParameters.Columns["Название"], DGV_catParameters.Columns["Цена закупки"], DGV_catParameters.Columns["Цена продажи"] });
             DGV_SetMask(ref DGV_catParameters);
         }
 
@@ -270,12 +270,12 @@ namespace SERIOUS_BUSINESS
             #region addition
             try
             {
-                res.ItemCategory newCat = res.ItemCategory.CreateItemCategory(tb_catName.Text, -1);
-                res.pureJoin_IPcats newAssoc = res.pureJoin_IPcats.CreatepureJoin_IPcats(0, 0, 0);
-                newAssoc.ParameterCategory = (from param in database.ParameterCategorySet where param.name == "Наименование" select param).Single();
-                newAssoc.ItemCategory = newCat;
-                database.AddTopureJoin_IPcatsSet(newAssoc);
-                database.SaveChanges();
+                //res.ItemCategory newCat = res.ItemCategory.CreateItemCategory(tb_catName.Text, -1);
+                //res.pureJoin_IPcats newAssocDes = res.pureJoin_IPcats.CreatepureJoin_IPcats(0, 0, 0);
+                //newAssoc.ParameterCategory = (from param in database.ParameterCategorySet where param.name == "Наименование" select param).Single();
+                //newAssoc.ItemCategory = newCat;
+                //database.AddTopureJoin_IPcatsSet(newAssoc);
+                //database.SaveChanges();
             }
             catch (Exception exc)
             {

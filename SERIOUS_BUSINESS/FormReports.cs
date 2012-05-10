@@ -21,7 +21,7 @@ namespace SERIOUS_BUSINESS
         public FormReports(res.Employee _curEmpl)
         {
             InitializeComponent();
-            database = new res.Model1Container();
+            database = new res.Model1Container(RegistryInteractor.GetFromReg("Connection String"));
             curEmpl = _curEmpl;
             InitTypes();
         }
@@ -88,7 +88,7 @@ namespace SERIOUS_BUSINESS
 
                         if (overallIncome != 0)
                         {
-                            refEnt.От_Общей_прибыли = refEnt.Прибыль / overallIncome;
+                            refEnt.От_Общей_прибыли = Decimal.Round(new Decimal(refEnt.Прибыль * 100/ overallIncome), 2);
                         }
                         else
                         {

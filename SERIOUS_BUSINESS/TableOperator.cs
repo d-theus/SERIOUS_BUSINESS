@@ -5,6 +5,7 @@ using System.Text;
 using System.Data;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Text.RegularExpressions;
 
 namespace SERIOUS_BUSINESS
 {
@@ -72,6 +73,7 @@ namespace SERIOUS_BUSINESS
             }
             #endregion
             des = ConvertToDataTable(src);
+            FormatHeaders(ref des);
 
         }
 
@@ -113,6 +115,15 @@ namespace SERIOUS_BUSINESS
                     FillData(properties, dt, o);
             }
             return dt;
+        }
+
+        public static void FormatHeaders(ref DataTable dt, string pattern = "[_]+")
+        {
+            Regex regex = new Regex(pattern);
+            foreach(DataColumn dc in dt.Columns)
+            {
+                dt.Columns[dc.Caption].Caption = regex.Replace(dt.Columns[dc.Caption].Caption, " ");
+            }
         }
     }
 }

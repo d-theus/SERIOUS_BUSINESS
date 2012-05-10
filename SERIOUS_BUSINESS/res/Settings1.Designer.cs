@@ -70,42 +70,6 @@ namespace SERIOUS_BUSINESS.res {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Data Source =(local); Database = DATABASE; Integrated Security = SSPI;MultipleActiveResultSets=true;.
-        /// </summary>
-        internal static string dbConn_ConnStr {
-            get {
-                return ResourceManager.GetString("dbConn_ConnStr", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to (local).
-        /// </summary>
-        internal static string dbConn_DataSource {
-            get {
-                return ResourceManager.GetString("dbConn_DataSource", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to [DATABASE].
-        /// </summary>
-        internal static string dbConn_DbName {
-            get {
-                return ResourceManager.GetString("dbConn_DbName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to SSPI.
-        /// </summary>
-        internal static string dbConn_IntSecurity {
-            get {
-                return ResourceManager.GetString("dbConn_IntSecurity", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to software\\SBPS\.
         /// </summary>
         internal static string reg_Subkey {

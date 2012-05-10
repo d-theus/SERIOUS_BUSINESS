@@ -90,7 +90,7 @@ namespace SERIOUS_BUSINESS
                     curEmpl.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(this.user_prop_changed);
                     this.Text = Settings.AppTitle + " - " + curEmpl.login;
 
-                    database = new res.Model1Container();
+                    database = new res.Model1Container(RegistryInteractor.GetFromReg("Connection String"));
                     search_Panel_Initialization();
                     cb_table_Init_And_Fill();
 

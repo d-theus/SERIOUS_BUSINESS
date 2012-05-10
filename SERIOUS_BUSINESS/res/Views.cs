@@ -246,7 +246,7 @@ namespace SERIOUS_BUSINESS
     {
         public string Категория { get; set;}
         public double Прибыль { get; set;}
-        public double От_Общей_прибыли { get; set;}
+        public Decimal От_Общей_прибыли { get; set;}
 
         public Report_Income() { }
     }
