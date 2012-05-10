@@ -62,7 +62,7 @@ namespace SERIOUS_BUSINESS
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message + "\n Будет осуществлен выход, обратитесь к системному администратору", "Ошибка базы данных", MessageBoxButtons.OK);
-                    Application.Exit();
+                    this.Close();
                 }
 
                 #region get empl from DB

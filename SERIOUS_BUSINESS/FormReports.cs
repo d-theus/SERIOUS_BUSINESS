@@ -53,14 +53,15 @@ namespace SERIOUS_BUSINESS
                                    Категория = cat.name
                                };
                     double overallIncome = 0;
+                    Report_Income[] Report = view.ToArray();
                     #region category income
                     foreach (var ent in view)
                     {
-                        Report_Income refEnt = view.Single(v => v.Категория == ent.Категория);
+                        var refEnt = Report.Single(v => v.Категория == ent.Категория);
                         IQueryable<res.Item> cItems = (from items in database.ItemSet where items.ItemCategory.name == refEnt.Категория select items);
                         #region item income
                         foreach (var item in cItems)
-                        {
+                        { 
                             double curItemPrice = 0;
                             try
                             {
@@ -70,14 +71,10 @@ namespace SERIOUS_BUSINESS
                             {
                                 curItemPrice = 0;
                             }
-                            if ((from pos in database.PositionSet where pos.Order.date >= initialDate && pos.itemID == item.id select pos.count).Any())
+                            if ((from pos in database.PositionSet where  pos.itemID == item.id select pos).Any())
                             {
                                 refEnt.Прибыль +=
-                            (from pos in database.PositionSet where pos.Order.date >= initialDate && pos.itemID == item.id select pos.count).Sum() * curItemPrice;
-                            }
-                            else
-                            {
-                                refEnt.Прибыль = 0;
+                            (from pos in database.PositionSet where pos.itemID == item.id select pos).Where(pos => pos.Order.date >= initialDate).Sum(p => p.count) * curItemPrice;
                             }
                         }
                         #endregion
@@ -85,9 +82,9 @@ namespace SERIOUS_BUSINESS
                     }
                     #endregion
                     #region ratio
-                    foreach (var ent in view)
+                    foreach (var ent in Report)
                     {
-                        Report_Income refEnt = view.Single(v => v.Категория == ent.Категория);
+                        var refEnt = Report.Single(v => v.Категория == ent.Категория);
 
                         if (overallIncome != 0)
                         {
@@ -99,7 +96,7 @@ namespace SERIOUS_BUSINESS
                         }
                     }
                     #endregion
-                    TableOperator.SetNewContentCommon(view.ToArray(), ref table);
+                    TableOperator.SetNewContentCommon(Report, ref table);
                     break;
             }
         }

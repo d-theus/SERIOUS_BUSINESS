@@ -170,7 +170,6 @@ namespace SERIOUS_BUSINESS
                 }
 
             }
-            //DGV_contentsT_Refill(this, null);
         }
 
         void num_itemCount_check(object sender, EventArgs e)
@@ -321,6 +320,7 @@ namespace SERIOUS_BUSINESS
                 #region add order and positions, decrease stock residues
 
                 curOrder.Employee = (from emp in database.EmployeeSet where emp.id == curEmployee.id select emp).Single();
+                curOrder.Consumer = res.Consumer.CreateConsumer(tb_Name.Text, tb_phone.Text, tb_email.Text, 0);
                 foreach (var ent in curPositions)
                 {
 

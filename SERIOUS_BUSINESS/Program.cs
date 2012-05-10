@@ -34,28 +34,35 @@ namespace SERIOUS_BUSINESS
                 #region Deployment
                 if (MessageBox.Show("Похоже, это первый запуск приложения. Создать базу данных? В неё будет занесен пока единственный пользователь admin (пароль 'admin') и категории параметров товаров по умлочанию: Наименование, Цена закупки и Цена продажи.", "Внимание", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    res.Model1Container database = new res.Model1Container();
-                    if (database.DatabaseExists())
-                        database.DeleteDatabase();
+                    try
+                    {
+                        res.Model1Container database = new res.Model1Container();
+                        if (database.DatabaseExists())
+                            database.DeleteDatabase();
 
-                    database.CreateDatabase();
-                    database.SaveChanges();
+                        database.CreateDatabase();
+                        database.SaveChanges();
 
-                    res.Appointment adm = res.Appointment.CreateAppointment(0, (short)accessModifiers.acc_adm, "Полный");
-                    database.AddToAppointmentSet(res.Appointment.CreateAppointment(0, (short)accessModifiers.acc_none, "Нет"));
-                    database.AddToAppointmentSet(res.Appointment.CreateAppointment(0, (short)accessModifiers.acc_stock, "Склад"));
-                    database.AddToAppointmentSet(res.Appointment.CreateAppointment(0, (short)accessModifiers.acc_ord, "Заказы"));
-                    database.AddToAppointmentSet(adm);
+                        res.Appointment adm = res.Appointment.CreateAppointment(0, (short)accessModifiers.acc_adm, "Полный");
+                        database.AddToAppointmentSet(res.Appointment.CreateAppointment(0, (short)accessModifiers.acc_none, "Нет"));
+                        database.AddToAppointmentSet(res.Appointment.CreateAppointment(0, (short)accessModifiers.acc_stock, "Склад"));
+                        database.AddToAppointmentSet(res.Appointment.CreateAppointment(0, (short)accessModifiers.acc_ord, "Заказы"));
+                        database.AddToAppointmentSet(adm);
 
-                    res.Employee admin = res.Employee.CreateEmployee(0, "admin", "admin", "admin", 0);
-                    admin.Appointment = adm;
-                    database.AddToEmployeeSet(admin);
+                        res.Employee admin = res.Employee.CreateEmployee(0, "admin", "admin", "admin", 0);
+                        admin.Appointment = adm;
+                        database.AddToEmployeeSet(admin);
 
-                    database.AddToParameterCategorySet(res.ParameterCategory.CreateParameterCategory(0, "Наименование", 1));
-                    database.AddToParameterCategorySet(res.ParameterCategory.CreateParameterCategory(0, "Цена закупки", 2));
-                    database.AddToParameterCategorySet(res.ParameterCategory.CreateParameterCategory(0, "Цена продажи", 2));
+                        database.AddToParameterCategorySet(res.ParameterCategory.CreateParameterCategory(0, "Наименование", 1));
+                        database.AddToParameterCategorySet(res.ParameterCategory.CreateParameterCategory(0, "Цена закупки", 2));
+                        database.AddToParameterCategorySet(res.ParameterCategory.CreateParameterCategory(0, "Цена продажи", 2));
 
-                    database.SaveChanges();
+                        database.SaveChanges();
+                    }
+                    catch (Exception exc)
+                    {
+                        MessageBox.Show("Произошла ошибка при создании базы данных: \n"+exc.Message);
+                    }
                 }
                 #endregion
             }
