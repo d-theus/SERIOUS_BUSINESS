@@ -857,14 +857,12 @@ namespace SERIOUS_BUSINESS.res
         /// </summary>
         /// <param name="id">Initial value of the id property.</param>
         /// <param name="storeResidue">Initial value of the storeResidue property.</param>
-        /// <param name="demand">Initial value of the demand property.</param>
         /// <param name="catID">Initial value of the catID property.</param>
-        public static Item CreateItem(global::System.Int32 id, global::System.Int32 storeResidue, global::System.Int32 demand, global::System.Int32 catID)
+        public static Item CreateItem(global::System.Int32 id, global::System.Int32 storeResidue, global::System.Int32 catID)
         {
             Item item = new Item();
             item.id = id;
             item.storeResidue = storeResidue;
-            item.demand = demand;
             item.catID = catID;
             return item;
         }
@@ -922,30 +920,6 @@ namespace SERIOUS_BUSINESS.res
         private global::System.Int32 _storeResidue;
         partial void OnstoreResidueChanging(global::System.Int32 value);
         partial void OnstoreResidueChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 demand
-        {
-            get
-            {
-                return _demand;
-            }
-            set
-            {
-                OndemandChanging(value);
-                ReportPropertyChanging("demand");
-                _demand = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("demand");
-                OndemandChanged();
-            }
-        }
-        private global::System.Int32 _demand;
-        partial void OndemandChanging(global::System.Int32 value);
-        partial void OndemandChanged();
     
         /// <summary>
         /// No Metadata Documentation available.
