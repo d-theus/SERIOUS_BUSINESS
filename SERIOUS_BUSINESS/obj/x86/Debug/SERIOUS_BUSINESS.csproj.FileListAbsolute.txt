@@ -46,7 +46,6 @@ C:\Users\Slowness\Programming\SERIOUS_BUSINESS\SERIOUS_BUSINESS\bin\Debug\res\Da
 C:\Users\Slowness\Programming\SERIOUS_BUSINESS\SERIOUS_BUSINESS\bin\Debug\res\Database1_log.ldf
 C:\Users\Slowness\Programming\SERIOUS_BUSINESS\SERIOUS_BUSINESS\bin\Debug\SERIOUS_BUSINESS.exe
 C:\Users\Slowness\Programming\SERIOUS_BUSINESS\SERIOUS_BUSINESS\bin\Debug\SERIOUS_BUSINESS.pdb
-F:\Programming\DB\SERIOUS_BUSINESS\bin\Debug\SERIOUS_BUSINESS.exe.config
 F:\Programming\DB\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.exe
 F:\Programming\DB\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.pdb
 F:\Programming\DB\SERIOUS_BUSINESS\obj\x86\Debug\ResolveAssemblyReference.cache
@@ -64,3 +63,5 @@ F:\Programming\DB\SERIOUS_BUSINESS\bin\Debug\SERIOUS_BUSINESS.pdb
 F:\Programming\DB\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.FormEditEmplOne.resources
 F:\Programming\DB\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.FormEditEmplSet.resources
 F:\Programming\DB\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.FormNewEmpl.resources
+F:\Programming\DB\SERIOUS_BUSINESS\obj\x86\Debug\SERIOUS_BUSINESS.FormReports.resources
+F:\Programming\DB\SERIOUS_BUSINESS\bin\Debug\SERIOUS_BUSINESS.exe.config
