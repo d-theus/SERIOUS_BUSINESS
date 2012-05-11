@@ -131,7 +131,7 @@ namespace SERIOUS_BUSINESS
                                 id = item.id,
                                 Категория = item.ItemCategory.name,
                                 Наименование = item.ItemParameter.FirstOrDefault(par => par.ParameterCategory.name == "Наименование").valueTxt,
-                                Спрос = item.demand,
+                                Спрос_за_месяц = (from pos in database.PositionSet where pos.itemID == item.id select pos.count).Sum(),
                                 Остаток = item.storeResidue
                             };
                         TableOperator.SetNewContentCommon(view.ToArray(), ref DGV_contentsT);

@@ -179,7 +179,7 @@ namespace SERIOUS_BUSINESS
         public int id { get; set; }
         public string Категория { get; set; }
         public string Наименование { get; set; }
-        public int Спрос { get; set; }
+        public int Спрос_за_месяц { get; set; }
         public int Остаток { get; set; }
 
         public StockForStock() { }
@@ -245,7 +245,6 @@ namespace SERIOUS_BUSINESS
         {
             _pos.count += _delta.delta;
             _pos.Item.storeResidue -= _delta.delta;
-            _pos.Item.demand += _delta.delta;
         }
     }
     class Report_Income : Object
