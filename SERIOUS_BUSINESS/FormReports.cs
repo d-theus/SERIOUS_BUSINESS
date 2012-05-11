@@ -47,6 +47,7 @@ namespace SERIOUS_BUSINESS
             switch (cb_type.Text)
             {
                 case "Выручка":
+                    #region generate report
                     var view = from cat in database.ItemCategorySet
                                select new Report_Income
                                {
@@ -61,24 +62,39 @@ namespace SERIOUS_BUSINESS
                         IQueryable<res.Item> cItems = (from items in database.ItemSet where items.ItemCategory.name == refEnt.Категория select items);
                         #region item income
                         foreach (var item in cItems)
-                        { 
-                            double curItemPrice = 0;
+                        {
+                            double curItemBuyP = 0;
+                            double curItemSellP = 0;
                             try
                             {
-                                curItemPrice = (double)item.ItemParameter.Single(par => par.ParameterCategory.name == "Цена продажи").valueDbl;
+                                curItemSellP = (double)item.ItemParameter.Single(par => par.ParameterCategory.name == "Цена продажи").valueDbl;
+                                curItemBuyP = (double)item.ItemParameter.Single(par => par.ParameterCategory.name == "Цена закупки").valueDbl;
                             }
                             catch (InvalidOperationException)
                             {
-                                curItemPrice = 0;
+                                curItemBuyP = 0;
+                                curItemSellP = 0;
                             }
-                            if ((from pos in database.PositionSet where  pos.itemID == item.id select pos).Any())
+                            if ((from pos in database.PositionSet where pos.itemID == item.id select pos).Any())
                             {
-                                refEnt.Прибыль +=
-                            (from pos in database.PositionSet where pos.itemID == item.id select pos).Where(pos => pos.Order.date >= initialDate).Sum(p => p.count) * curItemPrice;
+                                int ICount = 0;
+                                var positions = (from pos in database.PositionSet where pos.itemID == item.id select pos).Where(pos => pos.Order.date >= initialDate);
+                                if (positions.Any())
+                                {
+                                    ICount = positions.Sum(p => p.count);
+                                }
+                                else
+                                {
+                                    ICount = 0;
+                                }
+                                refEnt.Прибыль = ICount * (curItemSellP - curItemBuyP);
+                                if (refEnt.Прибыль >= 0)
+                                {
+                                    overallIncome += refEnt.Прибыль;
+                                }
                             }
                         }
                         #endregion
-                        overallIncome += refEnt.Прибыль;
                     }
                     #endregion
                     #region ratio
@@ -86,9 +102,9 @@ namespace SERIOUS_BUSINESS
                     {
                         var refEnt = Report.Single(v => v.Категория == ent.Категория);
 
-                        if (overallIncome != 0)
+                        if (overallIncome != 0 && refEnt.Прибыль >= 0)
                         {
-                            refEnt.От_Общей_прибыли = Decimal.Round(new Decimal(refEnt.Прибыль * 100/ overallIncome), 2);
+                            refEnt.От_Общей_прибыли = Decimal.Round(new Decimal(refEnt.Прибыль * 100 / overallIncome), 2);
                         }
                         else
                         {
@@ -96,7 +112,14 @@ namespace SERIOUS_BUSINESS
                         }
                     }
                     #endregion
-                    TableOperator.SetNewContentCommon(Report, ref table);
+                    string title = string.Format("C {0} по {1}", dateCriteria.Date.ToShortDateString(), DateTime.Now.Date.ToShortDateString());
+                    TableOperator.SetNewContentCommon(Report, ref table, title);
+                    #endregion
+                    break;
+                case "Категории товаров":
+                    #region generate report
+
+                    #endregion
                     break;
             }
         }
@@ -108,11 +131,25 @@ namespace SERIOUS_BUSINESS
             string report_filename = string.Format("{0}reports/{1} - {2}.html", rootD, cb_type.Text, DateTime.Now.ToShortDateString());
             if (!Directory.EnumerateDirectories(rootD, "reports").Any())
             {
-                Directory.CreateDirectory(rootD+"reports");
+                Directory.CreateDirectory(rootD + "reports");
             }
             string report_url = string.Format("file://localhost/{0}", report_filename);
             ReportGenerator.GenerateFromDataTable(table, report_filename, cb_type.Text);
             webBrowser.Navigate(report_url);
+        }
+
+        private void mc_initialDate_DateChanged(object sender, DateRangeEventArgs e)
+        {
+            if (mc_initialDate.SelectionRange.End.Date <= DateTime.Now.Date)
+            {
+                dateCriteria = mc_initialDate.SelectionStart.Date.Date;
+            }
+            else
+            {
+                dateCriteria = DateTime.Now.Date;
+                mc_initialDate.SelectionEnd = DateTime.Now.Date;
+                MessageBox.Show("Нельзя генерировать отчеты из будущего");
+            }
         }
     }
     static class ReportGenerator
@@ -143,6 +180,7 @@ namespace SERIOUS_BUSINESS
                 throw new ArgumentNullException("DataTable");
 
             #region Table
+            wr.WriteLine(string.Format("<h3>{0}</h3>", Tbl.TableName));
             wr.WriteLine("<table border=\"1\"");
 
             #region Col headers
