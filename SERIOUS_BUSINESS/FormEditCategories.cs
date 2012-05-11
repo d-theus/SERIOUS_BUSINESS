@@ -411,7 +411,7 @@ namespace SERIOUS_BUSINESS
             #endregion
             #region addition
             int catID = (int)cb_cat.SelectedValue;
-            res.Item newItem = res.Item.CreateItem(0, 0, 0, catID);
+            res.Item newItem = res.Item.CreateItem(0, 0, catID);
             List<res.ItemParameter> newItemParameters = new List<res.ItemParameter>();
             foreach (var assoc in Categories.Single(cat => cat.id == catID).pureJoin_IPcats)
             {

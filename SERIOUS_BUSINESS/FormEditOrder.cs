@@ -324,7 +324,6 @@ namespace SERIOUS_BUSINESS
                 {
 
                     Items.Single(item => item.id == ent.id).storeResidue -= ent.Количество;
-                    Items.Single(item => item.id == ent.id).demand += ent.Количество;
                     curOrder.Position.Add(res.Position.CreatePosition(0, 0, ent.Количество, ent.id));
                 }
                 database.AddToOrderSet(curOrder);
@@ -366,7 +365,6 @@ namespace SERIOUS_BUSINESS
                 foreach (var pos in newPositions)
                 {
                     pos.Item.storeResidue -= pos.count;
-                    pos.Item.demand += pos.count;
                     database.ApplyCurrentValues<res.Item>("ItemsSet", pos.Item);
                     res.Position refPos = newPositions.Single(rpos => rpos.id == pos.id);
                     curOrder.Position.Add(refPos);
