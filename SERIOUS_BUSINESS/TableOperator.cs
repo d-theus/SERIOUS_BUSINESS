@@ -74,7 +74,6 @@ namespace SERIOUS_BUSINESS
             #endregion
             des = ConvertToDataTable(src);
             FormatHeaders(ref des);
-
         }
 
         static public DataTable Where(DataTable tbl, Func<DataRow, bool> selector)
@@ -136,12 +135,12 @@ namespace SERIOUS_BUSINESS
             return dt;
         }
 
-        public static void FormatHeaders(ref DataTable dt, string pattern = "[_]+")
+        public static void FormatHeaders(ref DataTable dt, string pattern = "_")
         {
             Regex regex = new Regex(pattern);
             foreach(DataColumn dc in dt.Columns)
             {
-                dt.Columns[dc.Caption].Caption = regex.Replace(dt.Columns[dc.Caption].Caption, " ");
+                dt.Columns[dc.Ordinal].Caption = regex.Replace(dc.Caption, " ");
             }
         }
     }

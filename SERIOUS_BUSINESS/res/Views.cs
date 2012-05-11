@@ -179,7 +179,7 @@ namespace SERIOUS_BUSINESS
         public int id { get; set; }
         public string Категория { get; set; }
         public string Наименование { get; set; }
-        public int Спрос_за_месяц { get; set; }
+        public int Спрос { get;set;}
         public int Остаток { get; set; }
 
         public StockForStock() { }

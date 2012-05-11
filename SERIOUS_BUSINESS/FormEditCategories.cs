@@ -282,7 +282,7 @@ namespace SERIOUS_BUSINESS
             }
             #endregion
             #region confirmation
-            if (MessageBox.Show(string.Format("Вы уверены, что хотите добавить категорию {0}", tb_catName.Text)) == DialogResult.No) return;
+            if (MessageBox.Show(string.Format("Вы уверены, что хотите добавить категорию {0}", tb_catName.Text), "Внимание", MessageBoxButtons.YesNo) == DialogResult.No) return;
             #endregion
             #region addition
             try
@@ -319,7 +319,7 @@ namespace SERIOUS_BUSINESS
             }
             #endregion
             #region confirmation
-            if (MessageBox.Show(string.Format("Вы уверены, что хотите добавить параметр {0}?", tb_newParamName.Text)) == DialogResult.No) return;
+            if (MessageBox.Show(string.Format("Вы уверены, что хотите добавить параметр {0}?", tb_newParamName.Text), "Внимание", MessageBoxButtons.YesNo) == DialogResult.No) return;
             #endregion
             #region param addition
             try
@@ -407,7 +407,7 @@ namespace SERIOUS_BUSINESS
             }
             #endregion
             #region confirmation
-            if (MessageBox.Show(string.Format("Вы уверены, что хотите добавить предмет {0} в категорию {1}", tb_newItemDesignation.Text, tb_catName.Text)) == DialogResult.No) return;
+            if (MessageBox.Show(string.Format("Вы уверены, что хотите добавить предмет {0} в категорию {1}", tb_newItemDesignation.Text, tb_catName.Text), "Внимание", MessageBoxButtons.YesNo) == DialogResult.No) return;
             #endregion
             #region addition
             int catID = (int)cb_cat.SelectedValue;
