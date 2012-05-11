@@ -43,7 +43,7 @@
             this.webBrowser.Name = "webBrowser";
             this.webBrowser.Size = new System.Drawing.Size(384, 491);
             this.webBrowser.TabIndex = 0;
-            this.webBrowser.Url = new System.Uri("file://localhost/F:/Programming/DB/SERIOUS_BUSINESS/bin/Debug/report.html", System.UriKind.Absolute);
+            this.webBrowser.Url = new System.Uri("", System.UriKind.Relative);
             // 
             // cb_type
             // 
@@ -58,6 +58,7 @@
             this.mc_initialDate.Location = new System.Drawing.Point(403, 96);
             this.mc_initialDate.Name = "mc_initialDate";
             this.mc_initialDate.TabIndex = 2;
+            this.mc_initialDate.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.mc_initialDate_DateChanged);
             // 
             // label1
             // 

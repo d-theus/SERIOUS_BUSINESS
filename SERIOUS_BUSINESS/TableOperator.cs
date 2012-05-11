@@ -76,6 +76,24 @@ namespace SERIOUS_BUSINESS
             FormatHeaders(ref des);
         }
 
+        static public void SetNewContentCommon(Object[] src, ref DataTable des, string title)
+        {
+            #region Init
+            if (des == null)
+            {
+                des = new DataTable();
+            }
+            else
+            {
+                des.Dispose();
+                des = new DataTable();
+            }
+            #endregion
+            des = ConvertToDataTable(src);
+            FormatHeaders(ref des);
+            des.TableName = title;
+        }
+
         static public DataTable Where(DataTable tbl, Func<DataRow, bool> selector)
         {
             var queryRes = tbl.AsEnumerable().Where(selector);
