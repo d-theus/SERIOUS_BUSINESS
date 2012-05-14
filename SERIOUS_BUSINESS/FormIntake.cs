@@ -26,6 +26,11 @@ namespace SERIOUS_BUSINESS
             cb_designation.IsAccessible = false;
             btn_accept.Enabled = false;
 
+            #region events
+            this.cb_type.SelectedIndexChanged += new EventHandler(checks);
+            this.cb_designation.SelectedIndexChanged += new EventHandler(checks);
+            #endregion
+
             FillCategories();
         }
 
@@ -77,12 +82,10 @@ namespace SERIOUS_BUSINESS
             RefillItems();
         }
 
-        private void num_count_ValueChanged(object sender, EventArgs e)
+        private void checks(object sender, EventArgs e)
         {
-            if (num_count.Value == 0)
-                btn_accept.Enabled = false;
-            else
-                btn_accept.Enabled = true;
+            num_count.Enabled = cb_type.Text != "" && cb_designation.Text != "";
+            btn_accept.Enabled = num_count.Value > 0 && num_count.Enabled;
         }
 
         private void btn_accept_Click(object sender, EventArgs e)

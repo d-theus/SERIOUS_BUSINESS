@@ -77,6 +77,7 @@ namespace SERIOUS_BUSINESS
                 catch (Exception exc)
                 {
                     MessageBox.Show("Произошла ошибка при создании базы данных: \n" + exc.Message);
+                    Application.Exit();
                 }
                 #endregion
             }

@@ -37,6 +37,7 @@
             this.rb_store = new System.Windows.Forms.RadioButton();
             this.rb_ord = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.rb_accFull = new System.Windows.Forms.RadioButton();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -75,7 +76,7 @@
             // btn_ok
             // 
             this.btn_ok.Enabled = false;
-            this.btn_ok.Location = new System.Drawing.Point(191, 139);
+            this.btn_ok.Location = new System.Drawing.Point(191, 158);
             this.btn_ok.Name = "btn_ok";
             this.btn_ok.Size = new System.Drawing.Size(92, 23);
             this.btn_ok.TabIndex = 4;
@@ -106,7 +107,7 @@
             // rb_ord
             // 
             this.rb_ord.AutoSize = true;
-            this.rb_ord.Location = new System.Drawing.Point(69, 16);
+            this.rb_ord.Location = new System.Drawing.Point(7, 35);
             this.rb_ord.Name = "rb_ord";
             this.rb_ord.Size = new System.Drawing.Size(64, 17);
             this.rb_ord.TabIndex = 8;
@@ -116,20 +117,32 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.rb_accFull);
             this.groupBox1.Controls.Add(this.rb_store);
             this.groupBox1.Controls.Add(this.rb_ord);
             this.groupBox1.Location = new System.Drawing.Point(12, 123);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(137, 39);
+            this.groupBox1.Size = new System.Drawing.Size(108, 78);
             this.groupBox1.TabIndex = 9;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Доступ";
+            // 
+            // rb_accFull
+            // 
+            this.rb_accFull.AutoSize = true;
+            this.rb_accFull.Location = new System.Drawing.Point(7, 58);
+            this.rb_accFull.Name = "rb_accFull";
+            this.rb_accFull.Size = new System.Drawing.Size(65, 17);
+            this.rb_accFull.TabIndex = 9;
+            this.rb_accFull.TabStop = true;
+            this.rb_accFull.Text = "Полный";
+            this.rb_accFull.UseVisualStyleBackColor = true;
             // 
             // FormNewEmpl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(302, 171);
+            this.ClientSize = new System.Drawing.Size(302, 206);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.btn_ok);
@@ -159,5 +172,6 @@
         private System.Windows.Forms.RadioButton rb_store;
         private System.Windows.Forms.RadioButton rb_ord;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.RadioButton rb_accFull;
     }
 }

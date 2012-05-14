@@ -42,8 +42,10 @@ namespace SERIOUS_BUSINESS
             DGV.SelectionChanged += new EventHandler(DGV_SelectionChanged);
             DGV.DataSourceChanged += new EventHandler(this.cb_cb_parameterName_Refill);
             DGV.DataSourceChanged += new EventHandler(this.check_btn_Search);
+            DGV.DataSourceChanged += new EventHandler(this.check_panel_Search);
 
             btn_find.Click += new EventHandler(btn_find_Click);
+            btn_find.Click += new EventHandler(this.check_panel_Search);
 
             btn_ClearFilter.Click += new EventHandler(btn_ClearFilter_Click);
             #endregion
@@ -82,13 +84,13 @@ namespace SERIOUS_BUSINESS
 
         private void Login()
         {
-            FormLogin formLogin = new FormLogin();
-            DialogResult res = formLogin.ShowDialog();
+            FormLogin flogin = new FormLogin();
+            DialogResult res = flogin.ShowDialog();
             switch (res)
             {
                 case DialogResult.OK:
                     this.Enabled = true;
-                    this.curEmpl = formLogin.usr;
+                    this.curEmpl = flogin.usr;
                     curEmpl.PropertyChanged += new System.ComponentModel.PropertyChangedEventHandler(this.user_prop_changed);
                     this.Text = Settings.AppTitle + " - " + curEmpl.login;
 
@@ -295,7 +297,8 @@ namespace SERIOUS_BUSINESS
                     cb_parameterName.Items.Add(col.Caption);
                 }
             }
-            cb_parameterName.SelectedIndex = 0;
+            if (cb_parameterName.Items.Count > 0)
+                cb_parameterName.SelectedIndex = 0;
         }
 
         void cb_parameterName_SelectedIndexChanged(object sender, EventArgs e)
@@ -389,6 +392,7 @@ namespace SERIOUS_BUSINESS
             if (curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_ord || curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_adm)
             {
                 FormEditOrder formOrder = new FormEditOrder(ref curEmpl);
+                bindCloseEvent(formOrder);
                 formOrder.Show();
             }
             else
@@ -402,6 +406,7 @@ namespace SERIOUS_BUSINESS
             if (curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_stock || curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_adm)
             {
                 FormIntake formIntake = new FormIntake();
+                bindCloseEvent(formIntake);
                 formIntake.ShowDialog();
             }
             else
@@ -415,6 +420,7 @@ namespace SERIOUS_BUSINESS
             if (curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_stock || curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_adm)
             {
                 FormEditCategories formCat = new FormEditCategories();
+                bindCloseEvent(formCat);
                 formCat.ShowDialog();
             }
             else
@@ -441,6 +447,7 @@ namespace SERIOUS_BUSINESS
             if (curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_adm)
             {
                 FormEditEmplSet formEmplSet = new FormEditEmplSet(curEmpl);
+                bindCloseEvent(formEmplSet);
                 formEmplSet.ShowDialog();
             }
             else
@@ -473,6 +480,18 @@ namespace SERIOUS_BUSINESS
             this.Text = Settings.AppTitle + " - " + curEmpl.login;
         }
 
+        private void dialogClosed(Object sender, EventArgs e)
+        {
+            if (cb_table.Text != "Категории товаров")
+            {
+                cb_table_SelectedIndexChanged(sender, e);
+            }
+            else
+            {
+                cb_tableOptions_SelectedIndexChanged(sender, e);
+            }
+        }
+
         //################# MENU STRIP HANDLERS ########################
 
         //##### CMS_STORE
@@ -486,6 +505,7 @@ namespace SERIOUS_BUSINESS
                     int selID = (int)row.Cells["id"].Value;
                     res.Item selected = (from items in database.ItemSet where items.id == selID select items).FirstOrDefault();
                     FormIntake formIntake = new FormIntake(selected);
+                    bindCloseEvent(formIntake);
                     formIntake.ShowDialog();
                 }
             }
@@ -501,6 +521,7 @@ namespace SERIOUS_BUSINESS
                     int selID = (int)row.Cells["id"].Value;
                     res.Item selected = (from items in database.ItemSet where items.id == selID select items).FirstOrDefault();
                     FormEditCategories formcats = new FormEditCategories(selected);
+                    bindCloseEvent(formcats);
                     formcats.ShowDialog();
                 }
                 this.cb_table_SelectedIndexChanged(this, null);
@@ -510,6 +531,7 @@ namespace SERIOUS_BUSINESS
         private void добавитьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             FormEditCategories formcats = new FormEditCategories();
+            bindCloseEvent(formcats);
             formcats.ShowDialog();
             this.cb_table_SelectedIndexChanged(this, null);
         }
@@ -665,6 +687,7 @@ namespace SERIOUS_BUSINESS
                 int selID = (int)DGV.SelectedRows[0].Cells["Номер"].Value;
                 Order selOrder = (from ord in database.OrderSet where ord.id == selID select ord).Single();
                 FormEditEmplSet formempl = new FormEditEmplSet(selOrder.Employee);
+                bindCloseEvent(formempl);
                 formempl.ShowDialog();
             }
             this.cb_table_SelectedIndexChanged(this, null);
@@ -675,6 +698,7 @@ namespace SERIOUS_BUSINESS
         private void новыйToolStripMenuItem2_Click(object sender, EventArgs e)
         {
             FormNewEmpl formNewEmpl = new FormNewEmpl();
+            bindCloseEvent(formNewEmpl);
             formNewEmpl.ShowDialog();
             this.cb_table_SelectedIndexChanged(this, null);
         }
@@ -688,6 +712,7 @@ namespace SERIOUS_BUSINESS
                     int id = (int)row.Cells["Номер"].Value;
                     Employee selEmpl = (from emp in database.EmployeeSet where emp.id == id select emp).Single();
                     FormEditEmplSet formEmpl = new FormEditEmplSet(selEmpl, curEmpl);
+                    bindCloseEvent(formEmpl);
                     formEmpl.ShowDialog();
                 }
             }
@@ -727,6 +752,11 @@ namespace SERIOUS_BUSINESS
             {
                 cb_parameterName.SelectedText = DGV.SelectedColumns[0].Name;
             }
+        }
+
+        private void bindCloseEvent(Form form)
+        {
+            form.FormClosed += new FormClosedEventHandler(this.dialogClosed);
         }
 
     }

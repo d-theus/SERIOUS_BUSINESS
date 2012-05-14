@@ -48,10 +48,15 @@ namespace SERIOUS_BUSINESS
                 sel_apt_id = (from app in database.AppointmentSet where app.name == "Заказы" select app).Single().id;
                 str_acc = "к заказам";
             }
-            else
+            else if (rb_store.Checked)
             {
                 sel_apt_id = (from app in database.AppointmentSet where app.name == "Склад" select app).Single().id;
                 str_acc = "к складу";
+            }
+            else
+            {
+                sel_apt_id = (from app in database.AppointmentSet where app.name == "Полный" select app).Single().id;
+                str_acc = "ко всему";
             }
             resEmpl = res.Employee.CreateEmployee(-1, tb_name.Text, tb_login.Text, tb_login.Text, sel_apt_id);
 #region confirmation
@@ -85,5 +90,6 @@ namespace SERIOUS_BUSINESS
             } 
             #endregion
         }
+
     }
 }

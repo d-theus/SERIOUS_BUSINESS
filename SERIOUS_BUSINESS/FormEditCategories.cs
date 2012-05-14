@@ -407,7 +407,7 @@ namespace SERIOUS_BUSINESS
             }
             #endregion
             #region confirmation
-            if (MessageBox.Show(string.Format("Вы уверены, что хотите добавить предмет {0} в категорию {1}", tb_newItemDesignation.Text, tb_catName.Text), "Внимание", MessageBoxButtons.YesNo) == DialogResult.No) return;
+            if (MessageBox.Show(string.Format("Вы уверены, что хотите добавить предмет {0} в категорию {1}", tb_newItemDesignation.Text, cb_cat.Text), "Внимание", MessageBoxButtons.YesNo) == DialogResult.No) return;
             #endregion
             #region addition
             int catID = (int)cb_cat.SelectedValue;

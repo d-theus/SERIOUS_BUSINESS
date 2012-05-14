@@ -68,11 +68,12 @@
             // 
             // num_count
             // 
+            this.num_count.Enabled = false;
             this.num_count.Location = new System.Drawing.Point(12, 134);
             this.num_count.Name = "num_count";
             this.num_count.Size = new System.Drawing.Size(120, 20);
             this.num_count.TabIndex = 3;
-            this.num_count.ValueChanged += new System.EventHandler(this.num_count_ValueChanged);
+            this.num_count.ValueChanged += new System.EventHandler(this.checks);
             // 
             // cb_designation
             // 
@@ -103,6 +104,7 @@
             // 
             // btn_accept
             // 
+            this.btn_accept.Enabled = false;
             this.btn_accept.Location = new System.Drawing.Point(258, 134);
             this.btn_accept.Name = "btn_accept";
             this.btn_accept.Size = new System.Drawing.Size(119, 23);
