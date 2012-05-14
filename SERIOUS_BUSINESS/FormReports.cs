@@ -32,9 +32,8 @@ namespace SERIOUS_BUSINESS
 
             types.AddRange(new ItemWithAccess[] { 
             new ItemWithAccess("Выручка", (int)accessModifiers.acc_stock),
-            new ItemWithAccess("Категории товаров", (int)accessModifiers.acc_stock),
-            new ItemWithAccess("Товары конкретных категорий", (int)accessModifiers.acc_stock),
-            new ItemWithAccess("Заказы по сотрудникам", (int)accessModifiers.acc_adm)
+            new ItemWithAccess("Склад", (int)accessModifiers.acc_stock),
+            new ItemWithAccess("Сотрудники", (int)accessModifiers.acc_adm)
             });
 
             cb_type.DataSource = types.Where(tbl => tbl.accessMod == curEmpl.Appointment.accessModifier || curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_adm).ToList();
@@ -44,19 +43,20 @@ namespace SERIOUS_BUSINESS
 
         private void GenerateTable(DateTime initialDate)
         {
+            string title = "";
             switch (cb_type.Text)
             {
                 case "Выручка":
                     #region generate report
-                    var view = from cat in database.ItemCategorySet
+                    var viewIncome = from cat in database.ItemCategorySet
                                select new Report_Income
                                {
                                    Категория = cat.name
                                };
                     double overallIncome = 0;
-                    Report_Income[] Report = view.ToArray();
+                    Report_Income[] Report = viewIncome.ToArray();
                     #region category income
-                    foreach (var ent in view)
+                    foreach (var ent in viewIncome)
                     {
                         var refEnt = Report.Single(v => v.Категория == ent.Категория);
                         IQueryable<res.Item> cItems = (from items in database.ItemSet where items.ItemCategory.name == refEnt.Категория select items);
@@ -112,13 +112,39 @@ namespace SERIOUS_BUSINESS
                         }
                     }
                     #endregion
-                    string title = string.Format("C {0} по {1}", dateCriteria.Date.ToShortDateString(), DateTime.Now.Date.ToShortDateString());
+                    title = string.Format("C {0} по {1}", dateCriteria.Date.ToShortDateString(), DateTime.Now.Date.ToShortDateString());
                     TableOperator.SetNewContentCommon(Report, ref table, title);
                     #endregion
                     break;
-                case "Категории товаров":
+                case "Склад":
                     #region generate report
-
+                    IQueryable<StockForStock> viewStock = from item in database.ItemSet
+                                                      select new StockForStock
+                                                      {
+                                                          id = item.id,
+                                                          Категория = item.ItemCategory.name,
+                                                          Остаток = item.storeResidue,
+                                                      };
+                    List<StockForStock> Stock = new List<StockForStock>();
+                    foreach (var ent in viewStock)
+                    {
+                        int demand = 0;
+                        var counts = from pos in database.PositionSet where pos.itemID == ent.id && pos.Order.date >= initialDate select pos.count;
+                        if (counts.Any())
+                        {
+                            demand = counts.Sum();
+                        }
+                        Stock.Add(new StockForStock 
+                        {
+                            id = ent.id,
+                            Категория = ent.Категория,
+                            Наименование = (from par in database.ItemParameterSet where par.itemID == ent.id && par.ParameterCategory.name == "Наименование" select par).FirstOrDefault().valueTxt,
+                            Остаток = ent.Остаток,
+                            Спрос = demand
+                        });
+                    }
+                    title = string.Format("C {0} по {1}", dateCriteria.Date.ToShortDateString(), DateTime.Now.Date.ToShortDateString());
+                    TableOperator.SetNewContentCommon(Stock.ToArray(), ref table, title);
                     #endregion
                     break;
             }
