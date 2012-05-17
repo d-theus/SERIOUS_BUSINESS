@@ -217,6 +217,7 @@ namespace SERIOUS_BUSINESS
         public string Сотрудник { get; set; }
         public AllOrders() { }
     }
+
     class PositionForOrder : Object
     {
         public int id { get; set; }
@@ -252,8 +253,14 @@ namespace SERIOUS_BUSINESS
         public string Категория { get; set;}
         public double Прибыль { get; set;}
         public Decimal От_Общей_прибыли { get; set;}
-
         public Report_Income() { }
     }
+    class Report_Employees : Object
+    {
+        public int Номер { get; set; }
+        public string Полное_имя { get; set; }
+        public int Количество_заказов { get; set; }
 
+        public Report_Employees() { }
+    }
 }

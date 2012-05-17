@@ -25,7 +25,7 @@ namespace SERIOUS_BUSINESS
         }
         public static void CreateSubkey()
         {
-            RegistryKey regCreateKey = Registry.LocalMachine.CreateSubKey(res.Settings.reg_Subkey, RegistryKeyPermissionCheck.ReadWriteSubTree);
+            RegistryKey regCreateKey = Registry.LocalMachine.CreateSubKey(res.Settings.reg_Subkey);
         }
 
         public static bool SubkeyExists()

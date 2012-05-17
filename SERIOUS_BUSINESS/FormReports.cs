@@ -43,7 +43,7 @@ namespace SERIOUS_BUSINESS
 
         private void GenerateTable(DateTime initialDate)
         {
-            string title = "";
+            string title = string.Format("С {0} по {1}", initialDate.Date.ToShortDateString(), DateTime.Now.Date.ToShortDateString());
             switch (cb_type.Text)
             {
                 case "Выручка":
@@ -112,7 +112,6 @@ namespace SERIOUS_BUSINESS
                         }
                     }
                     #endregion
-                    title = string.Format("C {0} по {1}", dateCriteria.Date.ToShortDateString(), DateTime.Now.Date.ToShortDateString());
                     TableOperator.SetNewContentCommon(Report, ref table, title);
                     #endregion
                     break;
@@ -129,7 +128,7 @@ namespace SERIOUS_BUSINESS
                     foreach (var ent in viewStock)
                     {
                         int demand = 0;
-                        var counts = from pos in database.PositionSet where pos.itemID == ent.id && pos.Order.date >= initialDate select pos.count;
+                        var counts = from pos in database.PositionSet where pos.itemID == ent.id && pos.Order.date >= initialDate.Date select pos.count;
                         if (counts.Any())
                         {
                             demand = counts.Sum();
@@ -143,9 +142,35 @@ namespace SERIOUS_BUSINESS
                             Спрос = demand
                         });
                     }
-                    title = string.Format("C {0} по {1}", dateCriteria.Date.ToShortDateString(), DateTime.Now.Date.ToShortDateString());
                     TableOperator.SetNewContentCommon(Stock.ToArray(), ref table, title);
                     #endregion
+                    break;
+                case "Сотрудники":
+                    #region generate report
+		                    var emp_set = from emp in database.EmployeeSet
+                                   select new Report_Employees
+                                   {
+                                       Номер = emp.id,
+                                       Полное_имя = emp.name
+                                   };
+                    List<Report_Employees> emp_view = new List<Report_Employees>();
+                    foreach (var ent in emp_set)
+                    {
+                        int ord_count = 0;
+                        var db_ord = (from ord in database.OrderSet where ord.date >= initialDate.Date select ord.id);
+                        if (db_ord.Any())
+                        {
+                            ord_count = db_ord.Count();
+                        }
+                        emp_view.Add(new Report_Employees
+                        {
+                            Номер = ent.Номер,
+                            Полное_имя = ent.Полное_имя,
+                            Количество_заказов = ord_count
+                        });
+                    } 
+	#endregion
+                    TableOperator.SetNewContentCommon(emp_view.ToArray(), ref table, title);
                     break;
             }
         }
