@@ -100,6 +100,7 @@
             this.Controls.Add(this.mc_initialDate);
             this.Controls.Add(this.cb_type);
             this.Controls.Add(this.webBrowser);
+            this.MaximizeBox = false;
             this.Name = "FormReports";
             this.Text = "FormReports";
             this.ResumeLayout(false);

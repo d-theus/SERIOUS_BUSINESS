@@ -178,14 +178,14 @@
             // новыйToolStripMenuItem
             // 
             this.новыйToolStripMenuItem.Name = "новыйToolStripMenuItem";
-            this.новыйToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.новыйToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.новыйToolStripMenuItem.Text = "Новый";
             this.новыйToolStripMenuItem.Click += new System.EventHandler(this.новыйToolStripMenuItem_Click);
             // 
             // редактироватьToolStripMenuItem
             // 
             this.редактироватьToolStripMenuItem.Name = "редактироватьToolStripMenuItem";
-            this.редактироватьToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.редактироватьToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.редактироватьToolStripMenuItem.Text = "Редактировать";
             this.редактироватьToolStripMenuItem.Click += new System.EventHandler(this.редактироватьToolStripMenuItem_Click);
             // 
@@ -216,17 +216,15 @@
             // 
             this.DGV.AllowUserToAddRows = false;
             this.DGV.AllowUserToDeleteRows = false;
-            this.DGV.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
             this.DGV.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DGV.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
             this.DGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DGV.Location = new System.Drawing.Point(10, 10);
+            this.DGV.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.DGV.Location = new System.Drawing.Point(0, 0);
             this.DGV.Margin = new System.Windows.Forms.Padding(10);
             this.DGV.Name = "DGV";
             this.DGV.ReadOnly = true;
-            this.DGV.Size = new System.Drawing.Size(518, 383);
+            this.DGV.Size = new System.Drawing.Size(538, 403);
             this.DGV.TabIndex = 1;
             // 
             // panel_Search
