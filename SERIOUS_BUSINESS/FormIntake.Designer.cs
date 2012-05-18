@@ -70,6 +70,11 @@
             // 
             this.num_count.Enabled = false;
             this.num_count.Location = new System.Drawing.Point(12, 134);
+            this.num_count.Maximum = new decimal(new int[] {
+            999999999,
+            0,
+            0,
+            0});
             this.num_count.Name = "num_count";
             this.num_count.Size = new System.Drawing.Size(120, 20);
             this.num_count.TabIndex = 3;
@@ -81,7 +86,7 @@
             this.cb_designation.Location = new System.Drawing.Point(12, 94);
             this.cb_designation.Name = "cb_designation";
             this.cb_designation.Size = new System.Drawing.Size(365, 21);
-            this.cb_designation.TabIndex = 4;
+            this.cb_designation.TabIndex = 1;
             // 
             // cb_type
             // 
@@ -89,7 +94,7 @@
             this.cb_type.Location = new System.Drawing.Point(12, 54);
             this.cb_type.Name = "cb_type";
             this.cb_type.Size = new System.Drawing.Size(365, 21);
-            this.cb_type.TabIndex = 5;
+            this.cb_type.TabIndex = 0;
             this.cb_type.SelectedIndexChanged += new System.EventHandler(this.cb_type_SelectedIndexChanged);
             // 
             // label4
@@ -108,7 +113,7 @@
             this.btn_accept.Location = new System.Drawing.Point(258, 134);
             this.btn_accept.Name = "btn_accept";
             this.btn_accept.Size = new System.Drawing.Size(119, 23);
-            this.btn_accept.TabIndex = 7;
+            this.btn_accept.TabIndex = 4;
             this.btn_accept.Text = "Занести данные";
             this.btn_accept.UseVisualStyleBackColor = true;
             this.btn_accept.Click += new System.EventHandler(this.btn_accept_Click);

@@ -71,7 +71,7 @@
             this.tb_oldPass.Name = "tb_oldPass";
             this.tb_oldPass.PasswordChar = '*';
             this.tb_oldPass.Size = new System.Drawing.Size(173, 20);
-            this.tb_oldPass.TabIndex = 3;
+            this.tb_oldPass.TabIndex = 2;
             // 
             // label3
             // 
@@ -89,7 +89,7 @@
             this.tb_newPass1.Name = "tb_newPass1";
             this.tb_newPass1.PasswordChar = '*';
             this.tb_newPass1.Size = new System.Drawing.Size(173, 20);
-            this.tb_newPass1.TabIndex = 4;
+            this.tb_newPass1.TabIndex = 3;
             // 
             // tb_newPass2
             // 
@@ -97,7 +97,7 @@
             this.tb_newPass2.Name = "tb_newPass2";
             this.tb_newPass2.PasswordChar = '*';
             this.tb_newPass2.Size = new System.Drawing.Size(173, 20);
-            this.tb_newPass2.TabIndex = 5;
+            this.tb_newPass2.TabIndex = 4;
             // 
             // label4
             // 
@@ -113,7 +113,7 @@
             this.btn_passwdChange.Location = new System.Drawing.Point(105, 151);
             this.btn_passwdChange.Name = "btn_passwdChange";
             this.btn_passwdChange.Size = new System.Drawing.Size(75, 23);
-            this.btn_passwdChange.TabIndex = 6;
+            this.btn_passwdChange.TabIndex = 5;
             this.btn_passwdChange.Text = "Сменить";
             this.btn_passwdChange.UseVisualStyleBackColor = true;
             this.btn_passwdChange.Click += new System.EventHandler(this.btn_passwdChange_Click);

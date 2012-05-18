@@ -71,7 +71,7 @@
             this.tb_login.Location = new System.Drawing.Point(12, 83);
             this.tb_login.Name = "tb_login";
             this.tb_login.Size = new System.Drawing.Size(284, 20);
-            this.tb_login.TabIndex = 3;
+            this.tb_login.TabIndex = 2;
             // 
             // btn_ok
             // 
@@ -79,7 +79,7 @@
             this.btn_ok.Location = new System.Drawing.Point(191, 158);
             this.btn_ok.Name = "btn_ok";
             this.btn_ok.Size = new System.Drawing.Size(92, 23);
-            this.btn_ok.TabIndex = 4;
+            this.btn_ok.TabIndex = 5;
             this.btn_ok.Text = "Добавить";
             this.btn_ok.UseVisualStyleBackColor = true;
             this.btn_ok.Click += new System.EventHandler(this.btn_ok_Click);
@@ -123,7 +123,7 @@
             this.groupBox1.Location = new System.Drawing.Point(12, 123);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(108, 78);
-            this.groupBox1.TabIndex = 9;
+            this.groupBox1.TabIndex = 3;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Доступ";
             // 

@@ -76,7 +76,7 @@
             this.tb_newParamName.Location = new System.Drawing.Point(7, 32);
             this.tb_newParamName.Name = "tb_newParamName";
             this.tb_newParamName.Size = new System.Drawing.Size(307, 20);
-            this.tb_newParamName.TabIndex = 1;
+            this.tb_newParamName.TabIndex = 3;
             // 
             // groupBox1
             // 
@@ -109,7 +109,7 @@
             this.btn_accParams.Location = new System.Drawing.Point(263, 120);
             this.btn_accParams.Name = "btn_accParams";
             this.btn_accParams.Size = new System.Drawing.Size(93, 23);
-            this.btn_accParams.TabIndex = 1;
+            this.btn_accParams.TabIndex = 6;
             this.btn_accParams.Text = "Применить";
             this.btn_accParams.UseVisualStyleBackColor = true;
             // 
@@ -133,7 +133,7 @@
             this.cb_cat.Location = new System.Drawing.Point(13, 32);
             this.cb_cat.Name = "cb_cat";
             this.cb_cat.Size = new System.Drawing.Size(321, 21);
-            this.cb_cat.TabIndex = 2;
+            this.cb_cat.TabIndex = 5;
             // 
             // groupBox3
             // 
@@ -165,7 +165,7 @@
             this.tb_newItemDesignation.Location = new System.Drawing.Point(13, 36);
             this.tb_newItemDesignation.Name = "tb_newItemDesignation";
             this.tb_newItemDesignation.Size = new System.Drawing.Size(301, 20);
-            this.tb_newItemDesignation.TabIndex = 9;
+            this.tb_newItemDesignation.TabIndex = 7;
             // 
             // btn_addItem
             // 
@@ -173,7 +173,7 @@
             this.btn_addItem.Location = new System.Drawing.Point(331, 36);
             this.btn_addItem.Name = "btn_addItem";
             this.btn_addItem.Size = new System.Drawing.Size(35, 23);
-            this.btn_addItem.TabIndex = 6;
+            this.btn_addItem.TabIndex = 8;
             this.btn_addItem.Text = "+";
             this.btn_addItem.UseVisualStyleBackColor = true;
             // 
@@ -183,7 +183,7 @@
             this.btn_accItem.Location = new System.Drawing.Point(264, 83);
             this.btn_accItem.Name = "btn_accItem";
             this.btn_accItem.Size = new System.Drawing.Size(93, 23);
-            this.btn_accItem.TabIndex = 5;
+            this.btn_accItem.TabIndex = 11;
             this.btn_accItem.Text = "Применить";
             this.btn_accItem.UseVisualStyleBackColor = true;
             // 
@@ -193,7 +193,7 @@
             this.cb_existingItem.Location = new System.Drawing.Point(10, 86);
             this.cb_existingItem.Name = "cb_existingItem";
             this.cb_existingItem.Size = new System.Drawing.Size(247, 21);
-            this.cb_existingItem.TabIndex = 4;
+            this.cb_existingItem.TabIndex = 10;
             // 
             // label5
             // 

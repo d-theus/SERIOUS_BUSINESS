@@ -80,7 +80,8 @@
             this.tb_login.Location = new System.Drawing.Point(18, 82);
             this.tb_login.Name = "tb_login";
             this.tb_login.Size = new System.Drawing.Size(100, 20);
-            this.tb_login.TabIndex = 5;
+            this.tb_login.TabIndex = 0;
+            this.tb_login.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormLogin_KeyPress);
             // 
             // cb_remember
             // 
@@ -88,16 +89,17 @@
             this.cb_remember.Location = new System.Drawing.Point(18, 157);
             this.cb_remember.Name = "cb_remember";
             this.cb_remember.Size = new System.Drawing.Size(111, 17);
-            this.cb_remember.TabIndex = 6;
+            this.cb_remember.TabIndex = 3;
             this.cb_remember.Text = "Запомнить меня";
             this.cb_remember.UseVisualStyleBackColor = true;
+            this.cb_remember.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormLogin_KeyPress);
             // 
             // btn_enter
             // 
             this.btn_enter.Location = new System.Drawing.Point(163, 148);
             this.btn_enter.Name = "btn_enter";
             this.btn_enter.Size = new System.Drawing.Size(57, 23);
-            this.btn_enter.TabIndex = 7;
+            this.btn_enter.TabIndex = 4;
             this.btn_enter.Text = "Войти";
             this.btn_enter.UseVisualStyleBackColor = true;
             this.btn_enter.Click += new System.EventHandler(this.btn_enter_Click);
@@ -108,7 +110,8 @@
             this.tb_passwd.Name = "tb_passwd";
             this.tb_passwd.PasswordChar = '*';
             this.tb_passwd.Size = new System.Drawing.Size(100, 20);
-            this.tb_passwd.TabIndex = 8;
+            this.tb_passwd.TabIndex = 1;
+            this.tb_passwd.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormLogin_KeyPress);
             // 
             // FormLogin
             // 
@@ -128,6 +131,7 @@
             this.Name = "FormLogin";
             this.Text = "SBPS - login";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormLogin_FormClosing);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FormLogin_KeyPress);
             this.ResumeLayout(false);
             this.PerformLayout();
 

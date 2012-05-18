@@ -30,6 +30,7 @@ namespace SERIOUS_BUSINESS
             InitializeComponent();
             mode = (short)OrderMode.mode_new;
             curEmployee = curEmpl;
+            lbl_num.Text = "Новый";
             #region database context & entities filling
             database = new res.Model1Container(RegistryInteractor.GetFromReg("Connection String"));
             curPositions = new List<PositionForOrder>();
@@ -73,7 +74,7 @@ namespace SERIOUS_BUSINESS
 
             DGV.SelectionChanged += new EventHandler(btn_rmItem_check);
             DGV.CellValueChanged += new DataGridViewCellEventHandler(DGV_CellValueChanged);
-            DGV.CellValueChanged +=new DataGridViewCellEventHandler(DGV_contentsT_Refill);
+            DGV.CellValueChanged += new DataGridViewCellEventHandler(DGV_contentsT_Refill);
             DGV.DataError += new DataGridViewDataErrorEventHandler(DGV_DataError);
             #endregion
         }
@@ -102,6 +103,7 @@ namespace SERIOUS_BUSINESS
         {
             this.curOrder = _presetOrder;
             this.mode = (short)OrderMode.mode_edit;
+            lbl_num.Text = _presetOrder.id.ToString();
             this.lbl_num.Text = _presetOrder.id.ToString();
             foreach (var pos in _presetOrder.Position)
                 this.curPositions.Add(new PositionForOrder { id = pos.itemID, Количество = pos.count, Наименование = pos.Item.ItemParameter.Single(par => par.ParameterCategory.name == "Наименование").valueTxt });
@@ -240,10 +242,9 @@ namespace SERIOUS_BUSINESS
         private void btn_addItem_Click(object sender, EventArgs e)
         {
             #region check for same
-            MessageBox.Show("Selected id: " + cb_itemDesignation.SelectedValue);
             if (curPositions.Any(pos => pos.id == (int)cb_itemDesignation.SelectedValue))
             {
-                MessageBox.Show("Позиция с таким товаром уже есть в списке заказа", "Ошибка добавления позиции");
+                curPositions.Single(pos => pos.id == (int)cb_itemDesignation.SelectedValue).Количество += (int)num_itemCount.Value;
                 return;
             }
             #endregion
@@ -355,10 +356,17 @@ namespace SERIOUS_BUSINESS
                 var DBpositions = from pos in database.PositionSet where pos.orderID == curOrder.id select pos;
                 foreach (var pos in DBpositions)
                 {
-                    res.Position posRef = DBpositions.Single(rpos => rpos.id == pos.id);
-                    PositionDelta.ApplyPosAndItem(ref posRef, deltas.Single(del => del.id == pos.id));
-                    database.ApplyCurrentValues<res.Position>("PositionSet", posRef);
-                    database.ApplyCurrentValues<res.Item>("ItemSet", posRef.Item);
+                    if (!curPositions.Where(p => p.id == pos.id).Any())
+                    {
+                        database.DeleteObject(pos);
+                    }
+                    else
+                    {
+                        var posRef = pos;
+                        PositionDelta.ApplyPosAndItem(ref posRef, deltas.Single(del => del.id == pos.id));
+                        database.ApplyCurrentValues<res.Position>("PositionSet", posRef);
+                        database.ApplyCurrentValues<res.Item>("ItemSet", posRef.Item);
+                    }
                 }
                 #endregion
                 #region increase or decrease stock residue, demand for NEW, add NEW to order
@@ -372,6 +380,7 @@ namespace SERIOUS_BUSINESS
                 #endregion
                 var consRef = (from cons in database.ConsumerSet where cons.id == curOrder.consID select cons).Single();
                 var ordRef = (from ord in database.OrderSet where ord.id == curOrder.id select ord).Single();
+
                 consRef.name = tb_Name.Text;
                 consRef.phone = tb_phone.Text;
                 consRef.email = tb_email.Text;
@@ -381,5 +390,6 @@ namespace SERIOUS_BUSINESS
             database.SaveChanges();
             this.Close();
         }
+
     }
 }

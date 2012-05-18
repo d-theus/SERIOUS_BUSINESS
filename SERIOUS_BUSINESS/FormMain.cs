@@ -505,7 +505,6 @@ namespace SERIOUS_BUSINESS
                     int selID = (int)row.Cells["id"].Value;
                     res.Item selected = (from items in database.ItemSet where items.id == selID select items).FirstOrDefault();
                     FormIntake formIntake = new FormIntake(selected);
-                    bindCloseEvent(formIntake);
                     formIntake.ShowDialog();
                 }
             }

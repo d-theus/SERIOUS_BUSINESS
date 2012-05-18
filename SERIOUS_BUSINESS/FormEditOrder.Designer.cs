@@ -101,7 +101,7 @@
             this.cb_itemType.Location = new System.Drawing.Point(9, 44);
             this.cb_itemType.Name = "cb_itemType";
             this.cb_itemType.Size = new System.Drawing.Size(272, 21);
-            this.cb_itemType.TabIndex = 4;
+            this.cb_itemType.TabIndex = 1;
             // 
             // cb_itemDesignation
             // 
@@ -109,7 +109,7 @@
             this.cb_itemDesignation.Location = new System.Drawing.Point(9, 93);
             this.cb_itemDesignation.Name = "cb_itemDesignation";
             this.cb_itemDesignation.Size = new System.Drawing.Size(233, 21);
-            this.cb_itemDesignation.TabIndex = 5;
+            this.cb_itemDesignation.TabIndex = 2;
             // 
             // num_itemCount
             // 
@@ -117,14 +117,14 @@
             this.num_itemCount.Location = new System.Drawing.Point(9, 142);
             this.num_itemCount.Name = "num_itemCount";
             this.num_itemCount.Size = new System.Drawing.Size(121, 20);
-            this.num_itemCount.TabIndex = 6;
+            this.num_itemCount.TabIndex = 3;
             // 
             // tb_Name
             // 
             this.tb_Name.Location = new System.Drawing.Point(6, 44);
             this.tb_Name.Name = "tb_Name";
             this.tb_Name.Size = new System.Drawing.Size(275, 20);
-            this.tb_Name.TabIndex = 8;
+            this.tb_Name.TabIndex = 6;
             // 
             // groupBox1
             // 
@@ -150,7 +150,7 @@
             this.btn_rmItem.Location = new System.Drawing.Point(248, 126);
             this.btn_rmItem.Name = "btn_rmItem";
             this.btn_rmItem.Size = new System.Drawing.Size(33, 23);
-            this.btn_rmItem.TabIndex = 18;
+            this.btn_rmItem.TabIndex = 5;
             this.btn_rmItem.Text = "-";
             this.btn_rmItem.UseVisualStyleBackColor = true;
             // 
@@ -160,12 +160,14 @@
             this.btn_addItem.Location = new System.Drawing.Point(248, 91);
             this.btn_addItem.Name = "btn_addItem";
             this.btn_addItem.Size = new System.Drawing.Size(33, 23);
-            this.btn_addItem.TabIndex = 7;
+            this.btn_addItem.TabIndex = 4;
             this.btn_addItem.Text = "+";
             this.btn_addItem.UseVisualStyleBackColor = true;
             // 
             // DGV
             // 
+            this.DGV.AllowUserToAddRows = false;
+            this.DGV.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.DGV.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.DGV.Location = new System.Drawing.Point(315, 87);
             this.DGV.Name = "DGV";
@@ -193,7 +195,7 @@
             this.tb_email.Location = new System.Drawing.Point(6, 141);
             this.tb_email.Name = "tb_email";
             this.tb_email.Size = new System.Drawing.Size(275, 20);
-            this.tb_email.TabIndex = 13;
+            this.tb_email.TabIndex = 9;
             // 
             // label7
             // 
@@ -209,7 +211,7 @@
             this.tb_phone.Location = new System.Drawing.Point(6, 93);
             this.tb_phone.Name = "tb_phone";
             this.tb_phone.Size = new System.Drawing.Size(275, 20);
-            this.tb_phone.TabIndex = 11;
+            this.tb_phone.TabIndex = 8;
             // 
             // label6
             // 
@@ -244,7 +246,7 @@
             this.btn_accept.Location = new System.Drawing.Point(679, 385);
             this.btn_accept.Name = "btn_accept";
             this.btn_accept.Size = new System.Drawing.Size(113, 23);
-            this.btn_accept.TabIndex = 13;
+            this.btn_accept.TabIndex = 10;
             this.btn_accept.Text = "Подтвердить";
             this.btn_accept.UseVisualStyleBackColor = true;
             // 

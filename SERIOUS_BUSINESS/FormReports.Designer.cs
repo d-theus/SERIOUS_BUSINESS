@@ -56,6 +56,7 @@
             // mc_initialDate
             // 
             this.mc_initialDate.Location = new System.Drawing.Point(403, 96);
+            this.mc_initialDate.MaxSelectionCount = 365;
             this.mc_initialDate.Name = "mc_initialDate";
             this.mc_initialDate.TabIndex = 2;
             this.mc_initialDate.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.mc_initialDate_DateChanged);
@@ -83,7 +84,7 @@
             this.btn_generate.Location = new System.Drawing.Point(517, 271);
             this.btn_generate.Name = "btn_generate";
             this.btn_generate.Size = new System.Drawing.Size(107, 23);
-            this.btn_generate.TabIndex = 5;
+            this.btn_generate.TabIndex = 2;
             this.btn_generate.Text = "Сгенерировать";
             this.btn_generate.UseVisualStyleBackColor = true;
             this.btn_generate.Click += new System.EventHandler(this.btn_generate_Click);

@@ -41,9 +41,10 @@ namespace SERIOUS_BUSINESS
             cb_type.DisplayMember = "name";
         }
 
-        private void GenerateTable(DateTime initialDate)
+        private void GenerateTable(DateTime initialDate, DateTime _endDate)
         {
-            string title = string.Format("С {0} по {1}", initialDate.Date.ToShortDateString(), DateTime.Now.Date.ToShortDateString());
+            string title = string.Format("С {0} по {1}", initialDate.Date.ToShortDateString(), _endDate.Date.ToShortDateString());
+            DateTime endDate = _endDate.AddDays(1);
             switch (cb_type.Text)
             {
                 case "Выручка":
@@ -78,7 +79,10 @@ namespace SERIOUS_BUSINESS
                             if ((from pos in database.PositionSet where pos.itemID == item.id select pos).Any())
                             {
                                 int ICount = 0;
-                                var positions = (from pos in database.PositionSet where pos.itemID == item.id select pos).Where(pos => pos.Order.date >= initialDate);
+                                var positions = (from pos in database.PositionSet where pos.itemID == item.id select pos).Where(pos => 
+                                    pos.Order.date >= initialDate.Date
+                                    &&
+                                    pos.Order.date <= endDate.Date);
                                 if (positions.Any())
                                 {
                                     ICount = positions.Sum(p => p.count);
@@ -128,7 +132,7 @@ namespace SERIOUS_BUSINESS
                     foreach (var ent in viewStock)
                     {
                         int demand = 0;
-                        var counts = from pos in database.PositionSet where pos.itemID == ent.id && pos.Order.date >= initialDate.Date select pos.count;
+                        var counts = from pos in database.PositionSet where pos.itemID == ent.id && pos.Order.date >= initialDate.Date && pos.Order.date <= endDate.Date select pos.count;
                         if (counts.Any())
                         {
                             demand = counts.Sum();
@@ -157,7 +161,7 @@ namespace SERIOUS_BUSINESS
                     foreach (var ent in emp_set)
                     {
                         int ord_count = 0;
-                        var db_ord = (from ord in database.OrderSet where ord.date >= initialDate.Date select ord.id);
+                        var db_ord = (from ord in database.OrderSet where ord.date >= initialDate.Date && ord.date <= endDate.Date select ord.id);
                         if (db_ord.Any())
                         {
                             ord_count = db_ord.Count();
@@ -178,7 +182,7 @@ namespace SERIOUS_BUSINESS
         private void btn_generate_Click(object sender, EventArgs e)
         {
             string rootD = RegistryInteractor.GetFromReg("Root Directory");
-            GenerateTable(mc_initialDate.SelectionStart);
+            GenerateTable(mc_initialDate.SelectionStart, mc_initialDate.SelectionEnd);
             string report_filename = string.Format("{0}reports/{1} - {2}.html", rootD, cb_type.Text, DateTime.Now.ToShortDateString());
             if (!Directory.EnumerateDirectories(rootD, "reports").Any())
             {

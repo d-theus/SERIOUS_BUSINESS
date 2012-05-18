@@ -38,16 +38,13 @@ namespace SERIOUS_BUSINESS
         {
             InitializeComponent();
             database = new res.Model1Container(RegistryInteractor.GetFromReg("Connection String"));
-            database.Connection.Open();
-            cb_type.IsAccessible = false;
-            cb_designation.IsAccessible = false;
-            btn_accept.Enabled = false;
 
             FillCategories();
 
             cb_type.SelectedValue = _preselectedItem.catID;
             RefillItems();
             cb_designation.SelectedValue = _preselectedItem.id;
+            checks(this, null);
         }
 
         private void FillCategories()

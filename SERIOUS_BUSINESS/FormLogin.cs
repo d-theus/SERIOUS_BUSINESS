@@ -93,5 +93,13 @@ namespace SERIOUS_BUSINESS
                 DialogResult = DialogResult.Abort;
             }
         }
+
+        private void FormLogin_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                this.btn_enter_Click(this, null);
+            }
+        }
     }
 }

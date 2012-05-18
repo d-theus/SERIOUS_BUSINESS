@@ -63,7 +63,7 @@
             this.btn_search.Location = new System.Drawing.Point(151, 62);
             this.btn_search.Name = "btn_search";
             this.btn_search.Size = new System.Drawing.Size(75, 23);
-            this.btn_search.TabIndex = 2;
+            this.btn_search.TabIndex = 1;
             this.btn_search.Text = "Найти";
             this.btn_search.UseVisualStyleBackColor = true;
             this.btn_search.Click += new System.EventHandler(this.btn_search_Click);
@@ -101,7 +101,7 @@
             this.cb_app.Location = new System.Drawing.Point(6, 19);
             this.cb_app.Name = "cb_app";
             this.cb_app.Size = new System.Drawing.Size(220, 21);
-            this.cb_app.TabIndex = 0;
+            this.cb_app.TabIndex = 4;
             // 
             // gb_info
             // 
@@ -157,7 +157,7 @@
             this.btc_accept.Location = new System.Drawing.Point(40, 246);
             this.btc_accept.Name = "btc_accept";
             this.btc_accept.Size = new System.Drawing.Size(166, 23);
-            this.btc_accept.TabIndex = 3;
+            this.btc_accept.TabIndex = 5;
             this.btc_accept.Text = "Применить";
             this.btc_accept.UseVisualStyleBackColor = true;
             this.btc_accept.Click += new System.EventHandler(this.btc_accept_Click);
