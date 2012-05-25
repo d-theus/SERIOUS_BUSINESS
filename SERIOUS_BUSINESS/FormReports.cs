@@ -7,6 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using Stimulsoft.Report;
+using Stimulsoft.Report.Components;
+using Stimulsoft.Controls;
+using Stimulsoft.Base;
+using Stimulsoft.Base.Drawing;
 
 namespace SERIOUS_BUSINESS
 {
@@ -15,7 +20,6 @@ namespace SERIOUS_BUSINESS
         private res.Model1Container database;
 
         private DataTable table;
-        private DateTime dateCriteria;
         private List<ItemWithAccess> types;
         private res.Employee curEmpl;
         public FormReports(res.Employee _curEmpl)
@@ -182,85 +186,125 @@ namespace SERIOUS_BUSINESS
         private void btn_generate_Click(object sender, EventArgs e)
         {
             string rootD = RegistryInteractor.GetFromReg("Root Directory");
-            GenerateTable(mc_initialDate.SelectionStart, mc_initialDate.SelectionEnd);
-            string report_filename = string.Format("{0}reports/{1} - {2}.html", rootD, cb_type.Text, DateTime.Now.ToShortDateString());
+            GenerateTable(dtp_begin.Value, dtp_end.Value);
+            string report_filename = string.Format("{0}reports/{1} - {2}.xls", rootD, cb_type.Text, DateTime.Now.ToShortDateString());
             if (!Directory.EnumerateDirectories(rootD, "reports").Any())
             {
                 Directory.CreateDirectory(rootD + "reports");
             }
             string report_url = string.Format("file://localhost/{0}", report_filename);
-            ReportGenerator.GenerateFromDataTable(table, report_filename, cb_type.Text);
-            webBrowser.Navigate(report_url);
-        }
-
-        private void mc_initialDate_DateChanged(object sender, DateRangeEventArgs e)
-        {
-            if (mc_initialDate.SelectionRange.End.Date <= DateTime.Now.Date)
-            {
-                dateCriteria = mc_initialDate.SelectionStart.Date.Date;
-            }
-            else
-            {
-                dateCriteria = DateTime.Now.Date;
-                mc_initialDate.SelectionEnd = DateTime.Now.Date;
-                MessageBox.Show("Нельзя генерировать отчеты из будущего");
-            }
+            //ReportGenerator.GenerateFromDataTable(table, report_filename, cb_type.Text);
+            ReportGenerator.GenerateNewReport(table, report_filename, cb_type.Text);
+            //webBrowser.Navigate(report_url);
         }
     }
     static class ReportGenerator
     {
-        static private StreamWriter writer;
         static ReportGenerator()
         {
         }
 
-        static public void GenerateFromDataTable(DataTable _srcDataTable, string filename, string reportCaption = "")
+        static public void GenerateNewReport(DataTable tbl, string path, string caption)
         {
-            writer = new StreamWriter(filename, false, Encoding.UTF8);
-            writer.WriteLine("<html>");
-            writer.WriteLine("<body>");
-            writer.WriteLine(string.Format("<h1>{0}</h1>", reportCaption));
-            CreateTable(ref writer, _srcDataTable);
-            writer.WriteLine("</body>");
-            writer.WriteLine("</html>");
-            writer.Close();
-            writer.Dispose();
-        }
 
-        static private void CreateTable(ref StreamWriter wr, DataTable Tbl)
-        {
-            if (wr == null)
-                throw new ArgumentNullException("stream writer");
-            if (Tbl == null)
-                throw new ArgumentNullException("DataTable");
+			StiReport report = new StiReport();
 
-            #region Table
-            wr.WriteLine(string.Format("<h3>{0}</h3>", Tbl.TableName));
-            wr.WriteLine("<table border=\"1\"");
+			//Add tbl to datastore
+			report.RegData("tbl", tbl);
 
-            #region Col headers
-            wr.WriteLine("<tr>");
-            foreach (DataColumn col in Tbl.Columns)
+			//Fill dictionary
+			report.Dictionary.Synchronize();
+			report.Dictionary.DataSources[0].Name = "tbl";
+			report.Dictionary.DataSources[0].Alias = "tbl";
+
+			//StiPage page = report.Pages[0];
+            foreach (StiPage page in report.Pages)
             {
-                wr.WriteLine(string.Format("<th>{0}</th>", col.Caption));
-            }
-            wr.WriteLine("</tr>");
-            #endregion
-            #region Filling rows
-            foreach (DataRow row in Tbl.Rows)
-            {
-                wr.WriteLine("<tr>");
-                foreach (var val in row.ItemArray)
+
+                //Create header
+                if (report.Pages.IndexOf(page) == 0)
                 {
-                    wr.WriteLine(string.Format("<td>{0}</td>", val.ToString()));
+                    StiText header = new StiText(new RectangleD(0, 0, page.Width, page.Height / 20), caption);
+                    StiText period = new StiText(new RectangleD(0, page.Height / 20, page.Width, page.Height / 20), tbl.TableName);
+                    header.HorAlignment = StiTextHorAlignment.Center;
+                    header.Font = new Font("Arial", 22.5f);
+                    period.HorAlignment = StiTextHorAlignment.Center;
+                    header.Font = new Font("Arial", 12f);
+                    page.Components.Add(header);
+                    page.Components.Add(period);
+                    header.Render();
+                    period.Render(); 
                 }
-                wr.WriteLine("</tr>");
-            }
-            #endregion
 
+                //Create HeaderBand
+                StiHeaderBand headerBand = new StiHeaderBand();
+                headerBand.Height = 0.5;
+                headerBand.Name = "HeaderBand";
+                page.Components.Add(headerBand);
 
-            wr.WriteLine("</table>");
-            #endregion
+                //Create Databand
+                StiDataBand dataBand = new StiDataBand();
+                dataBand.DataSourceName = "tbl";
+                dataBand.Height = 0.5;
+                dataBand.Name = "DataBand";
+                page.Components.Add(dataBand);
+
+                //Create texts
+                double pos = 0;
+
+                double columnWidth = StiAlignValue.AlignToMinGrid(page.Width / tbl.Columns.Count, 0.1, true);
+
+                int nameIndex = 1;
+
+                foreach (DataColumn dataColumn in tbl.Columns)
+                {
+
+                    //Create text on header
+                    StiText headerText = new StiText(new RectangleD(pos, page.Height / 10, columnWidth, 0.5));
+                    headerText.Text.Value = dataColumn.Caption;
+                    headerText.HorAlignment = StiTextHorAlignment.Center;
+                    headerText.Name = "HeaderText" + nameIndex.ToString();
+                    headerText.Brush = new StiSolidBrush(Color.LightGray);
+                    headerText.Border.Side = StiBorderSides.All;
+                    headerBand.Components.Add(headerText);
+
+                    //Create text on Data Band
+                    StiText dataText = new StiText(new RectangleD(pos, 0, columnWidth, 0.5));
+                    dataText.Text.Value = "{tbl." + Stimulsoft.Report.CodeDom.StiCodeDomSerializator.ReplaceSymbols(dataColumn.ColumnName) + "}";
+                    dataText.Name = "DataText" + nameIndex.ToString();
+                    dataText.Border.Side = StiBorderSides.All;
+
+                    //Add highlight
+                    StiCondition condition = new StiCondition();
+                    condition.BackColor = Color.DarkGray;
+                    condition.TextColor = Color.Black;
+                    condition.Expression = "(Line & 1) == 1";
+                    condition.Item = StiFilterItem.Expression;
+                    dataText.Conditions.Add(condition);
+
+                    dataBand.Components.Add(dataText);
+
+                    pos = pos + columnWidth;
+
+                    nameIndex++;
+                }
+
+                //Create FooterBand
+                StiFooterBand footerBand = new StiFooterBand();
+                footerBand.Height = 0.5;
+                footerBand.Name = "FooterBand";
+                page.Components.Add(footerBand);
+
+                //Create text on footer
+                StiText footerText = new StiText(new RectangleD(0, 0, page.Width, 0.5));
+                footerText.Text.Value = "Всего записей - {Count()}";
+                footerText.HorAlignment = StiTextHorAlignment.Right;
+                footerText.Name = "FooterText";
+                footerText.Brush = new StiSolidBrush(Color.Gray);
+                footerBand.Components.Add(footerText);
+
+                report.Show();
+            } 
         }
     }
 }
