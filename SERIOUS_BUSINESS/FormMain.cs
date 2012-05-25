@@ -19,7 +19,7 @@ namespace SERIOUS_BUSINESS
         private res.Employee curEmpl;
         private List<TableWithAccessAndCMS> availableTables;
         private DataTable DGV_contentsT;
-        private Dictionary<RadioButton, Func<string, string, bool>> searchPredicate;
+        private Dictionary<RadioButton, Func<object, object, bool>> searchPredicate;
 
         public FormMain()
         {
@@ -27,6 +27,8 @@ namespace SERIOUS_BUSINESS
             this.Hide();
             Login();
             #region event bindings
+            //autosetting to first item
+
             cb_table.SelectedIndexChanged += new EventHandler(this.check_cb_tableOptions);
             cb_table.SelectedIndexChanged += new EventHandler(this.cb_table_SelectedIndexChanged);
             cb_table.SelectedIndexChanged += new EventHandler(this.check_panel_Search);
@@ -35,6 +37,9 @@ namespace SERIOUS_BUSINESS
             cb_tableOptions.SelectedIndexChanged += new EventHandler(this.check_panel_Search);
 
             cb_parameterName.SelectedIndexChanged += new EventHandler(cb_parameterName_SelectedIndexChanged);
+            cb_parameterName.SelectedIndexChanged += new EventHandler(this.check_criteria);
+
+            panel_Search.EnabledChanged += new EventHandler(this.check_criteria);
 
             tb_search.TextChanged += new EventHandler(tb_search_TextChanged);
 
@@ -49,6 +54,10 @@ namespace SERIOUS_BUSINESS
 
             btn_ClearFilter.Click += new EventHandler(btn_ClearFilter_Click);
             #endregion
+
+            UIE.CmB_SetToFirst(ref cb_tableOptions);
+            UIE.CmB_SetToFirst(ref cb_table);
+            UIE.CmB_SetToFirst(ref cb_parameterName);
         }
 
         //################# INITIALIZATION ############################
@@ -71,10 +80,10 @@ namespace SERIOUS_BUSINESS
 
         private void search_Panel_Initialization()
         {
-            searchPredicate = new Dictionary<RadioButton, Func<string, string, bool>>();
-            Func<string, string, bool> ME = delegate(string s1, string s2) { return s1.CompareTo(s2) <= 0; };
-            Func<string, string, bool> E = delegate(string s1, string s2) { return s1.CompareTo(s2) == 0; };
-            Func<string, string, bool> LE = delegate(string s1, string s2) { return s1.CompareTo(s2) >= 0; };
+            searchPredicate = new Dictionary<RadioButton, Func<object, object, bool>>();
+            Func<object, object, bool> ME = delegate(object x, object y) { return Double.Parse(x.ToString()) <= Double.Parse(y.ToString()); };
+            Func<object, object, bool> LE = delegate(object x, object y) { return Double.Parse(x.ToString()) >= Double.Parse(y.ToString()); };
+            Func<object, object, bool> E = delegate(object x, object y) { return x.Equals(y); };
             searchPredicate.Add(rb_ME, ME);
             searchPredicate.Add(rb_E, E);
             searchPredicate.Add(rb_LE, LE);
@@ -317,7 +326,7 @@ namespace SERIOUS_BUSINESS
 
         private void check_panel_Search(object sender, EventArgs e)
         {
-            panel_Search.Enabled = DGV.RowCount > 1;
+            panel_Search.Enabled = DGV.RowCount > 1 || DGV.DataSource != DGV_contentsT;
         }
 
         private void check_cb_tableOptions(object sender, EventArgs e)
@@ -349,6 +358,18 @@ namespace SERIOUS_BUSINESS
         private void check_btn_Search(object sender, EventArgs e)
         {
             btn_find.Enabled = DGV.RowCount > 0;
+        }
+
+        private void check_criteria(object sender, EventArgs e)
+        {
+            if (panel_Search.Enabled)
+            {
+                bool enbl_ML = !(DGV_contentsT.Columns[cb_parameterName.Text].DataType == "".GetType() || (DGV_contentsT.Columns[cb_parameterName.Text].DataType == true.GetType()));
+                rb_LE.Enabled = enbl_ML;
+                rb_ME.Enabled = enbl_ML;
+                bool enbl_Lk = DGV_contentsT.Columns[cb_parameterName.Text].DataType == "".GetType();
+                rb_like.Enabled = enbl_Lk;
+            }
         }
 
         //################# CLICK HANDLERS ############################
@@ -747,6 +768,14 @@ namespace SERIOUS_BUSINESS
         //############# DGV HANDLERS ###############
         void DGV_SelectionChanged(object sender, EventArgs e)
         {
+            if (DGV.SelectedCells.Count >= 1)
+            {
+                foreach (DataGridViewCell cell in DGV.SelectedCells)
+                {
+                    DGV.Rows[cell.RowIndex].Selected = true;
+                }
+            }
+
             if (DGV.SelectedColumns.Count >= 1)
             {
                 cb_parameterName.SelectedText = DGV.SelectedColumns[0].Name;

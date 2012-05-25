@@ -295,19 +295,6 @@ namespace SERIOUS_BUSINESS
         {
             if (mode == (short)OrderMode.mode_new)
             {
-                #region check if items still available
-                foreach (PositionForOrder pos in curPositions)
-                {
-                    if (pos.Количество > (from item in database.ItemSet where item.id == pos.id select item.storeResidue).Single())
-                    {
-                        Items = from it in database.ItemSet select it;
-                        string message = string.Format("Во время составления заказа на складе стало нехватать предметов {0}. Данные об изменении занесены, перезаполните поля.", pos.Наименование);
-                        MessageBox.Show(message, "Внимание");
-                        return;
-                    }
-                }
-                #endregion
-
                 #region confirmation
                 DialogResult cnf = MessageBox.Show("Подтвердить заказ?", "Подтверждение", MessageBoxButtons.YesNo);
                 if (cnf == DialogResult.No)
@@ -316,19 +303,37 @@ namespace SERIOUS_BUSINESS
                 }
 
                 #endregion
-
-                #region add order and positions, decrease stock residues
-
-                curOrder.Employee = (from emp in database.EmployeeSet where emp.id == curEmployee.id select emp).Single();
-                curOrder.Consumer = res.Consumer.CreateConsumer(tb_Name.Text, tb_phone.Text, tb_email.Text, 0);
-                foreach (var ent in curPositions)
+                try
                 {
+                    #region add order and positions, decrease stock residues
 
-                    Items.Single(item => item.id == ent.id).storeResidue -= ent.Количество;
-                    curOrder.Position.Add(res.Position.CreatePosition(0, 0, ent.Количество, ent.id));
+                    curOrder.Employee = (from emp in database.EmployeeSet where emp.id == curEmployee.id select emp).Single();
+                    curOrder.Consumer = res.Consumer.CreateConsumer(tb_Name.Text, tb_phone.Text, tb_email.Text, 0);
+                    foreach (var ent in curPositions)
+                    {
+
+                        Items.Single(item => item.id == ent.id).storeResidue -= ent.Количество;
+                        if (!curOrder.Position.Any(p => p.itemID == ent.id))
+                            curOrder.Position.Add(res.Position.CreatePosition(0, 0, ent.Количество, ent.id));
+                    }
+                    database.AddToOrderSet(curOrder);
+                    database.SaveChanges();
+                    #endregion
                 }
-                database.AddToOrderSet(curOrder);
-                #endregion
+                catch (OptimisticConcurrencyException)
+                {
+                    database.Refresh(System.Data.Objects.RefreshMode.StoreWins, Items);
+                    foreach (var pos in curOrder.Position)
+                    {
+                        int count = Items.Single(it => it.id == pos.itemID).storeResidue;
+                        var refPos = curPositions.Single(p => p.id == pos.itemID);
+                        if (count < refPos.Количество)
+                        {
+                            refPos.Количество = count;
+                        }
+                        MessageBox.Show("Во время составления этого заказа некоторых товаров стало не хватать, в таблице будут выставлены максимальные количества");
+                    }
+                }
             }
             else
             {
@@ -384,10 +389,26 @@ namespace SERIOUS_BUSINESS
                 consRef.name = tb_Name.Text;
                 consRef.phone = tb_phone.Text;
                 consRef.email = tb_email.Text;
-                database.ApplyCurrentValues("ConsumerSet", consRef);
-                database.ApplyCurrentValues("OrderSet", ordRef);
+                try
+                {
+                    database.ApplyCurrentValues("OrderSet", ordRef);
+                    database.ApplyCurrentValues("ConsumerSet", consRef);
+                }
+                catch (OptimisticConcurrencyException)
+                {
+                    database.Refresh(System.Data.Objects.RefreshMode.StoreWins, Items);
+                    foreach (var pos in curOrder.Position)
+                    {
+                        int count = Items.Single(it => it.id == pos.itemID).storeResidue;
+                        var refPos = curPositions.Single(p => p.id == pos.itemID);
+                        if (count < refPos.Количество)
+                        {
+                            refPos.Количество = count;
+                        }
+                        MessageBox.Show("Во время составления этого заказа некоторых товаров стало нехватать, в таблице будут выставлены максимальные количества");
+                    }
+                }
             }
-            database.SaveChanges();
             this.Close();
         }
 

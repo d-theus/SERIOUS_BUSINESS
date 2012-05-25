@@ -65,6 +65,7 @@ namespace SERIOUS_BUSINESS
         {
             if (selEmpl != null)
             {
+                tb_search.Text = selEmpl.login;
                 lbl_name.Text = selEmpl.name;
                 lbl_id.Text = selEmpl.id.ToString();
                 cb_app.Text = "";

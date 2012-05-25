@@ -275,7 +275,7 @@
             this.rb_like.Size = new System.Drawing.Size(37, 17);
             this.rb_like.TabIndex = 3;
             this.rb_like.TabStop = true;
-            this.rb_like.Text = "⊆";
+            this.rb_like.Text = "⊇";
             this.rb_like.UseVisualStyleBackColor = true;
             // 
             // rb_LE
@@ -414,6 +414,7 @@
             // 
             // splitContainer1
             // 
+            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel2;
             this.splitContainer1.Location = new System.Drawing.Point(0, 24);
             this.splitContainer1.Name = "splitContainer1";
