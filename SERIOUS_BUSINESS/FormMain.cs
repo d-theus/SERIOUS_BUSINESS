@@ -146,13 +146,13 @@ namespace SERIOUS_BUSINESS
                                 Наименование = item.ItemParameter.FirstOrDefault(par => par.ParameterCategory.name == "Наименование").valueTxt,
                                 Остаток = item.storeResidue
                             };
-                        List<StockForStock> Aview = new List<StockForStock>(); 
+                        List<StockForStock> Aview = new List<StockForStock>();
                         DateTime since = DateTime.Now.AddMonths(-1);
                         foreach (var row in view)
                         {
-                            var position = from pos in database.PositionSet 
-                                                 where pos.itemID == row.id && pos.Order.date >= since 
-                                                 select pos;
+                            var position = from pos in database.PositionSet
+                                           where pos.itemID == row.id && pos.Order.date >= since
+                                           select pos;
                             if (position.Any())
                             {
                                 row.Спрос = position.Sum(pos => pos.count);
@@ -538,14 +538,12 @@ namespace SERIOUS_BUSINESS
         {
             if (DGV.SelectedRows.Count > 0)
             {
-                foreach (DataGridViewRow row in DGV.SelectedRows)
-                {
-                    int selID = (int)row.Cells["id"].Value;
-                    res.Item selected = (from items in database.ItemSet where items.id == selID select items).FirstOrDefault();
-                    FormEditCategories formcats = new FormEditCategories(selected);
-                    bindCloseEvent(formcats);
-                    formcats.ShowDialog();
-                }
+                DataGridViewRow row = DGV.SelectedRows[0];
+                int selID = (int)row.Cells["id"].Value;
+                res.Item selected = (from items in database.ItemSet where items.id == selID select items).FirstOrDefault();
+                FormEditCategories formcats = new FormEditCategories(selected);
+                bindCloseEvent(formcats);
+                formcats.ShowDialog();
                 this.cb_table_SelectedIndexChanged(this, null);
             }
         }

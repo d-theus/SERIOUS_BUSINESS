@@ -112,11 +112,11 @@ namespace SERIOUS_BUSINESS
 
                         if (overallIncome != 0 && refEnt.Прибыль >= 0)
                         {
-                            refEnt.От_Общей_прибыли = Decimal.Round(new Decimal(refEnt.Прибыль * 100 / overallIncome), 2);
+                            refEnt.Процент_от_общей_прибыли = Decimal.Round(new Decimal(refEnt.Прибыль * 100 / overallIncome), 2);
                         }
                         else
                         {
-                            refEnt.От_Общей_прибыли = 0;
+                            refEnt.Процент_от_общей_прибыли = 0;
                         }
                     }
                     #endregion
