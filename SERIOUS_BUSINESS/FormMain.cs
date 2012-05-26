@@ -27,7 +27,6 @@ namespace SERIOUS_BUSINESS
             this.Hide();
             Login();
             #region event bindings
-            //autosetting to first item
 
             cb_table.SelectedIndexChanged += new EventHandler(this.check_cb_tableOptions);
             cb_table.SelectedIndexChanged += new EventHandler(this.cb_table_SelectedIndexChanged);
@@ -55,9 +54,9 @@ namespace SERIOUS_BUSINESS
             btn_ClearFilter.Click += new EventHandler(btn_ClearFilter_Click);
             #endregion
 
-            UIE.CmB_SetToFirst(ref cb_tableOptions);
-            UIE.CmB_SetToFirst(ref cb_table);
-            UIE.CmB_SetToFirst(ref cb_parameterName);
+            //UIE.CmB_SetToFirst(ref cb_tableOptions);
+            //UIE.CmB_SetToFirst(ref cb_table);
+            //UIE.CmB_SetToFirst(ref cb_parameterName);
         }
 
         //################# INITIALIZATION ############################
@@ -76,6 +75,9 @@ namespace SERIOUS_BUSINESS
             cb_table.DataSource = availableTables.Where(tbl => tbl.accessMod == curEmpl.Appointment.accessModifier || curEmpl.Appointment.accessModifier == (int)accessModifiers.acc_adm).ToList();
             cb_table.ValueMember = "accessMod";
             cb_table.DisplayMember = "name";
+
+            cb_table.SelectAll();
+            this.cb_table_SelectedIndexChanged(this, null);
         }
 
         private void search_Panel_Initialization()
@@ -129,7 +131,7 @@ namespace SERIOUS_BUSINESS
 
         private void cb_table_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (cb_table.Text.ToString())
+            switch (cb_table.Text)
             {
                 case "Склад":
                     #region stock for stock
