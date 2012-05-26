@@ -378,7 +378,7 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="storeResidue" Nullable="false" />
+          <Property Type="Int32" Name="storeResidue" Nullable="false" ConcurrencyMode="Fixed" />
           <Property Type="Int32" Name="catID" Nullable="false" />
           <NavigationProperty Name="ItemParameter" Relationship="Model1.ItemItemParameter" FromRole="Item" ToRole="ItemParameter" />
           <NavigationProperty Name="Position" Relationship="Model1.PositionItem" FromRole="Item" ToRole="Position" />
